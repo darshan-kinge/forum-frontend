@@ -1,8 +1,7 @@
 const config = {
     port: 3000 ,
-    serverUrl: `${import.meta.env.SERVER_URL}` || 'http://localhost:3000',
-    clientUrl: 'http://localhost:5173' || '',
-    apiVersion: 'v1',
+    serverUrl: import.meta.env.SERVER_URL,
+    apiVersion: 'v1' || import.meta.env.API_VERSION,
 }
 
 export default config;

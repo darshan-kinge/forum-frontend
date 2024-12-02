@@ -1,0 +1,126 @@
+section.hero {
+    height: 90vh;
+    max-width: 100%;
+}
+
+
+.title .hero-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.title .hero-title h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #fff;
+    margin: 0 .1rem;
+}
+
+.quote {
+    position: relative;
+    top: -.8rem;
+}
+
+.quote svg {
+    fill: #fff;
+    padding: .2rem;
+}
+
+
+.hero-video {
+    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2.5rem;
+    width: 100%;
+}
+
+.hero-video video {
+    border-radius: 1rem;
+    /* aspect-ratio: 16/9 auto; */
+    width: 85%;
+}
+
+
+/* Community Overview */
+
+.community-overview {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.community-overview-sec {
+    /* position: absolute; */
+    /* top: -3rem;  */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 2rem 4rem;
+    background-color: #fff;
+    border-radius: .5rem;
+    gap: 3rem;
+    /* width: 50%; */
+}  
+
+.vert-line {
+    /* position: relative; */
+    top: 1rem;
+    width: 1px;
+    height: 5rem;
+    background-color: #000;
+}
+
+.sec-section {
+    height: 50vh;
+}
+
+/* Mobile Responsive Design */
+@media screen and (max-width: 768px) {
+    .title .hero-title {
+        flex-direction: row;
+        margin-top: 2rem;
+        padding: 0 1rem;
+    }
+
+    .title .hero-title h2 {
+        font-size: 1.2rem;
+        margin: 1rem 0;
+        line-height: 1.8rem;
+    }
+
+    .quote {
+        position: static;
+        margin: 0.5rem 0;
+    }
+
+    .quote svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .hero-video {
+        margin-top: 1.5rem;
+    }
+
+    .hero-video iframe {
+        width: 95%;
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+    .title .hero-title h2 {
+        font-size: .8rem;
+        line-height: 1.6rem;
+    }
+}

@@ -1,0 +1,27 @@
+.loader-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    width: 100%;
+    z-index: 99999;
+}
+
+/* Loader styles */
+.loader {    
+    z-index: 99999;
+    margin: 1rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 8px solid #97a3ac;
+    border-top: 8px solid transparent;
+    animation: spin 1s linear infinite;
+    position: relative;
+}
+
+/* Loader spin animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

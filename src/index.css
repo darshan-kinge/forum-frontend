@@ -1,0 +1,17 @@
+* ,
+#root {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    font-family: 'Manrope', sans-serif;
+    background-color: var(--bg-color);
+}
+
+:root {
+    --bg-color: #02385D
+}

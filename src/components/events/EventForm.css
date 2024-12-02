@@ -1,0 +1,47 @@
+/* EventForm.css */
+.event-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+  
+  .event-form__input,
+  .event-form__input-file {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .event-form__editor {
+    margin: 10px 0;
+  }
+  
+  .event-form__checkbox-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .event-form__button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .event-form__button:hover {
+    background-color: #218838;
+  }
+  
+  @media (max-width: 600px) {
+    .event-form {
+      padding: 15px;
+    }
+  }
+  

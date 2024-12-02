@@ -1,0 +1,113 @@
+/* components/shared/EventCard/EventCard.css */
+.event-card {
+    cursor: pointer;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card__image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.event-card__cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-card__badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.event-card__badge.upcoming {
+    background: #4CAF50;
+    color: white;
+}
+
+.event-card__badge.previous {
+    background: #666;
+    color: white;
+}
+
+.event-card__content {
+    padding: 1.5rem;
+}
+
+.event-card__title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.event-card__date {
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.event-card__description {
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.event-card__button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #0077b5;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.event-card__button:hover {
+    background: #005d8f;
+}
+
+.event-card__gallery-toggle {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.event-card__gallery-toggle:hover {
+    background: #3d8b40;
+}
+
+.event-card__image-slider {
+    margin-top: 1rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+.event-card__gallery-image {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 1rem;
+    border-radius: 4px;
+}

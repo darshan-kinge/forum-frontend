@@ -1,0 +1,153 @@
+/* General Styling for Blog View Page */
+
+.blog-wrapper {
+    width: auto;
+    height: auto;
+
+}
+
+.blog-view {
+    padding: 20px;
+    max-width: 80%;
+    margin: 0 auto;
+  }
+  
+
+  .blog-title {
+
+    font-size: 3rem;
+    text-align: left;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  
+  .admin-btn {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .admin-btn a {
+    margin-top: 5px;
+  }
+
+
+  .blog-content-wrapper {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .blog-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .blog-content {
+    margin: 1rem 0;
+    border-radius: 10px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+    padding: 2rem 1rem;
+  }
+  
+  .blog-content {
+    margin-bottom: 15px;
+    color: var(--bg-color);
+    background-color: #fff;
+  }
+  
+  .blog-content img {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border-radius: 10px;
+  }
+
+  .recent-blogs {
+    margin: 20px;
+  }
+
+  .recent-blogs .recent-blog-title {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .recent-blog-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .recent-blog-card {
+    max-height: 450px;
+    max-width: 350px; 
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+
+    .blog-view {
+      padding: 0;
+      max-width: 95%;
+    }
+
+    .blog-title {
+      font-size: 28px;
+    }
+  
+    .blog-content {
+      font-size: 14px;
+    }
+  
+    .blog-image {
+      height: auto;
+    }
+
+    .recent-blog-title {
+      font-size: 20px;
+    }
+
+    .recent-blog-card {
+      max-width: 280px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+
+    .blog-view {
+      padding: 0;
+      max-width: 95%;
+    }
+
+    .blog-title {
+      font-size: 24px;
+    }
+  
+    .blog-content {
+      margin: 0;
+      padding: 12px 10px;
+      text-wrap: wrap;
+      font-size: 14px;
+    }
+
+    .recent-blog-title {
+      font-size: 18px;
+    }
+
+    .recent-blog-card {
+      max-width: 220px;
+    }
+  }
+  

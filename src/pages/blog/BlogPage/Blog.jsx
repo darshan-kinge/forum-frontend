@@ -18,7 +18,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/v1/blog/${slug}`);
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/${slug}`);
         if (!response.ok) {
           throw new Error('Blog not found');
         }
@@ -37,7 +37,7 @@ const Blog = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await fetch(`${config.serverUrl}/api/v1/blog/all`);
+                const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/all`);
                 const blogs = await response.json();
                 console.log(blogs);
                 
@@ -51,7 +51,7 @@ const Blog = () => {
     }, [slug]);
 
     const deleteBlog = async (id) => {
-      await fetch(`${config.serverUrl}/api/v1/blog/delete/${id}`, {
+      await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/delete/${id}`, {
         method: 'DELETE', 
         headers: {
           Authorization: AuthorizationToken

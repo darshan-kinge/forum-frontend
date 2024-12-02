@@ -19,7 +19,7 @@ const MembersPage = () => {
 
     const fetchMembers = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/v1/member/all`, {
+            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/all`, {
                 headers: {
                     'Authorization': AuthorizationToken
                 }

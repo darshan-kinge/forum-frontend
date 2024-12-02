@@ -37,7 +37,7 @@ const RegistrationForm = () => {
         year: formData.year,
       };
 
-      const res = await fetch(`${config.serverUrl}/api/v1/member/join`, {
+      const res = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/join`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

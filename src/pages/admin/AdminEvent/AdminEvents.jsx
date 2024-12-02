@@ -69,7 +69,7 @@ const AdminEventsPage = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/v1/events/all`);
+            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/events/all`);
             const data = await response.json();
             setEvents(data);
         } catch (error) {
@@ -119,8 +119,8 @@ const AdminEventsPage = () => {
             }
 
             const url = editingEvent
-                ? `${config.serverUrl}/api/v1/events/update/${editingEvent._id}`
-                : `${config.serverUrl}/api/v1/events/create`;
+                ? `${config.serverUrl}/api/${config.apiVersion}/events/update/${editingEvent._id}`
+                : `${config.serverUrl}/api/${config.apiVersion}/events/create`;
 
             const response = await fetch(url, {
                 method: editingEvent ? 'PUT' : 'POST',
@@ -149,7 +149,7 @@ const AdminEventsPage = () => {
         if (!window.confirm('Are you sure you want to delete this event?')) return;
 
         try {
-            const response = await fetch(`${config.serverUrl}/api/v1/events/delete/${id}`, {
+            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/events/delete/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': AuthorizationToken,

@@ -17,7 +17,7 @@ const AdminTable = ({ members, loading, onEdit, onRefresh }) => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this member?')) {
       try {
-        const response = await fetch(`${config.serverUrl}/api/v1/team/delete/${id}`, {
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/team/delete/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': AuthorizationToken

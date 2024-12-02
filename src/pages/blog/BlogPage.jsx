@@ -10,7 +10,7 @@ const BlogPage = () => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const response = await fetch(`${config.serverUrl}/api/v1/blog/all`);
+      const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/all`);
       // console.log(response);
       const data = await response.json();
       setBlogs(data);

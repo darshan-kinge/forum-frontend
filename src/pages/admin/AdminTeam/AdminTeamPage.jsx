@@ -22,7 +22,7 @@ const AdminPage = () => {
   
   const fetchMembers = async () => {
       try {
-          const response = await fetch(`${config.serverUrl}/api/v1/team/all`);
+          const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/team/all`);
           const data = await response.json();
           setMembers(data);
         } catch (error) {
@@ -66,8 +66,8 @@ const AdminPage = () => {
 
     try {
       const url = editingId 
-        ? `${config.serverUrl}/api/v1/team/update/${editingId}`
-        : `${config.serverUrl}/api/v1/team/add`;
+        ? `${config.serverUrl}/api/${config.apiVersion}/team/update/${editingId}`
+        : `${config.serverUrl}/api/${config.apiVersion}/team/add`;
 
       const response = await fetch(url, {
         method: editingId ? 'PUT' : 'POST',

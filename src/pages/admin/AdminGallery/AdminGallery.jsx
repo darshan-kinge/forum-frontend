@@ -17,7 +17,7 @@ const AdminGallery = () => {
   
   const fetchImages = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/v1/gallery/all`);
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
         const data = await response.json();
         console.log(data);
         
@@ -43,7 +43,7 @@ const AdminGallery = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(`${config.serverUrl}/api/v1/gallery/upload`, {
+      const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/upload`, {
         method: 'POST',
         headers: {
           Authorization: AuthorizationToken,
@@ -71,7 +71,7 @@ const AdminGallery = () => {
 
   const handleDelete = async (id) => {
     try {
-        const response = await fetch(`${config.serverUrl}/api/v1/gallery/delete/${id}`, {
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/delete/${id}`, {
             method: 'DELETE',
             headers: {
               Authorization: AuthorizationToken,

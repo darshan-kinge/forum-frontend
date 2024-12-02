@@ -20,7 +20,7 @@ const BlogForm = ({ editMode = false}) => {
 
   const fetchPost = async () => {
     if (slug) {
-      const response = await fetch(`${config.serverUrl}/api/v1/blog/${slug}`);  
+      const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/${slug}`);  
       const data = await response.json();
 
       if (editMode && data) {
@@ -62,8 +62,8 @@ const BlogForm = ({ editMode = false}) => {
       };
 
       const url = editMode
-        ? `${config.serverUrl}/api/v1/blog/edit/${id}`
-        : `${config.serverUrl}/api/v1/blog/create`;
+        ? `${config.serverUrl}/api/${config.apiVersion}/blog/edit/${id}`
+        : `${config.serverUrl}/api/${config.apiVersion}/blog/create`;
 
       const response = await fetch(url, config);
       const data = await response.json();

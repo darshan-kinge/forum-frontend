@@ -12,7 +12,7 @@ const MemberBadge = () => {
     const fetchMemberData = async () => {
       try {
         
-        const response = await fetch(`${config.serverUrl}/api/v1/member/badge/${id}`);
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/badge/${id}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch member data');

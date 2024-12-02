@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     const userAuthentication = async() => {
         try {
             setIsLoading(true)
-            const response = await fetch(`${config.serverUrl}/api/v1/auth/user`, {
+            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/auth/user`, {
                 method: "GET",
                 headers: {
                     Authorization: AuthorizationToken,

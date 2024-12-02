@@ -21,7 +21,7 @@ const EventDetailsPage = () => {
 
     const fetchEventDetails = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/v1/events/${id}`);
+            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/events/${id}`);
             if (!response.ok) {
                 throw new Error('Event not found');
             }

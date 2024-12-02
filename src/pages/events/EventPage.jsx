@@ -15,7 +15,7 @@ const EventsPage = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/v1/events/all`);
+            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/events/all`);
             if (!response.ok) {
                 throw new Error('Failed to fetch events');
             }

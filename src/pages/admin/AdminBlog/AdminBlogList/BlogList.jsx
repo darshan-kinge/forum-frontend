@@ -13,7 +13,7 @@ const AdminBlogList = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/v1/blog/all?page=${page}`);
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/all?page=${page}`);
         const data = await response.json();
         console.log(data);
         
@@ -33,7 +33,7 @@ const AdminBlogList = () => {
         console.error('Blog ID is undefined');
         return;
       }
-      const response = await fetch(`${config.serverUrl}/api/v1/blog/delete/${id}`, {
+      const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/delete/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: AuthorizationToken

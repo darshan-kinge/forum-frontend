@@ -122,19 +122,20 @@ const RegistrationForm = () => {
           <div className='inputRow'>
             <div className='inputGroup'>
               <label htmlFor="course">Course</label>
-              <input
+              <select
                 value={formData.course}
-                list="courseOptions"
+                onChange={handleChange}
                 id="course"
                 name="course"
-                onChange={handleChange}
                 required
-              />
-              <datalist id="courseOptions">
+              >
+                <option value="">Select Course</option>
                 {courseOptions.map((option, index) => (
-                  <option key={index} value={option} />
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
                 ))}
-              </datalist>
+              </select>
             </div>
           </div>
 

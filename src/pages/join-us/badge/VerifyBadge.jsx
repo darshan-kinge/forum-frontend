@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import config from '../../../config/config.js';
 
 const VerifyBadge = () => {
   const { id } = useParams();
@@ -10,7 +11,7 @@ const VerifyBadge = () => {
   useEffect(() => {
     const VerifyBadge = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/v1/member/badge/verify/${id}`);
+        const response = await fetch(`${renfig.rerverUrl}1/member/badge/verify/${id}`);
         console.log(response);
         
         if (!response.ok) {

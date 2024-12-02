@@ -4,6 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useAuth } from '../../context/AuthContext';
 import './BlogForm.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import config from '../../config/config.js';
 
 const BlogForm = ({ editMode = false}) => {
   const [postData, setPostData] = useState(null);
@@ -19,7 +20,7 @@ const BlogForm = ({ editMode = false}) => {
 
   const fetchPost = async () => {
     if (slug) {
-      const response = await fetch(`http://localhost:3000/api/v1/blog/${slug}`);  
+      const response = await fetch(`${config.serverUrl}/api/v1/blog/${slug}`);  
       const data = await response.json();
 
       if (editMode && data) {
@@ -61,8 +62,8 @@ const BlogForm = ({ editMode = false}) => {
       };
 
       const url = editMode
-        ? `http://localhost:3000/api/v1/blog/edit/${id}`
-        : 'http://localhost:3000/api/v1/blog/create';
+        ? `${config.serverUrl}/api/v1/blog/edit/${id}`
+        : `${config.serverUrl}/api/v1/blog/create`;
 
       const response = await fetch(url, config);
       const data = await response.json();

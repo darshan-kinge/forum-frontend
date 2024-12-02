@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import TeamCard from '../../components/cards/team-cards/TeamCards.jsx';
 import Loader from '../../components/loader/Loader.jsx';
 import './Team.css';
-
+import config from '../../config/config.js';
 const TeamPage = () => {
 
   const [members, setMembers] = useState([]);
@@ -13,7 +13,7 @@ const TeamPage = () => {
   useEffect(() => {
     const getMembers = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/v1/team/all');
+        const response = await fetch(`${config.serverUrl}/api/v1/team/all`);
         const data = await response.json();
         setMembers(data);
       } catch (err) {

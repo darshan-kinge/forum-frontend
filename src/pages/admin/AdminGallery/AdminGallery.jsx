@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './AdminGallery.css'
 import { useAuth } from '../../../context/AuthContext'
+import config from '../../../config/config.js';
 
 const AdminGallery = () => {
 
@@ -16,7 +17,7 @@ const AdminGallery = () => {
   
   const fetchImages = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/v1/gallery/all');
+        const response = await fetch(`${config.serverUrl}/api/v1/gallery/all`);
         const data = await response.json();
         console.log(data);
         
@@ -42,7 +43,7 @@ const AdminGallery = () => {
 
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3000/api/v1/gallery/upload', {
+      const response = await fetch(`${config.serverUrl}/api/v1/gallery/upload`, {
         method: 'POST',
         headers: {
           Authorization: AuthorizationToken,
@@ -70,7 +71,7 @@ const AdminGallery = () => {
 
   const handleDelete = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/v1/gallery/delete/${id}`, {
+        const response = await fetch(`${config.serverUrl}/api/v1/gallery/delete/${id}`, {
             method: 'DELETE',
             headers: {
               Authorization: AuthorizationToken,

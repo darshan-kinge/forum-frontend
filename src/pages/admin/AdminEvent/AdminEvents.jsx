@@ -4,6 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import Table from './AdminEventsTable/AdminEventsTable.jsx';
 import './AdminEvent.css';
 import { validateFileSize, formatFileSize, MAX_FILE_SIZE } from '../../../utils/filesizeValidation.js';
+import config from '../../../config/config.js';
 
 const AdminEventsPage = () => {
     const [events, setEvents] = useState([]);
@@ -68,7 +69,7 @@ const AdminEventsPage = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/events/all');
+            const response = await fetch(`${config.serverUrl}/api/v1/events/all`);
             const data = await response.json();
             setEvents(data);
         } catch (error) {
@@ -118,8 +119,8 @@ const AdminEventsPage = () => {
             }
 
             const url = editingEvent
-                ? `http://localhost:3000/api/v1/events/update/${editingEvent._id}`
-                : 'http://localhost:3000/api/v1/events/create';
+                ? `${config.serverUrl}/api/v1/events/update/${editingEvent._id}`
+                : `${config.serverUrl}/api/v1/events/create`;
 
             const response = await fetch(url, {
                 method: editingEvent ? 'PUT' : 'POST',
@@ -148,7 +149,7 @@ const AdminEventsPage = () => {
         if (!window.confirm('Are you sure you want to delete this event?')) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/events/delete/${id}`, {
+            const response = await fetch(`${config.serverUrl}/api/v1/events/delete/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': AuthorizationToken,

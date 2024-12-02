@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react'; 
 import html2canvas from 'html2canvas';  
+import config from '../../../config/config.js';
 
 const MemberBadge = () => {
   const { id } = useParams(); 
@@ -11,7 +12,7 @@ const MemberBadge = () => {
     const fetchMemberData = async () => {
       try {
         
-        const response = await fetch(`http://localhost:3000/api/v1/member/badge/${id}`);
+        const response = await fetch(`${config.serverUrl}/api/v1/member/badge/${id}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch member data');

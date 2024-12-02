@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import './BlogPage.css';
 import data from './data.js';
 import BlogCard from '../../components/cards/blog-cards/BlogCard.jsx';
-
+import config from '../../config/config.js';
 const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const response = await fetch(`http://localhost:3000/api/v1/blog/all`);
+      const response = await fetch(`${config.serverUrl}/api/v1/blog/all`);
       // console.log(response);
       const data = await response.json();
       setBlogs(data);

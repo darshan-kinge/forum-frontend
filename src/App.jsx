@@ -9,7 +9,7 @@ const MemberBadge = lazy(() => import('./pages/join-us/badge/MemberBadge.jsx'));
 const VerifyBadge = lazy(() => import('./pages/join-us/badge/VerifyBadge.jsx'));
 const AdminLayout = lazy(() => import('./pages/admin/layout/AdminLayout.jsx'));
 const AdminGallery = lazy(() => import('./pages/admin/AdminGallery/AdminGallery.jsx'));
-const Gallery = lazy(() => import('./pages/Gallery/Gallery.jsx'));
+const Gallery = lazy(() => import('./pages/gallery/Gallery.jsx'));
 
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
 

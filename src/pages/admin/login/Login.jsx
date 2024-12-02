@@ -2,6 +2,7 @@ import {useState} from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthContext';
 import './Login.css'
+import config from '../../../config/config.js';
 
 const Login = () => {
   
@@ -41,7 +42,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/login", {
+      const response = await fetch(`${config.serverUrl}/api/v1/auth/login`, {
         method: "POST",
         headers: {
           "Content-type": "application/json"
@@ -72,37 +73,37 @@ const Login = () => {
   }
 
   return (
-    <>
-        <h1 className='title'>Admin Login</h1>
-        <form className='login-form' onSubmit={handleSubmit}>
-          {/* <div> */}
-            <label className='login-label' htmlFor="email">Email</label>
-            <input
-              className='login-input'
-              type="email" 
-              id="email" 
-              name="email" 
-              required
-              autoComplete='off'
-              onChange={handleInput}  
-              
-            />
-          {/* </div> */}
-          {/* <div> */}
-            <label className='login-label' htmlFor="password">Password</label>
-            <input 
-              className='login-input'
-              type="password" 
-              id="password" 
-              name="password"
-              autoComplete='off'
-              onChange={handleInput}
-              required  
-            />
-          {/* </div> */}
-          <button className='login-submit' type="submit">Login</button>
-        </form>
-    </>
+    <div className="login-container">
+      <h1 className='title'>Admin Login</h1>
+      <form className='login-form' onSubmit={handleSubmit}>
+        {/* <div> */}
+          <label className='login-label' htmlFor="email">Email</label>
+          <input
+            className='login-input'
+            type="email" 
+            id="email" 
+            name="email" 
+            required
+            autoComplete='off'
+            onChange={handleInput}  
+            
+          />
+        {/* </div> */}
+        {/* <div> */}
+          <label className='login-label' htmlFor="password">Password</label>
+          <input 
+            className='login-input'
+            type="password" 
+            id="password" 
+            name="password"
+            autoComplete='off'
+            onChange={handleInput}
+            required  
+          />
+        {/* </div> */}
+        <button className='login-submit' type="submit">Login</button>
+      </form>
+    </div>
   )
 }
 

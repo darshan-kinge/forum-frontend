@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EventCard from '../../components/cards/event-cards/EventCard.jsx';
 import './EventPage.css';
-
+import config from '../../config/config.js';
 const EventsPage = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ const EventsPage = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/events/all');
+            const response = await fetch(`${config.serverUrl}/api/v1/events/all`);
             if (!response.ok) {
                 throw new Error('Failed to fetch events');
             }

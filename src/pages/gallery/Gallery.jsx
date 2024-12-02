@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import './Gallery.css'
-
+import config from '../../config/config.js';
 const Gallery = () => {
   const [allImages, setAllImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -8,7 +8,7 @@ const Gallery = () => {
   useEffect(() => {
     const fetchImages = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/gallery/all');
+            const response = await fetch(`${config.serverUrl}/api/v1/gallery/all`);
             const data = await response.json();
             setAllImages(data);
             

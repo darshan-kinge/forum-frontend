@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createContext, useContext } from "react";
-
+import config from "../config/config.js";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     const userAuthentication = async() => {
         try {
             setIsLoading(true)
-            const response = await fetch("http://localhost:3000/api/v1/auth/user", {
+            const response = await fetch(`${config.serverUrl}/api/v1/auth/user`, {
                 method: "GET",
                 headers: {
                     Authorization: AuthorizationToken,

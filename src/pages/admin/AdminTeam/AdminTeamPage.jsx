@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import AdminTable from './AdminTable/AdminTable.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import './AdminStyle.css';
+import config from '../../../config/config.js';
 
 const AdminPage = () => {
   const [members, setMembers] = useState([]);
@@ -18,58 +19,10 @@ const AdminPage = () => {
   });
 
   const { AuthorizationToken } = useAuth();
-
-  const dummyMembers = [
-    {
-        name: "John Doe",
-        email: "john@example.com",
-        linkedin: "https://www.linkedin.com/in/john-doe",
-        photo: "https://placehold.co/150",
-        role: "Team Lead",
-        designation: "Software Engineer",
-        _id: "1",
-    },
-    {
-        name: "Jane Doe",
-        email: "jane@example.com",
-        linkedin: "https://www.linkedin.com/in/jane-doe",
-        photo: "https://placehold.co/150",
-        role: "Post Holder",
-        designation: "Software Engineer",
-        _id: "2",
-    },
-    {
-        name: "Jim Beam",
-        email: "jim@example.com",
-        linkedin: "https://www.linkedin.com/in/jim-beam",
-        photo: "https://placehold.co/150",
-        role: "Team Lead",
-        designation: "Software Engineer",
-        _id: "3",
-    },
-    {
-        name: "John Doe",
-        email: "john@example.com",
-        linkedin: "https://www.linkedin.com/in/john-doe",
-        photo: "https://placehold.co/150",
-        role: "Post Holder",
-        designation: "Software Engineer",
-        _id: "4",
-    },
-    {
-        name: "John Doe",
-        email: "john@example.com",
-        linkedin: "https://www.linkedin.com/in/john-doe",
-        photo: "https://placehold.co/150",
-        role: "Post Holder",
-        designation: "Software Engineer",
-        _id: "5",
-    }
-]
   
   const fetchMembers = async () => {
       try {
-          const response = await fetch('http://localhost:3000/api/v1/team/all');
+          const response = await fetch(`${config.serverUrl}/api/v1/team/all`);
           const data = await response.json();
           setMembers(data);
         } catch (error) {
@@ -113,8 +66,8 @@ const AdminPage = () => {
 
     try {
       const url = editingId 
-        ? `http://localhost:3000/api/v1/team/update/${editingId}`
-        : 'http://localhost:3000/api/v1/team/add';
+        ? `${config.serverUrl}/api/v1/team/update/${editingId}`
+        : `${config.serverUrl}/api/v1/team/add`;
 
       const response = await fetch(url, {
         method: editingId ? 'PUT' : 'POST',

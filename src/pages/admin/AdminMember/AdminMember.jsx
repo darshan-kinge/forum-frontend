@@ -3,6 +3,7 @@ import { useAuth } from '../../../context/AuthContext';
 import Table from '../../../components/table/Table.jsx';
 import { FaFileExport } from 'react-icons/fa';
 import './AdminMember.css';
+import config from '../../../config/config.js';
 
 const MembersPage = () => {
     const [members, setMembers] = useState([]);
@@ -18,7 +19,7 @@ const MembersPage = () => {
 
     const fetchMembers = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/member/all', {
+            const response = await fetch(`${config.serverUrl}/api/v1/member/all`, {
                 headers: {
                     'Authorization': AuthorizationToken
                 }

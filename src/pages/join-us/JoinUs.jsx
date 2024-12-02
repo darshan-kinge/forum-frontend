@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './JoinUs.css'; // Assuming you're using CSS modules
 import courseOptions from './courses.json';
 import { useNavigate } from 'react-router-dom';
+import config from '../../config/config.js';
 
 const RegistrationForm = () => {
 
@@ -36,7 +37,7 @@ const RegistrationForm = () => {
         year: formData.year,
       };
 
-      const res = await fetch('http://localhost:3000/api/v1/member/join', {
+      const res = await fetch(`${config.serverUrl}/api/v1/member/join`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

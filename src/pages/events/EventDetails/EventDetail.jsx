@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './EventDetail.css';
+import config from '../../../config/config.js';
 
 const EventDetailsPage = () => {
     const [event, setEvent] = useState(null);
@@ -20,7 +21,7 @@ const EventDetailsPage = () => {
 
     const fetchEventDetails = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/events/${id}`);
+            const response = await fetch(`${config.serverUrl}/api/v1/events/${id}`);
             if (!response.ok) {
                 throw new Error('Event not found');
             }

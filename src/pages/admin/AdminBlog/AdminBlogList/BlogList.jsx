@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './BlogList.css'
 import {useAuth} from '../../../../context/AuthContext.jsx';
+import config from '../../../../config/config.js';
 
 const AdminBlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,7 +13,7 @@ const AdminBlogList = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/v1/blog/all?page=${page}`);
+        const response = await fetch(`${config.serverUrl}/api/v1/blog/all?page=${page}`);
         const data = await response.json();
         console.log(data);
         
@@ -32,7 +33,7 @@ const AdminBlogList = () => {
         console.error('Blog ID is undefined');
         return;
       }
-      const response = await fetch(`http://localhost:3000/api/v1/blog/delete/${id}`, {
+      const response = await fetch(`${config.serverUrl}/api/v1/blog/delete/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: AuthorizationToken

@@ -11,22 +11,18 @@ const VerifyBadge = () => {
   useEffect(() => {
     const VerifyBadge = async () => {
       try {
-        const response = await fetch(`${renfig.rerverUrl}1/member/badge/verify/${id}`);
-        console.log(response);
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/badge/verify/${id}`);
         
         if (!response.ok) {
           throw new Error('Failed to verify member.');
         }
 
         const data = await response.json();
-        
         setMemberData(data.member);
-        if(response.ok) {
-          setVerificationStatus(`Member Verified: ${data.member.name} (ID: ${data.member.member_id})`);
-        }
+        setVerificationStatus(`Member Verified: ${data.member.name} (ID: ${data.member.member_id})`);
       
       } catch (error) {
-        setErrorMessage(error);
+        setErrorMessage(error.message || 'An error occurred while verifying the member.');
       }
     };
 
@@ -44,7 +40,7 @@ const VerifyBadge = () => {
           </div>
         ) : (
           <div style={styles.error}>
-            <h2>{errorMessage}</h2>
+            {errorMessage && <h2>{errorMessage}</h2>}
             <p>It seems like the token is invalid or expired. Please check the link or contact support.</p>
           </div>
         )}

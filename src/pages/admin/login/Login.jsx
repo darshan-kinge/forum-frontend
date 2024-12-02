@@ -61,9 +61,7 @@ const Login = () => {
         })
 
         alert("Login Successful!");
-        if (isAuthenticated) {
-          navigate("/admin/dashboard")
-        }
+        window.location.href = "/admin/dashboard"
       } else {
         console.log(data.error)
       }

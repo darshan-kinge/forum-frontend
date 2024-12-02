@@ -61,7 +61,9 @@ const Login = () => {
         })
 
         alert("Login Successful!");
-        navigate("/admin/dashboard")
+        if (isAuthenticated) {
+          navigate("/admin/dashboard")
+        }
       } else {
         console.log(data.error)
       }

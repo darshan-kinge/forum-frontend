@@ -7,6 +7,7 @@
 .admin-header {
     background-color: var(--bg-color);
     position: sticky;
+    z-index: 100000;
     top: 0;
 }
 
@@ -15,7 +16,7 @@
     justify-content: space-between;
     width: 100%;
     padding: 0 1rem;
-    z-index: 1001;
+    z-index: 100000;
 }
 
 .admin-logout {

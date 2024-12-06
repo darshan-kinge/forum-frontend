@@ -57,16 +57,17 @@ header .nav-btn {
 
     header {
         width: 100%;
-        padding: .1rem .3rem;
+        height: 5rem;
+        padding: 0rem .8rem;
     }
 
     header .nav-brand img {
-        padding: .4rem;
+        padding: .2rem;
         height: 3.5rem;
     }
 
     header .nav-btn {
-        font-size: 1rem;
+        font-size: 1.4rem;
         display: block;
         opacity: 1;
     }

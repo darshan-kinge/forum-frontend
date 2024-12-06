@@ -10,6 +10,7 @@ const VerifyBadge = lazy(() => import('./pages/join-us/badge/VerifyBadge.jsx'));
 const AdminLayout = lazy(() => import('./pages/admin/layout/AdminLayout.jsx'));
 const AdminGallery = lazy(() => import('./pages/admin/AdminGallery/AdminGallery.jsx'));
 const Gallery = lazy(() => import('./pages/gallery/Gallery.jsx'));
+const Dashboard = lazy(() => import('./pages/admin/dashboard/Dashboard.jsx'));
 
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
 
@@ -55,7 +56,7 @@ const App = () => {
             <Route path='*' element={<h1>404 Not Found</h1>} />
 
             <Route path='admin' element={<AdminLayout />}>
-              <Route path='dashboard' element={<h1>Dashboard</h1>} />
+              <Route path='dashboard' element={<Dashboard />} />
               <Route path='members' element={<AdminMember />} />
               <Route path='gallery' element={<AdminGallery />} />
               <Route path='blog' element={ <AdminBlog /> } >

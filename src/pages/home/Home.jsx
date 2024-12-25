@@ -33,7 +33,7 @@ const Home = () => {
 
         </div>
 
-        <CommBtn to={'/join-us'} />
+        <CommBtn title={'Join Community'} to={'/join-us'} />
 
         <div className="hero-video">
           <video loop autoPlay muted>
@@ -67,6 +67,11 @@ const Home = () => {
             <div className="mission-card">
               <h3>Our Mission</h3>
               <p>To facilitate meaningful dialogue, research, and understanding between scientific and spiritual perspectives, creating a harmonious approach to human advancement.</p>
+            </div>
+
+            <div className="mission-card">
+              <h3>Our Objective</h3>
+              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus sequi fuga dolore ratione incidunt, blanditiis facere nihil labore quasi quod vitae temporibus.</p>
             </div>
           </div>
         </div>
@@ -123,8 +128,13 @@ const Home = () => {
 
       <section className="join-us">
         <div className="join-us-container">
-          <h3>Join Us</h3>
-          <p>Join us by registering yourself as a member, </p>
+          <h2>Join Us</h2>
+          <p>Join us by registering yourself as a member,
+         and receive a member badge and certificate. Be a part of our community and contribute to the dialogue between science and spirituality. </p>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis molestias vitae, ipsam, libero cum obcaecati doloremque dignissimos blanditiis iste labore aut! Odio, id iusto sint a quisquam vel voluptatem non?</p>
+        </div>
+        <div className='join-us-image'>
+          <img src='https://placehold.co/400x300?text=Hello\nWorld' alt='Science and Spirituality Forum' />
         </div>
       </section>
 

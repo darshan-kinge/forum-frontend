@@ -13,5 +13,6 @@ body {
 }
 
 :root {
-    --bg-color: #02385D
+    --bg-color: #02385D;
+    --white-color: #fff;
 }

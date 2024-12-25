@@ -80,7 +80,7 @@ const Blog = () => {
 
                     {user?.isAdmin && (
                         <div className="admin-btn">
-                            <Link to={`/admin/blog/edit/${blog._id}`} className="edit-link">Edit</Link>
+                            <Link to={`/admin/blog/edit/${blog.slug}`} className="edit-link">Edit</Link>
                             <button className="delete-btn" onClick={() => deleteBlog(blog._id)}>Delete</button>
                         </div>
                     )}

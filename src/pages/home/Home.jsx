@@ -42,6 +42,19 @@ const Home = () => {
         </div>
       </section>
 
+      <section className='about'>
+        <div className='about-text'>
+          <h3>about the</h3>
+          <h1>MIT-WPU Science and Spirituality Forum</h1>
+          <p>
+            The MIT-WPU Science and Spirituality Forum (SNSF) is a unique initiative that seeks to bridge the gap between scientific knowledge and spiritual wisdom. By fostering a collaborative environment, SNSF aims to promote holistic development and understanding through various events, discussions, and research activities.
+          </p>
+        </div>
+        <div className='about-image'>
+          <img src='https://res.cloudinary.com/dotbsdfdo/image/upload/v1727069930/gallery/ebifkj1nb54kl3cs7efe.jpg' alt='Science and Spirituality Forum' />
+        </div>
+      </section>
+
       {/* Vision and Mission */}
       <section className="vision-mission">
         <div className="vision-mission-container">
@@ -68,7 +81,7 @@ const Home = () => {
         <div className="about-container">
         {/* Leadership Messages */}
          <div className="leadership-section">
-          {/* <h3>From Our Leaders</h3> */}
+          <h3>From Our Leaders</h3>
           <div className="leadership-messages">
             <div className="leader-card"> 
               <div className="leader-image-container">
@@ -105,6 +118,13 @@ const Home = () => {
             </div>
           </div>
         </div>
+        </div>
+      </section>
+
+      <section className="join-us">
+        <div className="join-us-container">
+          <h3>Join Us</h3>
+          <p>Join us by registering yourself as a member, </p>
         </div>
       </section>
 

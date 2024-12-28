@@ -132,9 +132,10 @@ const Home = () => {
           <p>Join us by registering yourself as a member,
          and receive a member badge and certificate. Be a part of our community and contribute to the dialogue between science and spirituality. </p>
           <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis molestias vitae, ipsam, libero cum obcaecati doloremque dignissimos blanditiis iste labore aut! Odio, id iusto sint a quisquam vel voluptatem non?</p>
+          <Link to="/join-us" className="join-us-btn">Join Us</Link>
         </div>
         <div className='join-us-image'>
-          <img src='https://placehold.co/400x300?text=Hello\nWorld' alt='Science and Spirituality Forum' />
+          <img src="meditate.gif" alt="" />
         </div>
       </section>
 

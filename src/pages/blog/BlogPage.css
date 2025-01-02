@@ -8,7 +8,9 @@
   .page-title {
     text-align: center;
     color: #fff;
-    font-size: 3.5rem;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     margin-bottom: 20px;
   }
   
@@ -61,7 +63,7 @@
     }
    */
     .page-title {
-      font-size: 28px;
+      font-size: 2rem;
     }
   
     .card-title {
@@ -75,7 +77,7 @@
     }
   
     .page-title {
-      font-size: 24px;
+      font-size: 2rem;
     }
   
     .card-title {

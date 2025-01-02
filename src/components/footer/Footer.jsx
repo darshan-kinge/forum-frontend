@@ -13,16 +13,16 @@ const Footer = () => {
                     <div className="inner-right">
                         <h3>Follow us on</h3>
                         <div className="social-media">
-                            <a href="https://www.instagram.com/ieeevitvellore/?hl=en" target="_blank" rel="noreferrer">
+                            <a href="https://www.instagram.com/scienceandspiritualityforum/" target="_blank" rel="noreferrer">
                                 <FaInstagram />
                             </a>
-                            <a href="https://www.linkedin.com/company/ieee-vit-vellore-student-branch/" target="_blank" rel="noreferrer">
+                            <a href="https://www.linkedin.com/company/science-and-spirituality-forum/" target="_blank" rel="noreferrer">
                                 <FaLinkedinIn />
                             </a>
                             <a href="mailto:snsf@mitwpu.edu.in" target="_blank" rel="noreferrer">
                                 <FaEnvelope />
                             </a>
-                            <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+                            <a href="https://www.youtube.com/@scienceandspiritualityforum" target="_blank" rel="noreferrer">
                                 <FaYoutube />
                             </a>
                         </div>

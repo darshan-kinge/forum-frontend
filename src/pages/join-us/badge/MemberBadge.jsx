@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { QRCodeCanvas } from 'qrcode.react'; 
-import html2canvas from 'html2canvas';  
 import config from '../../../config/config.js';
+import Badge from '../Badge.jsx';
 
 const MemberBadge = () => {
   const { id } = useParams(); 
@@ -29,54 +28,44 @@ const MemberBadge = () => {
     fetchMemberData();
   }, [id]);
 
-  
-  
-  const downloadBadge = () => {
-      const badgeElement = document.getElementById('badge');
-      html2canvas(badgeElement).then((canvas) => {
-          const link = document.createElement('a');
-          link.download = 'member_badge.png';
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-        });
-    };
-    
-  const verificationLink = `${window.location.origin}/member/badge/verify/${id}`;  // Create verification URL
-
-
   if(!memberData) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.content}>
-        <div style={styles.badgeSection}>
-          {/* Improved Badge Design */}
-          <div id="badge" style={styles.badge}>
-            <div style={styles.badgeHeader}>
-              <img src='/logo-white.png' alt="Logo" style={styles.logo} />
-              <h2 style={styles.badgeTitle}>{memberData.name}</h2>
-            </div>
-            <p style={styles.memberName}>Member</p>
-            <p style={styles.memberId}>Member ID: {memberData.member_id}</p>
-            <div style={styles.qrContainer}>
-              <QRCodeCanvas value={verificationLink} size={128} style={{padding: '8px', backgroundColor: 'white', borderRadius: '4px' }} />
-              <p style={styles.scanText}>Scan to verify</p>
-            </div>
-          </div>
-          <button style={styles.downloadButton} onClick={downloadBadge}>
-            Download Badge
-          </button>
-        </div>
-
-        <div style={styles.textSection}>
-          <h1 style={styles.welcomeTitle}>Welcome, {memberData.name}!</h1>
-          <p style={styles.welcomeContent}>Thank you for joining the club. Your membership ID is {memberData.member_id}.</p>
-          <p style={styles.welcomeContent}>This badge is your official proof of membership. Scan the QR code to verify your membership.</p>
-        </div>
+    <>
+      <div className='member-badge-container' style={{ display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center', justifyContent: 'space-around' }}>
+        <Badge memberData={memberData} />
       </div>
-    </div>
+    </>
+    // <div style={styles.container}>
+    //   <div style={styles.content}>
+    //     <div style={styles.badgeSection}>
+    //       {/* Improved Badge Design */}
+    //       <div id="badge" style={styles.badge}>
+    //         <div style={styles.badgeHeader}>
+    //           <img src='/logo-white.png' alt="Logo" style={styles.logo} />
+    //           <h2 style={styles.badgeTitle}>{memberData.name}</h2>
+    //         </div>
+    //         <p style={styles.memberName}>Member</p>
+    //         <p style={styles.memberId}>Member ID: {memberData.member_id}</p>
+    //         <div style={styles.qrContainer}>
+    //           <QRCodeCanvas value={verificationLink} size={128} style={{padding: '8px', backgroundColor: 'white', borderRadius: '4px' }} />
+    //           <p style={styles.scanText}>Scan to verify</p>
+    //         </div>
+    //       </div>
+    //       <button style={styles.downloadButton} onClick={downloadBadge}>
+    //         Download Badge
+    //       </button>
+    //     </div>
+
+    //     <div style={styles.textSection}>
+    //       <h1 style={styles.welcomeTitle}>Welcome, {memberData.name}!</h1>
+    //       <p style={styles.welcomeContent}>Thank you for joining the club. Your membership ID is {memberData.member_id}.</p>
+    //       <p style={styles.welcomeContent}>This badge is your official proof of membership. Scan the QR code to verify your membership.</p>
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 

@@ -35,7 +35,7 @@ const Navbar = () => {
           <NavLink onClick={closeMenuOnClick} className='nav-links' to="/team">Team</NavLink>
           <div className='vertical-line-links'></div>
           <div className="join-us-nav-btn">
-            <CommBtn title={'Become a Member!'} to={'/join-us'} />
+            <CommBtn title={'Become a Member!'} to={'/join-us'} click={closeMenuOnClick} />
           </div>
           <button className='nav-btn nav-close-btn' onClick={handleClick}>
             <FaTimes />

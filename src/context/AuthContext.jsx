@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
 
     const storeTokenInLS = (serverToken) => {
         setToken(serverToken);
+        // console.log(serverToken);
         return localStorage.setItem("token", serverToken);
     };
 
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
             
             if(response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 
                 setUser(data.userData)
 

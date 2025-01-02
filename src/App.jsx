@@ -27,7 +27,9 @@ import EventDetail from './pages/events/EventDetails/EventDetail.jsx';
 import AdminEventsPage from './pages/admin/AdminEvent/AdminEvents.jsx';
 import AdminTeamPage from './pages/admin/AdminTeam/AdminTeamPage.jsx';
 import AdminMember from './pages/admin/AdminMember/AdminMember.jsx';
-import Certificate from './pages/join-us/Certificate.jsx';
+import Badge from './pages/join-us/Badge.jsx';
+import _404 from './pages/404/404.jsx';
+
 const App = () => {
   return (
     <AuthProvider>
@@ -39,13 +41,12 @@ const App = () => {
             <Route path='/join-us' element={<JoinUs />} />
             <Route path='/team' element={<Team />} />
             <Route path='/gallery' element={<Gallery />} />
-            <Route path='/login' element={<Login />} />
+            {/* <Route path='/login' element={<Login />} /> */}
             <Route path= '/blogs' element={ <BlogPage /> } />
             <Route path='/blogs/:slug' element={ <BlogView /> } />
             <Route path='/events' element={<EventsPage /> } />
             <Route path='/events/:id' element={<EventDetail />} />
-            <Route path='/certificate' element={<Certificate />} />
-
+            <Route path='/certificate' element={<Badge />} />
 
 
             <Route path='/admin/login' element={<Login />} />
@@ -53,7 +54,7 @@ const App = () => {
             <Route path='/member/badge/:id' element={<MemberBadge />} />
             <Route path='/member/badge/verify/:id' element={<VerifyBadge />} />
 
-            <Route path='*' element={<h1>404 Not Found</h1>} />
+            <Route path='*' element={ <_404 /> } />
 
             <Route path='admin' element={<AdminLayout />}>
               <Route path='dashboard' element={<Dashboard />} />

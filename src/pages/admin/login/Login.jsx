@@ -45,7 +45,7 @@ const Login = () => {
       const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/auth/login`, {
         method: "POST",
         headers: {
-          "Content-type": "application/json"
+          "Content-type": "application/json",
         },
         body: JSON.stringify(user),
       })
@@ -54,7 +54,7 @@ const Login = () => {
 
       if(response.ok) {
         storeTokenInLS(data.token)
-
+        console.log(data.token);  
         setUser({
           email: "",
           password: "",
@@ -63,12 +63,11 @@ const Login = () => {
         alert("Login Successful!");
         window.location.href = "/admin/dashboard"
       } else {
-        console.log(data.error)
+        alert(data.details);
       }
 
     } catch (error) {
       console.log(error);
-      
     }
   }
 

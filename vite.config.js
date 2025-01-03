@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import config from './src/config/config.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,4 +15,7 @@ export default defineConfig({
       },
     },
   },
+  define: {
+    'process.env': process.env
+  }
 })

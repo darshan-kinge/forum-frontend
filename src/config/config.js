@@ -1,7 +1,7 @@
-
+im
 const config = {
     port: 3000,
-    serverUrl: process.env.SERVER_URL, // 'https://forum-backend-6zul.onrender.com',
+    serverUrl: import.meta.env.SERVER_URL, // 'https://forum-backend-6zul.onrender.com',
     apiVersion: 'v1',
 }
 

@@ -1,7 +1,7 @@
 
 const config = {
     port: 3000,
-    serverUrl: import.meta.env.VITE_SERVER_URL, // 'https://forum-backend-6zul.onrender.com',
+    serverUrl: 'https://snsf-backend.azurewebsites.net', // 'https://forum-backend-6zul.onrender.com',
     apiVersion: 'v1',
 }
 

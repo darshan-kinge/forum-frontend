@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom' 
 import './BlogCard.css'
 
-const BlogCard = ({ title, slug, image, summary }) => {
+const BlogCard = ({ title, slug, image, summary, id }) => {
 
     const truncateSummary = (summary, maxLength = 60) => {
         return summary.length > maxLength ? `${summary.substring(0, maxLength)}...` : summary;
@@ -14,7 +14,7 @@ const BlogCard = ({ title, slug, image, summary }) => {
 
   return (
     <>
-        <div className="blog-card">
+        {/* <div className="blog-card" key={slug}> */}
             <Link className='link' to={`/blogs/${slug}`}>
                 <div className="card-image-wrapper">
                     <img src={image} alt={title} className="card-image" />
@@ -28,7 +28,7 @@ const BlogCard = ({ title, slug, image, summary }) => {
                 </p>
 
             </Link>
-        </div>
+        {/* </div> */}
     </>
   )
 }

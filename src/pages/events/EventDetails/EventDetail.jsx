@@ -3,6 +3,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './EventDetail.css';
 import config from '../../../config/config.js';
+import Loader from '../../../components/loader/Loader.jsx';
+import HelmetComponent from '../../../components/helmet/HelmetComponent.jsx';
 
 const EventDetailsPage = () => {
     const [event, setEvent] = useState(null);
@@ -72,12 +74,23 @@ const EventDetailsPage = () => {
         setActiveImage(image);
     };
 
-    if (loading) return <div className="event-details-loading">Loading...</div>;
+    const truncateDesc = (desc, maxLength = 10) => {
+        return desc.length > maxLength ? `${desc.substring(0, maxLength)}...` : title;
+    }
+
+    if (loading) return <Loader />;
     if (error) return <div className="event-details-error">{error}</div>;
     if (!event) return <div className="event-details-error">Event not found</div>;
 
     return (
         <div className="event-details-page">
+
+            <HelmetComponent
+                pageName={event.title}
+                description={truncateDesc(event.description)}
+                keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
+            />
+
             <button 
                 className="back-button"
                 onClick={() => navigate('/events')}

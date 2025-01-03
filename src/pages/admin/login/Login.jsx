@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthContext';
 import './Login.css'
 import config from '../../../config/config.js';
+import HelmetComponent from '../../../components/helmet/HelmetComponent.jsx';
 
 const Login = () => {
   
@@ -73,6 +74,13 @@ const Login = () => {
 
   return (
     <div className="login-container">
+
+      <HelmetComponent
+        pageName="Admin Login"
+        description="Login to the admin dashboard of MIT-WPU Science and Spirituality Forum"
+        keywords="MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad"
+      />
+
       <h1 className='title'>Admin Login</h1>
       <form className='login-form' onSubmit={handleSubmit}>
         {/* <div> */}

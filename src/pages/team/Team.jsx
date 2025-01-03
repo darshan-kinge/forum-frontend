@@ -4,6 +4,8 @@ import TeamCard from '../../components/cards/team-cards/TeamCards.jsx';
 import Loader from '../../components/loader/Loader.jsx';
 import './Team.css';
 import config from '../../config/config.js';
+import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
+
 const TeamPage = () => {
 
   const [members, setMembers] = useState([]);
@@ -34,24 +36,30 @@ const TeamPage = () => {
       return null;
     } else {
         return (
-            <section className="team-section">
-                <h2 className="team-section__title">{title}</h2>
-                <div className="team-section__grid">
-                    {members
-                    .filter(member => member.role === role)
-                    .map(member => (
-                        <TeamCard key={member._id} member={member} />
-                    ))
-                    }
-                </div>
-            </section>
+          <section className="team-section">
+            <h2 className="team-section__title">{title}</h2>
+            <div className="team-section__grid">
+              { members
+                .filter(member => member.role === role)
+                .map(member => (
+                  <TeamCard key={member._id} member={member} />
+                ))
+              }
+              </div>
+          </section>
         );
     }
   };
 
   return (
     <div className="team-page">
-        <div className='team-title'>
+        <HelmetComponent
+            pageName="Team"
+            description="Team members of MIT-WPU Science and Spirituality Forum"
+            keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
+        />
+
+       <div className='team-title'>
             <h1>Our Team</h1>
         </div>
         {members.length === 0 ? <div className='error-message'>No members found</div> : 

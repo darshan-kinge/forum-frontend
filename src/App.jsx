@@ -1,5 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+
 // import './App.css'
 const Home = lazy(() => import('./pages/home/Home.jsx'));
 const Login = lazy(() => import('./pages/admin/login/Login.jsx'));
@@ -32,6 +34,7 @@ import _404 from './pages/404/404.jsx';
 
 const App = () => {
   return (
+    <HelmetProvider>
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
@@ -73,6 +76,7 @@ const App = () => {
         <Footer />
       </BrowserRouter>
     </AuthProvider>
+    </HelmetProvider>
   );
 };
 

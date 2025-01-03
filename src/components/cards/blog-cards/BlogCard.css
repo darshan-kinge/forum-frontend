@@ -8,7 +8,7 @@
     overflow: hidden;
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     max-height: 450px;
-    max-width: 350px;
+    max-width: 550px;
     transition: transform 0.3s ease;
   }
   
@@ -67,14 +67,14 @@
           grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         }
     
-        /* .blog-card {
-          height: 200px;
+        .blog-card {
+          height: 300px;
+        }
+
+        .card-image {
+          height: 150px;
         }
       
-        .card-image {
-          height: 250px;
-        }
-       */
         .page-title {
           font-size: 28px;
         }
@@ -91,7 +91,7 @@
         }
 
         .card-image {
-          height: 120px;
+          height: 100%;
         }
       
         .page-title {
@@ -100,5 +100,9 @@
       
         .card-title {
             font-size: 14px;
+        }
+
+        .card-image-wrapper {
+          height: 60%;
         }
     }

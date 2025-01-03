@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import './Gallery.css'
 import config from '../../config/config.js';
+import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
 const Gallery = () => {
   const [allImages, setAllImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -33,6 +34,12 @@ const Gallery = () => {
 
   return (
     <>
+      <HelmetComponent 
+        pageName="Gallery"
+        description="Gallery of MIT-WPU Science and Spirituality Forum"
+        keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
+      />
+
       <div className="wrapper">
         <div className="gallery-title">
           <h1>Gallery</h1>

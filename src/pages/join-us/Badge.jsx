@@ -3,6 +3,7 @@ import './Badge.css';
 import { QRCodeCanvas } from 'qrcode.react'; 
 import html2canvas from 'html2canvas';  
 import { useParams } from 'react-router-dom';
+import HelmetComponent from '../../components/helmet/HelmetComponent';
 
 const Badge = ({ memberData }) => {
   const { id } = useParams(); 
@@ -10,6 +11,7 @@ const Badge = ({ memberData }) => {
 
   return (
     <div className='badge-container'>
+
       <div className='badge-wrapper'>
       <div className='badge'>
         <div className='badge-header'>

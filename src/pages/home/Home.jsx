@@ -3,98 +3,104 @@ import './Home.css'
 import { Link } from 'react-router-dom'
 import CommBtn from '../../components/btn/community-btn/CommBtn'
 import ImageMarquee from '../../components/ImageMarquee/ImageMarquee';
+import HelmetComponent from '../../components/helmet/HelmetComponent';
 
 
-const Home = () => {
-  return (
-    <>
-      <section className="hero">
+const Home = () => (
+  <>
 
-        <div className="title">
+    <HelmetComponent
+      pageName='Home'
+      description='MIT-WPU Science and Spirituality Forum is a unique initiative that seeks to bridge the gap between scientific knowledge and spiritual wisdom.'
+      keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
+    />
 
-          <div className='hero-title desktop-only'>
+    <section className="hero">
 
-            <div className='quote'>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z"/></svg>
-            </div>
+      <div className="title">
 
-            <h2 id='hero-h2'>Embark On A Transformative Journey, Our Science and Spirituality Forum</h2>
-            
-            <div className="quote">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11 9.275c0 5.141-3.892 10.519-10 11.725l-.984-2.126c2.215-.835 4.163-3.742 4.38-5.746-2.491-.392-4.396-2.547-4.396-5.149 0-3.182 2.584-4.979 5.199-4.979 3.015 0 5.801 2.305 5.801 6.275zm13 0c0 5.141-3.892 10.519-10 11.725l-.984-2.126c2.215-.835 4.163-3.742 4.38-5.746-2.491-.392-4.396-2.547-4.396-5.149 0-3.182 2.584-4.979 5.199-4.979 3.015 0 5.801 2.305 5.801 6.275z"/></svg>
-            </div>
+        <div className='hero-title desktop-only'>
 
+          <div className='quote'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z" /></svg>
           </div>
 
-          <div className='hero-title-mobile mobile-only'>
+          <h2 id='hero-h2'>Embark On A Transformative Journey, Our Science and Spirituality Forum</h2>
+
+          <div className="quote">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11 9.275c0 5.141-3.892 10.519-10 11.725l-.984-2.126c2.215-.835 4.163-3.742 4.38-5.746-2.491-.392-4.396-2.547-4.396-5.149 0-3.182 2.584-4.979 5.199-4.979 3.015 0 5.801 2.305 5.801 6.275zm13 0c0 5.141-3.892 10.519-10 11.725l-.984-2.126c2.215-.835 4.163-3.742 4.38-5.746-2.491-.392-4.396-2.547-4.396-5.149 0-3.182 2.584-4.979 5.199-4.979 3.015 0 5.801 2.305 5.801 6.275z" /></svg>
+          </div>
+
+        </div>
+
+        <div className='hero-title-mobile mobile-only'>
           <p>Embark On A Transformative Journey, Our Science and Spirituality Forum</p>
           {/* <p>Bridging Knowledge & Wisdom</p> */}
+        </div>
+
+      </div>
+
+      <CommBtn title={'Join Community'} to={'/join-us'} />
+
+      <div className="hero-video">
+        <video loop autoPlay muted>
+          <source src="/bg_video_compressed.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </section>
+
+    <section className='about'>
+      <div className='about-text'>
+        <h3>about the</h3>
+        <h1>MIT-WPU Science and Spirituality Forum</h1>
+        <p>
+          The MIT-WPU Science and Spirituality Forum (SNSF) is a unique initiative that seeks to bridge the gap between scientific knowledge and spiritual wisdom. By fostering a collaborative environment, SNSF aims to promote holistic development and understanding through various events, discussions, and research activities.
+        </p>
+      </div>
+      <div className='about-image'>
+        <img src='https://res.cloudinary.com/dotbsdfdo/image/upload/v1727069930/gallery/ebifkj1nb54kl3cs7efe.jpg' alt='Science and Spirituality Forum' />
+      </div>
+    </section>
+
+    {/* Vision and Mission */}
+    <section className="vision-mission">
+      <div className="vision-mission-container">
+        <div className="cards-container">
+          <div className="vision-card">
+            <h3>Our Vision</h3>
+            <p>To create a global platform where science and spirituality converge, fostering understanding and growth in both domains.</p>
           </div>
 
-        </div>
+          <div className="mission-card">
+            <h3>Our Mission</h3>
+            <p>To facilitate meaningful dialogue, research, and understanding between scientific and spiritual perspectives, creating a harmonious approach to human advancement.</p>
+          </div>
 
-        <CommBtn title={'Join Community'} to={'/join-us'} />
-
-        <div className="hero-video">
-          <video loop autoPlay muted>
-            <source src="/bg_video_compressed.mp4" type="video/mp4" />
-          </video>
-        </div>
-      </section>
-
-      <section className='about'>
-        <div className='about-text'>
-          <h3>about the</h3>
-          <h1>MIT-WPU Science and Spirituality Forum</h1>
-          <p>
-            The MIT-WPU Science and Spirituality Forum (SNSF) is a unique initiative that seeks to bridge the gap between scientific knowledge and spiritual wisdom. By fostering a collaborative environment, SNSF aims to promote holistic development and understanding through various events, discussions, and research activities.
-          </p>
-        </div>
-        <div className='about-image'>
-          <img src='https://res.cloudinary.com/dotbsdfdo/image/upload/v1727069930/gallery/ebifkj1nb54kl3cs7efe.jpg' alt='Science and Spirituality Forum' />
-        </div>
-      </section>
-
-      {/* Vision and Mission */}
-      <section className="vision-mission">
-        <div className="vision-mission-container">
-          <div className="cards-container">
-            <div className="vision-card">
-              <h3>Our Vision</h3>
-              <p>To create a global platform where science and spirituality converge, fostering understanding and growth in both domains.</p>
-            </div>
-
-            <div className="mission-card">
-              <h3>Our Mission</h3>
-              <p>To facilitate meaningful dialogue, research, and understanding between scientific and spiritual perspectives, creating a harmonious approach to human advancement.</p>
-            </div>
-
-            <div className="mission-card">
-              <h3>Our Objective</h3>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus sequi fuga dolore ratione incidunt, blanditiis facere nihil labore quasi quod vitae temporibus.</p>
-            </div>
+          <div className="mission-card">
+            <h3>Our Objective</h3>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus sequi fuga dolore ratione incidunt, blanditiis facere nihil labore quasi quod vitae temporibus.</p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section className="gallery-preview">
-        <ImageMarquee />
-      </section>
+    <section className="gallery-preview">
+      <ImageMarquee />
+    </section>
 
-      {/* Leadership Messages */}
-      <section className="about-us">
-        <div className="about-container">
+    {/* Leadership Messages */}
+    <section className="about-us">
+      <div className="about-container">
         {/* Leadership Messages */}
-         <div className="leadership-section">
+        <div className="leadership-section">
           <h3>From Our Leaders</h3>
           <div className="leadership-messages">
-            <div className="leader-card"> 
+            <div className="leader-card">
               <div className="leader-image-container">
-                <img 
-                  src="https://mitwpu.edu.in/assets/frontend/images/vishwanath-karad.jpg" 
-                  alt="University Founder" 
-                  className="leader-image" 
-                />
+                <img
+                  src="https://mitwpu.edu.in/assets/frontend/images/vishwanath-karad.jpg"
+                  alt="University Founder"
+                  className="leader-image" />
               </div>
               <div className="leader-content">
                 <h4>Prof. Dr. Vishwanath D. Karad</h4>
@@ -104,14 +110,13 @@ const Home = () => {
                 </p>
               </div>
             </div>
-    
+
             <div className="leader-card">
               <div className="leader-image-container">
-                <img 
-                  src="https://www.vanjariworld.com/wp-content/uploads/2018/04/Rahul-V-Karad.jpg" 
-                  alt="Executive President" 
-                  className="leader-image" 
-                />
+                <img
+                  src="https://www.vanjariworld.com/wp-content/uploads/2018/04/Rahul-V-Karad.jpg"
+                  alt="Executive President"
+                  className="leader-image" />
               </div>
               <div className="leader-content">
                 <h4>Rahul V. Karad</h4>
@@ -123,24 +128,23 @@ const Home = () => {
             </div>
           </div>
         </div>
-        </div>
-      </section>
+      </div>
+    </section>
 
-      <section className="join-us">
-        <div className="join-us-container">
-          <h2>Join Us</h2>
-          <p>Join us by registering yourself as a member,
-         and receive a member badge and certificate. Be a part of our community and contribute to the dialogue between science and spirituality. </p>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis molestias vitae, ipsam, libero cum obcaecati doloremque dignissimos blanditiis iste labore aut! Odio, id iusto sint a quisquam vel voluptatem non?</p>
-          <Link to="/join-us" className="join-us-btn">Join Us</Link>
-        </div>
-        <div className='join-us-image'>
-          <img src="meditate.gif" alt="" />
-        </div>
-      </section>
+    <section className="join-us">
+      <div className="join-us-container">
+        <h2>Join Us</h2>
+        <p>Join us by registering yourself as a member,
+          and receive a member badge and certificate. Be a part of our community and contribute to the dialogue between science and spirituality. </p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis molestias vitae, ipsam, libero cum obcaecati doloremque dignissimos blanditiis iste labore aut! Odio, id iusto sint a quisquam vel voluptatem non?</p>
+        <Link to="/join-us" className="join-us-btn">Join Us</Link>
+      </div>
+      <div className='join-us-image'>
+        <img src="meditate.gif" alt="" />
+      </div>
+    </section>
 
-    </>
-  )
-}
+  </>
+)
 
 export default Home

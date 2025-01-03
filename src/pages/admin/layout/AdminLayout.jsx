@@ -5,6 +5,7 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import Loader from '../../../components/loader/Loader.jsx';
 import './AdminLayout.css';
+import HelmetComponent from '../../../components/helmet/HelmetComponent.jsx';
 
 const AdminLayout = () => {
     const { isAuthenticated, isLoading, LogoutUser } = useAuth();
@@ -34,6 +35,13 @@ const AdminLayout = () => {
 
     return (
         <div className="admin-layout">
+
+            <HelmetComponent 
+                pageName="Dashboard"
+                description="Admin Dashboard for MIT-WPU Science and Spirituality Forum"
+                keywords="MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad"
+            />
+
             <header className="admin-header">
                 <nav className="admin-nav desktop-nav">
                     <ul>

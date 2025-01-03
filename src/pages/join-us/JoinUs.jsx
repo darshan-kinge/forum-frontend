@@ -3,6 +3,7 @@ import './JoinUs.css'; // Assuming you're using CSS modules
 import courseOptions from './courses.json';
 import { useNavigate } from 'react-router-dom';
 import config from '../../config/config.js';
+import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
 
 const RegistrationForm = () => {
 
@@ -68,6 +69,13 @@ const RegistrationForm = () => {
 
   return (
     <div className='wrapper'>
+
+      <HelmetComponent
+        pageName="Join Us"
+        description="Join MIT-WPU Science and Spirituality Forum"
+        keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
+      />
+
       <div className="registrationTitle">
         <h1>Registration Form</h1>
       </div>

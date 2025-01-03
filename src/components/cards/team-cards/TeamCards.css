@@ -47,3 +47,28 @@
   margin-top: 1rem;
   gap: 1rem;
 }
+
+
+@media screen and (max-width: 768px) {
+
+  .team-card {
+    max-width: 300px;
+    max-height: 400px;
+  }
+
+  .team-card__content {
+    padding: 1rem;
+  }
+
+  .team-card__name {
+    font-size: 1rem;
+  }
+
+  .team-card__email {
+    font-size: 0.9rem;
+  }
+
+  .team-card__linkedin {
+    font-size: 0.9rem;
+  }
+}

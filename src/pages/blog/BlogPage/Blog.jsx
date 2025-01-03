@@ -5,6 +5,7 @@ import './Blog.css';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import BlogCard from '../../../components/cards/blog-cards/BlogCard.jsx';
 import config from '../../../config/config.js';
+import HelmetComponent from '../../../components/helmet/HelmetComponent.jsx';
 
 const Blog = () => {
     const { slug } = useParams(); // Get slug from URL
@@ -37,13 +38,11 @@ const Blog = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/all`);
-                const blogs = await response.json();
-                console.log(blogs);
-                
-                setAllBlogs(blogs);
+              const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/all`);
+              const blogs = await response.json();                
+              setAllBlogs(blogs);
             } catch (error) {
-                console.error('Error fetching all blogs:', error);
+              console.error('Error fetching all blogs:', error);
                 
             }
         };
@@ -60,6 +59,13 @@ const Blog = () => {
       navigate('/blog');
     };
 
+    const truncateSummary = (summary) => {
+      if (summary.length > 100) {
+        return summary.slice(0, 100);
+      }
+      return summary;
+    };
+
   if (loading) return (
     <>
       <Loader />
@@ -69,6 +75,12 @@ const Blog = () => {
 
   return (
     <>
+        <HelmetComponent
+          pageName={blog.title}
+          description={truncateSummary(blog.summary)}
+          keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
+        />
+      
         <div className="blog-wrapper">      
             <div className="blog-view">
             {blog && (

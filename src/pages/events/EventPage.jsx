@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import EventCard from '../../components/cards/event-cards/EventCard.jsx';
 import './EventPage.css';
 import config from '../../config/config.js';
+import Loader from '../../components/loader/Loader.jsx';
+import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
 const EventsPage = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -39,11 +41,18 @@ const EventsPage = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    if (loading) return <div className="events-loading">Loading...</div>;
+    if (loading) return <Loader />;
     if (error) return <div className="events-error">{error}</div>;
 
     return (
         <div className="events-page">
+
+            <HelmetComponent
+                pageName="Events"
+                description="Events conducted by MIT-WPU Science and Spirituality Forum"
+                keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
+            />
+
             <section className="events-section">
                 <h2 className="section-title">Upcoming Events</h2>
                 <div className="events-grid">

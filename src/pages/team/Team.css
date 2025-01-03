@@ -32,10 +32,20 @@
 }
 
 .team-title h1 {
-    font-size: 2rem;
+    font-size: 3.5rem;
     font-weight: 900;
     text-transform: uppercase;
     color: #fff;
     margin: 1.5rem 0;
 }
 
+@media screen and (max-width: 768px) {
+    .team-section__grid {
+        align-items: center;
+    }
+
+    .team-section__title {
+        text-align: center;
+    }
+    
+}

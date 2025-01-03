@@ -76,17 +76,19 @@
     }
 
     .community-btn .btn {
-        font-size: 0.85rem;
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
     }
 
     .community-btn .btn .btn-arr {
-        padding: 0.25rem;
+
+        display: none;
         margin-left: 0.6rem;
     }
 
     .community-btn .btn .btn-arr svg {
-        width: 18px;
-        height: 18px;
+        width: 12px;
+        height: 12px;
     }
 }
 

@@ -42,7 +42,8 @@ const BlogPage = () => {
 
       <h1 className="page-title">Blog</h1>
       <div className="blog-grid">
-        {blogs.map((blog) => (
+        { blogs.length === 0 ? <div className="error-message">No blogs found</div> :
+          blogs.map((blog) => (
           <div className="blog-card" key={blog._id}>
             <BlogCard
               id={blog._id}

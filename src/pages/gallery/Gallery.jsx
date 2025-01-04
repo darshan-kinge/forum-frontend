@@ -45,7 +45,7 @@ const Gallery = () => {
           <h1>Gallery</h1>
         </div>
         <div className="gallery">
-          {allImages.map((image) => (
+          { allImages.length === 0 ? <div className="error-message">No Images Found</div> : allImages.map((image) => (
               <div key={image._id} className="gallery-item" onClick={() => openLightbox(image)}>
                   <img src={image.url} alt="Gallery" className="gallery-img" />
               </div>

@@ -1,7 +1,7 @@
 
 const config = {
     port: 3000,
-    serverUrl: 'https://snsf-backend.azurewebsites.net', // 'https://forum-backend-6zul.onrender.com',
+    serverUrl: 'https://server.snsf.live', //https://forum-backend-6zul.onrender.com',
     apiVersion: 'v1',
 }
 

@@ -9,6 +9,13 @@
     padding: 0 1rem;
 }
 
+.error-message {
+    color: #fff;
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+}
+
 .gallery-title {
     text-align: center;
     margin: 1rem 0;

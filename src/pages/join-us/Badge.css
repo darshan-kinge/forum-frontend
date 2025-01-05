@@ -122,9 +122,6 @@
   cursor: pointer;
 }
 
-.badge-download-button:hover {
-  transform: translateY(-2px);
-}
 
 .badge-text {
   font-size: 1.2em;
@@ -138,6 +135,136 @@
   max-width: 50%;
   line-height: 1.5;
 }
+
+/* General styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+/* Badge Buttons Container */
+.badge-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 20px;
+}
+
+.badge-buttons .badge-download-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #0073e6;
+  transition: background-color 0.3s ease;
+}
+
+.badge-linkedin-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.3s ease-in-out;
+  background-color: #0077b5;
+}
+
+.badge-download-button,
+.badge-linkedin-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.badge-buttons button:hover {
+  transform: translateY(-2px);
+}
+
+/* Badge Share Buttons Container */
+.badge-share-buttons {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.badge-share-buttons p {
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.share-icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.badge-share-buttons button {
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.badge-share-buttons button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .badge-buttons {
+    flex-direction: row;
+    margin: 10px 0;
+  }
+
+  .badge-share-buttons button {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .badge-buttons button {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+
+  .badge-share-buttons p {
+    font-size: 14px;
+  }
+
+  .badge-share-buttons button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 
 @media screen and (max-width: 768px) {
 

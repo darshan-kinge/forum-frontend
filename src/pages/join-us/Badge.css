@@ -273,8 +273,13 @@ body {
     gap: 1rem;
   }
 
+  .badge-wrapper {
+    width: 100%;
+    margin: 0.5rem;
+  }
+
   .badge {
-    width: 280px;
+    max-width: 320px;
   }
 
   .badge-header {
@@ -315,9 +320,20 @@ body {
 
   .badge-text {
     font-size: 1em;
-    max-width: 100%;
+    max-width: 90%;
     padding: 8px 16px;
   }
+
+  .badge-buttons {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .badge-buttons .badge-download-button,
+  .badge-buttons .badge-linkedin-button {
+    padding: 10px 20px;
+    margin: 4px 0;
+    }
 }
 
 @media screen and (max-width: 480px) {

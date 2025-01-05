@@ -86,7 +86,7 @@ const Badge = ({ memberData }) => {
               <FaDownload /> Download Badge
             </button>
             <button className='badge-linkedin-button' onClick={handleAddToLinkedIn}>
-              <FaLinkedin /> Add to LinkedIn
+              <FaLinkedin /> Add to LinkedIn Profile
           </button>
           </div>
 

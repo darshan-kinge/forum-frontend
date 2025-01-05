@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import config from '../../../config/config.js';
+import './VerifyBadge.css';
 
 const VerifyBadge = () => {
   const { id } = useParams();
   const [verificationStatus, setVerificationStatus] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [memberData, setMemberData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const VerifyBadge = async () => {
@@ -20,9 +22,10 @@ const VerifyBadge = () => {
         const data = await response.json();
         setMemberData(data.member);
         setVerificationStatus(`Member Verified: ${data.member.name} (ID: ${data.member.member_id})`);
-      
       } catch (error) {
         setErrorMessage(error.message || 'An error occurred while verifying the member.');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -30,53 +33,58 @@ const VerifyBadge = () => {
   }, [id]);
 
   return (
-    <div style={styles.container}>
-      <div style={styles.textSection}>
-        <h1>Membership Verification</h1>
-        {verificationStatus ? (
-          <div style={styles.verified}>
-            <h2>{verificationStatus}</h2>
-            <p>Thank you for being a verified member of the club!</p>
+    <div className="container">
+      <div className="card">
+        {isLoading ? (
+          <div className="loader-container">
+            <div className="loader"></div>
+            <p className="loader-text">Verifying member...</p>
           </div>
         ) : (
-          <div style={styles.error}>
-            {errorMessage && <h2>{errorMessage}</h2>}
-            <p>It seems like the token is invalid or expired. Please check the link or contact support.</p>
+          <div className="text-section">
+            <h1 className="title">Member Badge Verification</h1>
+            {verificationStatus ? (
+              <div className="verified">
+                <div className="icon-container">
+                  <span className="checkmark">✓</span>
+                </div>
+                <h2 className="verification-text">Verified Member</h2>
+                <div className="member-details">
+                  <div className="detail-row">
+                    <span className="label">Name:</span>
+                    <span className="value">{memberData.name}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="label">Member ID:</span>
+                    <span className="value">{memberData.member_id}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="label">Joined:</span>
+                    <span className="value">
+                      {new Date(memberData.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </span>
+                  </div>
+                </div>
+                <p className="message">Thank you for being a verified member of the forum!</p>
+              </div>
+            ) : (
+              <div className="error">
+                <div className="icon-container">
+                  <span className="cross">✕</span>
+                </div>
+                {errorMessage && <h2 className="error-text">{errorMessage}</h2>}
+                <p className="message">It seems like the token is invalid or expired. Please check the link or contact support.</p>
+              </div>
+            )}
           </div>
         )}
       </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '50px',
-    fontFamily: 'Arial, sans-serif',
-  },
-  textSection: {
-    maxWidth: '400px',
-    textAlign: 'center',
-  },
-  verified: {
-    color: 'green',
-    fontWeight: 'bold',
-    padding: '20px',
-    border: '2px solid green',
-    borderRadius: '10px',
-    backgroundColor: '#e6ffe6',
-  },
-  error: {
-    color: 'red',
-    fontWeight: 'bold',
-    padding: '20px',
-    border: '2px solid red',
-    borderRadius: '10px',
-    backgroundColor: '#ffe6e6',
-  },
 };
 
 export default VerifyBadge;

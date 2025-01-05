@@ -37,7 +37,7 @@ nav .nav-links {
     font-size: 1rem;
     color: #fff;
     text-decoration: none;
-    /* transition: all ease; */
+    transition: all ease;
 }
 
 nav .nav-links:hover {
@@ -105,8 +105,7 @@ header .nav-btn {
         /* font-size: 2rem; */
         gap: 1.5rem;
         transition: .8s;
-        opacity: 0;
-        /* transform: translateY(-100vh); */
+        transform: translateY(-100vh);
         background-color: #005692;
         z-index: 100;
     }
@@ -117,8 +116,6 @@ header .nav-btn {
 
     header .nav-active {
         transform: none;
-        opacity: 1;
-
     }
 
     nav .nav-close-btn {

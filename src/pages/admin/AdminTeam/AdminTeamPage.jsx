@@ -17,15 +17,19 @@ const AdminPage = () => {
     designation: '',
     photo: null
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { AuthorizationToken } = useAuth();
   
   const fetchMembers = async () => {
       try {
+          setLoading(true);
           const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/team/all`);
           const data = await response.json();
           setMembers(data);
+          setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.error('Error fetching members:', error);
         } finally {
             setLoading(false);
@@ -53,6 +57,13 @@ const AdminPage = () => {
       return;
     }
 
+    if (formData.photo && formData.photo.size > 5 * 1024 * 1024) {
+      alert('File size too large. Maximum size is 5MB');
+      return;
+    }
+
+    setIsSubmitting(true);
+
     const data = new FormData();
     
     data.append('name', formData.name);
@@ -77,18 +88,20 @@ const AdminPage = () => {
         body: data
       });
 
+      const result = await response.json();
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to process request');
+        throw new Error(result.message || 'Failed to process request');
       }
 
-      const result = await response.json();
       alert(editingId ? 'Member updated successfully' : 'Member added successfully');
       await fetchMembers();
       resetForm();
     } catch (error) {
       console.error('Error:', error);
       alert(error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -181,14 +194,26 @@ const AdminPage = () => {
         </div>
 
         <div className="form-actions">
-          <button type="submit" className="btn btn-primary">
-            {editingId ? 'Update Member' : 'Add Member'}
+          <button 
+            type="submit" 
+            className={`btn btn-primary ${isSubmitting ? 'loading' : ''}`}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <span className="button-content">
+                <span className="btn-loader"></span>
+                {editingId ? 'Updating...' : 'Adding...'}
+              </span>
+            ) : (
+              editingId ? 'Update Member' : 'Add Member'
+            )}
           </button>
           {editingId && (
             <button 
               type="button" 
               className="btn btn-secondary" 
               onClick={resetForm}
+              disabled={isSubmitting}
             >
               Cancel
             </button>

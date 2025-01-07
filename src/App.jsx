@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
-import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // import './App.css'
 import Home from './pages/home/Home.jsx';
@@ -34,7 +33,6 @@ import _404 from './pages/404/404.jsx';
 
 const App = () => {
   return (
-    <HelmetProvider>
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
@@ -76,7 +74,6 @@ const App = () => {
         <Footer />
       </BrowserRouter>
     </AuthProvider>
-    </HelmetProvider>
   );
 };
 

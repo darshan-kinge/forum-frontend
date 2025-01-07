@@ -3,7 +3,7 @@ import { Suspense, lazy } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // import './App.css'
-const Home = lazy(() => import('./pages/home/Home.jsx'));
+import Home from './pages/home/Home.jsx';
 const Login = lazy(() => import('./pages/admin/login/Login.jsx'));
 const JoinUs = lazy(() => import('./pages/join-us/JoinUs.jsx'));
 const Team = lazy(() => import('./pages/team/Team.jsx'));

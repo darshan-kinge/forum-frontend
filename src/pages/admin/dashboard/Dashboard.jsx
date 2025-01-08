@@ -10,7 +10,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchMemberStats = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/members/stats`); // Adjust the URL based on your API structure
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/stats`); // Adjust the URL based on your API structure
         const data = await response.json();
         setMemberStats(data);
       } catch (error) {

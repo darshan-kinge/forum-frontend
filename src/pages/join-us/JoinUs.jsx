@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './JoinUs.css'; // Assuming you're using CSS modules
 import courseOptions from './courses.json';
 import { useNavigate } from 'react-router-dom';
@@ -6,9 +6,8 @@ import config from '../../config/config.js';
 import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
 
 const RegistrationForm = () => {
-
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false); // Loading state
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -17,16 +16,15 @@ const RegistrationForm = () => {
     prn: '',
     year: '',
     course: '',
-
   });
-
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-    
-  const handleSubmit = async(e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when form is submitted
     try {
       const formdata = {
         first_name: formData.first_name,
@@ -46,40 +44,32 @@ const RegistrationForm = () => {
         body: JSON.stringify(formdata),
       });
 
-      const data  = await res.json();
+      const data = await res.json();
 
-      
-      console.log(data);
-      // const token = data.member._id;
-      
       if (res.ok) {
         alert('Registration successful');
-
         const token = data.member._id;
-
         navigate(`/member/badge/${token}`);
-
       } else {
         alert(`${data.details}`);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Set loading to false after the request is complete
     }
-  }; 
+  };
 
   return (
     <div className='wrapper'>
-
       <HelmetComponent
         pageName="Join Us"
         description="Join MIT-WPU Science and Spirituality Forum"
         keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
       />
-
       <div className="registrationTitle">
         <h1>Registration Form</h1>
       </div>
-
       <div className='registrationContainer'>
         <form onSubmit={handleSubmit}>
           <div className='inputRow'>
@@ -146,7 +136,9 @@ const RegistrationForm = () => {
           </div>
 
           <div className='submitGroup'>
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Loading...' : 'Register'}
+            </button>
           </div>
         </form>
       </div>

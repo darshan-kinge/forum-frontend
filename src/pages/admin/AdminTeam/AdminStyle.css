@@ -37,11 +37,12 @@
     border-radius: 4px;
     cursor: pointer;
     margin-right: 0.5rem;
+    max-height: 100%;
 }
 
 .btn-primary {
-    background: #0077b5;
-color: white;
+  background: #0077b5;
+  color: white;
 }
 
 .btn-secondary {
@@ -62,6 +63,10 @@ color: white;
 .admin-table {
     width: 100%;
     border-collapse: collapse;
+}
+
+.form-actions {
+  max-height: 30px;
 }
 
 .admin-table th,
@@ -161,6 +166,7 @@ color: white;
   cursor: not-allowed;
 }
 
-.btn.loading {
+.btn.load {
   cursor: not-allowed;
+  max-height: 30px;
 }

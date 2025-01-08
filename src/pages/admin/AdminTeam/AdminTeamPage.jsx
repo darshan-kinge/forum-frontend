@@ -196,7 +196,7 @@ const AdminPage = () => {
         <div className="form-actions">
           <button 
             type="submit" 
-            className={`btn btn-primary ${isSubmitting ? 'loading' : ''}`}
+            className={`btn btn-primary ${isSubmitting ? 'load' : ''}`}
             disabled={isSubmitting}
           >
             {isSubmitting ? (

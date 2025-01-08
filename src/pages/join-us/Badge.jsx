@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFacebook, FaLinkedin, FaTwitter, FaDownload } from 'react-icons/fa';
 import './Badge.css';
 import { QRCodeCanvas } from 'qrcode.react'; 
 import html2canvas from 'html2canvas';  
 import { useParams } from 'react-router-dom';
 import HelmetComponent from '../../components/helmet/HelmetComponent';
+import Loader from '../../components/loader/Loader';
 
 const Badge = ({ memberData }) => {
   const { id } = useParams(); 
   const verificationLink = `${window.location.origin}/member/badge/verify/${id}`;  // Create verification URL
+  const [loading, setLoading] = useState(false);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    setLoading(true);
     const badgeElement = document.querySelector('.badge-wrapper');
-    html2canvas(badgeElement).then((canvas) => {
+    try {
+      const canvas = await html2canvas(badgeElement);
       const link = document.createElement('a');
       link.download = 'member_badge.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
-    });
+    } catch (error) {
+      console.error('Error downloading badge:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleShare = (platform) => {
@@ -54,63 +62,61 @@ const Badge = ({ memberData }) => {
     window.open(linkedinUrl, '_blank');
   };
 
+  if(loading) return <Loader />
+
   return (
     <div className='badge-container'>
-     
       <div className='badge-wrapper'>
-      <div className='badge'>
-        <div className='badge-header'>
-          <h1 className='badge-club-name'>MIT-WPU <br /> Science & Spirituality Forum</h1>
-          <img src="/logo-transparent.png" alt="Club Logo" className='badge-logo' />
-        </div>
-        <div className='badge-body'>
-          <h2 className='badge-user-name'>{memberData.name}</h2>
-          <p className='badge-member-id'>Member ID: {memberData.member_id}</p>
-          <p className='badge-designation'>Member</p>
-          <div className="badge-qr">
-            <QRCodeCanvas value={verificationLink} size={80} className='badge-qr-code' />
-            <p className='badge-qr-text'>Scan the QR code to verify your membership.</p>
+        <div className='badge'>
+          <div className='badge-header'>
+            <h1 className='badge-club-name'>MIT-WPU <br /> Science & Spirituality Forum</h1>
+            <img src="/logo-transparent.webp" alt="Club Logo" className='badge-logo' />
+          </div>
+          <div className='badge-body'>
+            <h2 className='badge-user-name'>{memberData.name}</h2>
+            <p className='badge-member-id'>Member ID: {memberData.member_id}</p>
+            <p className='badge-designation'>Member</p>
+            <div className="badge-qr">
+              <QRCodeCanvas value={verificationLink} size={80} className='badge-qr-code' />
+              <p className='badge-qr-text'>Scan the QR code to verify your membership.</p>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <div className='badge-text'>
         <h1 className='welcome-title'>Welcome, {memberData.name}!</h1>
-        <p className='welcome-content'>Thank you for joining the club. Your membership ID is {memberData.member_id}.</p>
+        <p className='welcome-content'>Thank you for joining MIT-WPU Science & Spirituality Forum. Your membership ID is <b>{memberData.member_id}</b>.</p>
         <p className='welcome-content'>This badge is your official proof of membership. Scan the QR code to verify your membership.</p>
 
-        {/* <div> */}
-          <div className='badge-buttons'>
-            <button className='badge-download-button' onClick={handleDownload}>
-              <FaDownload /> Download Badge
-            </button>
-            <button className='badge-linkedin-button' onClick={handleAddToLinkedIn}>
-              <FaLinkedin /> Add to LinkedIn Profile
+        <div className='badge-buttons'>
+          <button className='badge-download-button' onClick={handleDownload}>
+            <FaDownload /> Download Badge
           </button>
-          </div>
+          <button className='badge-linkedin-button' onClick={handleAddToLinkedIn}>
+            <FaLinkedin /> Add to LinkedIn Profile
+          </button>
+        </div>
 
-          <div className='badge-share-buttons'>
-            <div className="badge-share-buttons-text">
-              <p>Share your badge on social media:</p>
-            </div>
-            <div className="share-icons">
-              <button className='badge-share-button' onClick={() => handleShare('facebook')}>
-                <FaFacebook />
-              </button>
-              <button className='badge-share-button' onClick={() => handleShare('twitter')}>
-                <FaTwitter />
-              </button>
-              <button className='badge-share-button' onClick={() => handleShare('linkedin')}>
-                <FaLinkedin />
-              </button>
-            </div>
+        <div className='badge-share-buttons'>
+          <div className="badge-share-buttons-text">
+            <p>Share your badge on social media:</p>
           </div>
-        {/* </div> */}
-
+          <div className="share-icons">
+            <button className='badge-share-button' onClick={() => handleShare('facebook')}>
+              <FaFacebook />
+            </button>
+            <button className='badge-share-button' onClick={() => handleShare('twitter')}>
+              <FaTwitter />
+            </button>
+            <button className='badge-share-button' onClick={() => handleShare('linkedin')}>
+              <FaLinkedin />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Badge;

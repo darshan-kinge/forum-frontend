@@ -124,9 +124,6 @@
       font-size: 20px;
     }
 
-    .recent-blog-card {
-      max-width: 280px;
-    }
   }
   
   @media (max-width: 480px) {
@@ -152,7 +149,7 @@
     }
 
     .recent-blog-card {
-      max-width: 220px;
+      max-width: 300px;
     }
   }
   

@@ -124,6 +124,10 @@
       font-size: 20px;
     }
 
+    .recent-blog-card {
+      max-width: 300px;
+    }
+
   }
   
   @media (max-width: 480px) {

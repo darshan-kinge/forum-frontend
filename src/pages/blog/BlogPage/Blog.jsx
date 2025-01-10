@@ -56,7 +56,7 @@ const Blog = () => {
           Authorization: AuthorizationToken
         }
       });
-      navigate('/blog');
+      navigate('/blogs');
     };
 
     const truncateSummary = (summary) => {
@@ -108,7 +108,7 @@ const Blog = () => {
                 <h2 className='recent-blog-title'>Recent Blogs</h2>
                 <div className="recent-blog-list">
                     {allBlogs.map((blog) => (
-                        <div key={blog._id} className="recent-blog-card">
+                        <div key={blog._id} className="blog-card recent-blog-card">
                             <BlogCard
                             id={blog._id}
                             title={blog.title}

@@ -57,7 +57,7 @@ const BlogForm = ({ editMode = false, postData = {} }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        editMode ? `${config.serverUrl}/api/${config.serverUrl}/blog/edit/${blogId}` : `${config.serverUrl}/api/${config.serverUrl}/blog/create`, {
+        editMode ? `${config.serverUrl}/api/${config.apiVersion}/blog/edit/${blogId}` : `${config.serverUrl}/api/${config.apiVersion}/blog/create`, {
         method: editMode ? 'PUT' : 'POST',
         body: formData,
         headers: {

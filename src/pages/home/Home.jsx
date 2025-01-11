@@ -2,19 +2,22 @@ import React, { useEffect, useState } from 'react'
 import './Home.css'
 import { Link } from 'react-router-dom'
 import CommBtn from '../../components/btn/community-btn/CommBtn'
-import ImageMarquee from '../../components/ImageMarquee/ImageMarquee';
+import config from '../../config/config.js'
 import HelmetComponent from '../../components/helmet/HelmetComponent';
+import Loader from '../../components/loader/Loader.jsx'
 
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
+  const [rows, setRows] = useState([[], [], []]);
   const [progress, setProgress] = useState(0);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2500); // Adjust time as needed
+    // // Simulate loading time
+    // const timer = setTimeout(() => {
+    //   setLoading(false);
+    // }, 2500); // Adjust time as needed
 
     // Handle scroll animations
     const handleScroll = () => {
@@ -29,27 +32,75 @@ const Home = () => {
 
     window.addEventListener('scroll', handleScroll);
     handleScroll();
-
-    const interval = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 100 : prevProgress + 10));
-    }, 500);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearTimeout(timer);
-      clearInterval(interval);
+      // clearTimeout(timer);
+      // clearInterval(interval);
     };
   }, []);
+
+  useEffect(() => {
+    const preloadImages = async (imageUrls) => {
+      const loadImage = (url) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = url;
+          img.onload = () => resolve(url);
+          img.onerror = () => reject();
+        });
+      };
+
+      try {
+        await Promise.all(imageUrls.map(img => loadImage(img.url)));
+      } catch (error) {
+        console.error('Error preloading images:', error);
+      }
+    };
+
+    const fetchImages = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
+            const data = await response.json();
+            
+            if (data && data.length > 0) {
+                // Preload images before showing them
+                await preloadImages(data);
+                
+                setImages(data);
+                const rowSize = Math.ceil(data.length / 3);
+                setRows([
+                    data.slice(0, rowSize),
+                    data.slice(rowSize, rowSize * 2),
+                    data.slice(rowSize * 2)
+                ]);
+            }
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching images:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    fetchImages();
+}, []);
+
+  if (!images.length || rows.some(row => row.length === 0)) {
+    return null;
+  }
+
+  if (loading) return <Loader />;
 
   return (
     <>
       {/* Preloader */}
-      <div className={`preloader ${!loading ? 'fade-out' : ''}`}>
+      {/* <div className={`preloader ${!loading ? 'fade-out' : ''}`}>
         <div className="preloader-text">
           <h2>Welcome to,</h2>
           <h1>Science and Spirituality Forum</h1>
         </div>
-      </div>
+      </div> */}
 
       <HelmetComponent
         pageName='Home'
@@ -131,7 +182,81 @@ const Home = () => {
       </section>
 
       <section className="gallery-preview fade-in">
-        <ImageMarquee />
+        
+      <div className="marquee-container">
+            {/* Row 1 - Left to Right */}
+            <div className="marquee-track marquee-right">
+                {rows[0].map((image) => (
+                    <div key={image._id} className="marquee-item">
+                        <img 
+                            src={image.url} 
+                            alt="Gallery" 
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </div>
+                ))}
+                {rows[0].map((image) => (
+                    <div key={`duplicate-${image._id}`} className="marquee-item">
+                        <img 
+                            src={image.url} 
+                            alt="Gallery"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </div>
+                ))}
+            </div>
+
+            {/* Row 2 - Right to Left */}
+            <div className="marquee-track marquee-left">
+                {rows[1].map((image) => (
+                    <div key={image._id} className="marquee-item">
+                        <img 
+                            src={image.url} 
+                            alt="Gallery"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </div>
+                ))}
+                {rows[1].map((image) => (
+                    <div key={`duplicate-${image._id}`} className="marquee-item">
+                        <img 
+                            src={image.url} 
+                            alt="Gallery"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </div>
+                ))}
+            </div>
+
+            {/* Row 3 - Left to Right */}
+            <div className="marquee-track marquee-right">
+              {rows[2].map((image) => (
+                <div key={image._id} className="marquee-item">
+                  <img 
+                    src={image.url} 
+                    alt="Gallery"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ))}
+
+              {rows[2].map((image) => (
+                <div key={`duplicate-${image._id}`} className="marquee-item">
+                  <img 
+                    src={image.url} 
+                    alt="Gallery"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ))}
+            </div>
+        </div>
       </section>
 
       {/* Leadership Messages */}

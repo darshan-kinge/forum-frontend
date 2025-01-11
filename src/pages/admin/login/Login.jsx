@@ -72,6 +72,10 @@ const Login = () => {
     }
   }
 
+  if (isAuthenticated) {
+    return window.location.href = "/admin/dashboard";
+  }
+
   return (
     <div className="login-container">
 

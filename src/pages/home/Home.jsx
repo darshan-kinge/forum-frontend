@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import CommBtn from '../../components/btn/community-btn/CommBtn'
 import config from '../../config/config.js'
 import HelmetComponent from '../../components/helmet/HelmetComponent';
-import Loader from '../../components/loader/Loader.jsx'
+import Loader from '../../components/loader/Loader';
+import Preloader from '../../components/preloader/Preloader';
 
 
 const Home = () => {
@@ -14,10 +15,6 @@ const Home = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    // // Simulate loading time
-    // const timer = setTimeout(() => {
-    //   setLoading(false);
-    // }, 2500); // Adjust time as needed
 
     // Handle scroll animations
     const handleScroll = () => {
@@ -40,57 +37,48 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const preloadImages = async (imageUrls) => {
-      const loadImage = (url) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = url;
-          img.onload = () => resolve(url);
-          img.onerror = () => reject();
-        });
-      };
-
+    const fetchImages = async () => {
+      setLoading(true);
       try {
-        await Promise.all(imageUrls.map(img => loadImage(img.url)));
+        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+          // Transform image URLs to reduce quality
+          const transformedImages = data.map(image => ({
+            ...image,
+            url: `${image.url}?q_auto:low` // Append quality parameter to the URL
+          }));
+
+          // Preload images
+          transformedImages.forEach(image => {
+            const img = new Image();
+            img.src = image.url; // Preload the image
+          });
+
+          setImages(transformedImages);
+          const rowSize = Math.ceil(transformedImages.length / 3);
+          setRows([
+            transformedImages.slice(0, rowSize),
+            transformedImages.slice(rowSize, rowSize * 2),
+            transformedImages.slice(rowSize * 2)
+          ]);
+        }
       } catch (error) {
-        console.error('Error preloading images:', error);
+        console.error('Error fetching images:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    const fetchImages = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
-            const data = await response.json();
-            
-            if (data && data.length > 0) {
-                // Preload images before showing them
-                await preloadImages(data);
-                
-                setImages(data);
-                const rowSize = Math.ceil(data.length / 3);
-                setRows([
-                    data.slice(0, rowSize),
-                    data.slice(rowSize, rowSize * 2),
-                    data.slice(rowSize * 2)
-                ]);
-            }
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching images:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-    
     fetchImages();
-}, []);
+  }, []);
+
+  if (loading) return <Preloader loading={loading} />;
 
   if (!images.length || rows.some(row => row.length === 0)) {
     return null;
   }
-
-  if (loading) return <Loader />;
 
   return (
     <>

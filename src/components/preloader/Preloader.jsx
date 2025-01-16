@@ -6,20 +6,13 @@ const Preloader = ({ loading }) => {
 
   useEffect(() => {
     if (!loading) {
-      // Start fade out animation after a delay
-      const delayTimer = setTimeout(() => {
-        setFadeOut(true);
-      }, 500); // Delay before starting fade out (adjust as needed)
-
+      // Start fade out animation after loading is set to false
+      setFadeOut(true);
       // Remove the preloader after the fade-out animation is complete
-      const fadeOutTimer = setTimeout(() => {
+      const timer = setTimeout(() => {
         setFadeOut(false);
-      }, 1100); // Match this duration with the CSS animation duration (600ms fade + 500ms delay)
-
-      return () => {
-        clearTimeout(delayTimer);
-        clearTimeout(fadeOutTimer);
-      };
+      }, 500); // Match this duration with the CSS animation duration
+      return () => clearTimeout(timer);
     }
   }, [loading]);
 

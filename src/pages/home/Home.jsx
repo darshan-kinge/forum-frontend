@@ -50,12 +50,6 @@ const Home = () => {
             url: `${image.url}?q_auto:low` // Append quality parameter to the URL
           }));
 
-          // Preload images
-          transformedImages.forEach(image => {
-            const img = new Image();
-            img.src = image.url; // Preload the image
-          });
-
           setImages(transformedImages);
           const rowSize = Math.ceil(transformedImages.length / 3);
           setRows([

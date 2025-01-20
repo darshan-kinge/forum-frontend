@@ -17,15 +17,15 @@ const Home = () => {
   useEffect(() => {
 
     // Handle scroll animations
-    const handleScroll = () => {
-      const elements = document.querySelectorAll('.fade-in');
-      elements.forEach(element => {
-        const position = element.getBoundingClientRect();
-        if (position.top < window.innerHeight - 100) {
-          element.classList.add('visible');
-        }
-      });
-    };
+    // const handleScroll = () => {
+    //   const elements = document.querySelectorAll('.');
+    //   elements.forEach(element => {
+    //     const position = element.getBoundingClientRect();
+    //     if (position.top < window.innerHeight - 100) {
+    //       element.classList.add('visible');
+    //     }
+    //   });
+    // };
 
     window.addEventListener('scroll', handleScroll);
     handleScroll();
@@ -124,38 +124,38 @@ const Home = () => {
         </div>
       </section>
 
-      <section className='about fade-in'>
-        <div className='about-text fade-in'>
+      <section className='about '>
+        <div className='about-text '>
           <h3>about the</h3>
           <h1>MIT-WPU Science and Spirituality Forum</h1>
           <p>
           At <b>MIT-WPU Science and Spirituality Forum</b>, we bring together the knowledge of science and the wisdom of spirituality. Through engaging events and discussions, we create a unique space where researchers and spiritual seekers collaborate to explore life's deepest questions, fostering both intellectual and personal growth. MIT-WPU Science and Spirituality Forum creates magic when lab work meets inner wisdom. Our community explores life's biggest questions through both scientific discovery and spiritual understanding.
           </p>
         </div>
-        <div className='about-image fade-in'>
+        <div className='about-image '>
           <img src='https://res.cloudinary.com/dotbsdfdo/image/upload/v1727069930/gallery/ebifkj1nb54kl3cs7efe.jpg' alt='Science and Spirituality Forum' />
         </div>
       </section>
 
       {/* Vision and Mission */}
-      <section className="vision-mission fade-in">
+      <section className="vision-mission ">
         <div className="vision-mission-container">
           <div className="cards-container">
-            <div className="vision-card fade-in">
+            <div className="vision-card ">
               <h3>Our Vision</h3>
               <p>
                 Our vision reaches beyond textbooks and laboratories. We're building bridges between the questions science asks and the answers spirituality offers. Together, these powerful forces light the way toward personal growth and global harmony - the cornerstone of MIT World Peace University's mission for World Peace.
               </p>
             </div>
 
-            <div className="mission-card fade-in">
+            <div className="mission-card ">
               <h3>Our Mission</h3>
               <p>
                 At MIT-WPU Science and Spirituality Forum, we blend scientific discovery with timeless wisdom, creating spaces where breakthrough research meets profound insights. We help you balance professional excellence with inner peace, exploring life's deepest questions through rational thinking and spiritual understanding.            
               </p>
             </div>
 
-            <div className="mission-card fade-in">
+            <div className="mission-card ">
               <h3>Our Objective</h3>
               <p>Our objective is to bridge the gap between science and spirituality, fostering global harmony and holistic development. We aim to inspire transformative learning, promote collaborative research, and empower individuals to balance intellectual curiosity with inner wisdom for a more peaceful and enlightened world.</p>
             </div>
@@ -163,7 +163,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="gallery-preview fade-in">
+      <section className="gallery-preview ">
         
       <div className="marquee-container">
             {/* Row 1 - Left to Right */}
@@ -242,7 +242,7 @@ const Home = () => {
       </section>
 
       {/* Leadership Messages */}
-      <section className="about-us fade-in">
+      <section className="about-us ">
         <div className="about-container">
           {/* Leadership Messages */}
           <div className="leadership-section">
@@ -284,7 +284,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="join-us fade-in">
+      <section className="join-us ">
         <div className="join-us-container">
           <h2>Join Us</h2>
           <h3>
@@ -304,9 +304,9 @@ const Home = () => {
           <p>
             Together, let’s create a future where innovation and introspection go hand in hand.
           </p>
-          <Link to="/join-us" className="join-us-btn fade-in">Join Us</Link>
+          <Link to="/join-us" className="join-us-btn ">Join Us</Link>
         </div>
-        <div className='join-us-image fade-in'>
+        <div className='join-us-image '>
           <img src="meditate.gif" alt="" />
         </div>
       </section>

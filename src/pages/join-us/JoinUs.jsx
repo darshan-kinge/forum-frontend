@@ -27,10 +27,10 @@ const RegistrationForm = () => {
     setLoading(true); // Set loading to true when form is submitted
     try {
       const formdata = {
-        first_name: formData.first_name,
-        last_name: formData.last_name,
+        first_name: formData.first_name.charAt(0).toUpperCase() + formData.first_name.slice(1),
+        last_name: formData.last_name.charAt(0).toUpperCase() + formData.last_name.slice(1),
         gender: formData.gender,
-        email: formData.email,
+        email: formData.email.toLowerCase(),
         prn: Number(formData.prn),
         course: formData.course,
         year: formData.year,

@@ -6,6 +6,7 @@ import config from '../../config/config.js'
 import HelmetComponent from '../../components/helmet/HelmetComponent';
 import Loader from '../../components/loader/Loader';
 import Preloader from '../../components/preloader/Preloader';
+import ReactPlayer from 'react-player';
 
 
 const Home = () => {
@@ -88,9 +89,15 @@ const Home = () => {
         <CommBtn title={'Join Community'} to={'/join-us'} />
 
         <div className="hero-video">
-          <video loop autoPlay muted preload="auto">
-            <source src="/bg_video_compressed.mp4" type="video/mp4" />
-          </video>
+          <ReactPlayer 
+            url="/bg_video_compressed.mp4" 
+            playing 
+            loop 
+            muted 
+            width="80%" 
+            height="auto" 
+            controls={false}
+          />
         </div>
       </section>
 
@@ -221,7 +228,6 @@ const Home = () => {
               <div className="leader-card">
                 <div className="leader-image-container">
                   <img
-                    // src="https://mitwpu.edu.in/assets/frontend/images/vishwanath-karad.jpg"
                     src='vishwanath-karad-sir.jpg'
                     alt="University Founder"
                     className="leader-image" />
@@ -273,7 +279,7 @@ const Home = () => {
             <li>Access exclusive resources, workshops, and insights.</li>
           </ul>
           <p>
-            Together, let's create a future where innovation and introspection go hand in hand.
+            Together, let’s create a future where innovation and introspection go hand in hand.
           </p>
           <Link to="/join-us" className="join-us-btn ">Join Us</Link>
         </div>

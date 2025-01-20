@@ -39,7 +39,7 @@ const EventCard = ({ event }) => {
                         year: 'numeric'
                     })}
                 </p>
-                <p className="event-card__description">{truncateDescription(event.description)}</p>
+                <p className="event-card__description" dangerouslySetInnerHTML={{ __html: truncateDescription(event.description) }} />
             </div>
         </div>
     );

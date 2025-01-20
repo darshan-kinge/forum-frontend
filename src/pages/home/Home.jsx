@@ -221,7 +221,8 @@ const Home = () => {
               <div className="leader-card">
                 <div className="leader-image-container">
                   <img
-                    src="https://mitwpu.edu.in/assets/frontend/images/vishwanath-karad.jpg"
+                    // src="https://mitwpu.edu.in/assets/frontend/images/vishwanath-karad.jpg"
+                    src='vishwanath-karad-sir.jpg'
                     alt="University Founder"
                     className="leader-image" />
                 </div>
@@ -237,7 +238,7 @@ const Home = () => {
               <div className="leader-card">
                 <div className="leader-image-container">
                   <img
-                    src="https://www.vanjariworld.com/wp-content/uploads/2018/04/Rahul-V-Karad.jpg"
+                    src='rahul-karad-sir.jpg'
                     alt="Executive President"
                     className="leader-image" />
                 </div>

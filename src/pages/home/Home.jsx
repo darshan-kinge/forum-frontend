@@ -15,28 +15,6 @@ const Home = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-
-    // Handle scroll animations
-    // const handleScroll = () => {
-    //   const elements = document.querySelectorAll('.');
-    //   elements.forEach(element => {
-    //     const position = element.getBoundingClientRect();
-    //     if (position.top < window.innerHeight - 100) {
-    //       element.classList.add('visible');
-    //     }
-    //   });
-    // };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      // clearTimeout(timer);
-      // clearInterval(interval);
-    };
-  }, []);
-
-  useEffect(() => {
     const fetchImages = async () => {
       setLoading(true);
       try {

@@ -54,14 +54,6 @@ const Home = () => {
 
   return (
     <>
-      {/* Preloader */}
-      {/* <div className={`preloader ${!loading ? 'fade-out' : ''}`}>
-        <div className="preloader-text">
-          <h2>Welcome to,</h2>
-          <h1>Science and Spirituality Forum</h1>
-        </div>
-      </div> */}
-
       <HelmetComponent
         pageName='Home'
         description='MIT-WPU Science and Spirituality Forum is a unique initiative that seeks to bridge the gap between scientific knowledge and spiritual wisdom.'
@@ -96,7 +88,7 @@ const Home = () => {
         <CommBtn title={'Join Community'} to={'/join-us'} />
 
         <div className="hero-video">
-          <video loop autoPlay muted>
+          <video loop autoPlay muted preload="auto">
             <source src="/bg_video_compressed.mp4" type="video/mp4" />
           </video>
         </div>
@@ -280,7 +272,7 @@ const Home = () => {
             <li>Access exclusive resources, workshops, and insights.</li>
           </ul>
           <p>
-            Together, let’s create a future where innovation and introspection go hand in hand.
+            Together, let's create a future where innovation and introspection go hand in hand.
           </p>
           <Link to="/join-us" className="join-us-btn ">Join Us</Link>
         </div>

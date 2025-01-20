@@ -148,10 +148,10 @@ const EventDetailsPage = () => {
                     <div className="event-info">
                         <div className="event-description">
                             <h2>About the Event</h2>
-                            <p>{event.description}</p>
+                            <p dangerouslySetInnerHTML={{ __html: event.description}}></p>
                         </div>
 
-                        {event.eventType === 'upcoming' && (
+                        {event.eventType === 'upcoming' && !(event.buttonText && event.buttonLink === "undefined") && (
                             <div className="event-action">
                                 <a 
                                     href={event.buttonLink}

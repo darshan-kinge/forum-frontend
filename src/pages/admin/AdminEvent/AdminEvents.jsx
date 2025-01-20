@@ -5,6 +5,9 @@ import Table from './AdminEventsTable/AdminEventsTable.jsx';
 import './AdminEvent.css';
 import { validateFileSize, formatFileSize, MAX_FILE_SIZE } from '../../../utils/filesizeValidation.js';
 import config from '../../../config/config.js';
+import Loader from '../../../components/loader/Loader.jsx';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const AdminEventsPage = () => {
     const [events, setEvents] = useState([]);
@@ -22,8 +25,11 @@ const AdminEventsPage = () => {
         coverImage: null,
         buttonText: '',
         buttonLink: '',
-        images: []
+        images: [],
+        isButtonEnabled: false
     });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         fetchEvents();
@@ -43,7 +49,8 @@ const AdminEventsPage = () => {
                 coverImage: null,
                 buttonText: editingEvent.buttonText || '',
                 buttonLink: editingEvent.buttonLink || '',
-                images: []
+                images: [],
+                isButtonEnabled: !!(editingEvent.buttonText && editingEvent.buttonLink)
             });
         }
     }, [editingEvent]);
@@ -62,7 +69,8 @@ const AdminEventsPage = () => {
             coverImage: null,
             buttonText: '',
             buttonLink: '',
-            images: []
+            images: [],
+            isButtonEnabled: false
         });
         setEditingEvent(null);
     };
@@ -81,7 +89,8 @@ const AdminEventsPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setIsSubmitting(true);
+
         try {
             const data = new FormData();
 
@@ -95,11 +104,8 @@ const AdminEventsPage = () => {
             data.append('eventDate', formData.eventDate);
 
             if (formData.eventType === 'upcoming') {
-                if (!formData.buttonText || !formData.buttonLink) {
-                    throw new Error('Button text and link are required for upcoming events');
-                }
-                data.append('buttonText', formData.buttonText);
-                data.append('buttonLink', formData.buttonLink);
+                data.append('buttonText', formData.buttonText || undefined);
+                data.append('buttonLink', formData.buttonLink || undefined);
             }
 
             if (formData.coverImage) {
@@ -142,6 +148,8 @@ const AdminEventsPage = () => {
         } catch (error) {
             console.error('Error:', error);
             alert(error.message);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -284,17 +292,14 @@ const AdminEventsPage = () => {
                                     type="text"
                                     value={formData.buttonText}
                                     onChange={(e) => setFormData({...formData, buttonText: e.target.value})}
-                                    required
                                 />
                             </div>
-
                             <div className="form-group">
                                 <label>Button Link</label>
                                 <input
                                     type="url"
                                     value={formData.buttonLink}
                                     onChange={(e) => setFormData({...formData, buttonLink: e.target.value})}
-                                    required
                                 />
                             </div>
                         </>
@@ -302,12 +307,21 @@ const AdminEventsPage = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Description</label>
-                    <textarea
+                    <label>Event Description</label>
+                    <ReactQuill 
                         value={formData.description}
-                        onChange={(e) => setFormData({...formData, description: e.target.value})}
-                        required
-                        rows={4}
+                        onChange={(value) => setFormData({ ...formData, description: value })}
+                        modules={{
+                            toolbar: [
+                                [{ 'header': [1, 2, false] }],
+                                ['bold', 'italic', 'underline'],
+                                ['link', 'image'],
+                                ['clean'] // remove formatting button
+                            ]
+                        }}
+                        formats={[
+                            'header', 'bold', 'italic', 'underline', 'link', 'image'
+                        ]}
                     />
                 </div>
 
@@ -366,8 +380,8 @@ const AdminEventsPage = () => {
                 )}
 
                 <div className="form-actions">
-                    <button type="submit" className="submit-button">
-                        {editingEvent ? 'Update Event' : 'Create Event'}
+                    <button type="submit" className="submit-button" disabled={isSubmitting}>
+                        {isSubmitting ? (editingEvent ? 'Updating...' : 'Creating...') : (editingEvent ? 'Update Event' : 'Create Event')}
                     </button>
                 </div>
             </form>

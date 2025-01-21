@@ -1,28 +1,40 @@
-import {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import './Gallery.css'
 import config from '../../config/config.js';
 import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
+import Loader from '../../components/loader/Loader.jsx';
+
 const Gallery = () => {
   const [allImages, setAllImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchImages = async () => {
         try {
             const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
             const data = await response.json();
-            setAllImages(data);
+            
+            // Transform image URLs to reduce quality
+            const transformedImages = data.map(image => ({
+              ...image,
+              url: image.url.replace('/upload/', '/upload/q_auto/') // Append quality parameter to the URL
+            }));
+
+            setAllImages(transformedImages);
             
         } catch (error) {
             console.error('Error fetching images:', error);
+        } finally {
+            setLoading(false);
         }
     };
     
     fetchImages();
   }, []);
 
+  if (loading) return <Loader />;
 
-  
   const openLightbox = (image) => {
     setSelectedImage(image);
   };

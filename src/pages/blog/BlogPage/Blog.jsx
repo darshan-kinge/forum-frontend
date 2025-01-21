@@ -24,7 +24,6 @@ const Blog = () => {
           throw new Error('Blog not found');
         }
         const data = await response.json();
-        console.log(data);
         setBlog(data);
         setLoading(false);
       } catch (err) {
@@ -50,13 +49,21 @@ const Blog = () => {
     }, [slug]);
 
     const deleteBlog = async (id) => {
-      await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/delete/${id}`, {
-        method: 'DELETE', 
-        headers: {
-          Authorization: AuthorizationToken
+      const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
+      if (confirmDelete) {
+        try {
+          await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+              Authorization: AuthorizationToken
+            }
+          });
+          setAllBlogs(allBlogs.filter(blog => blog._id !== id));
+          navigate('/blogs');
+        } catch (error) {
+          console.error('Error deleting blog:', error);
         }
-      });
-      navigate('/blogs');
+      }
     };
 
     const truncateSummary = (summary) => {
@@ -86,10 +93,12 @@ const Blog = () => {
             {blog && (
               <>
                 <h1 className="blog-title">{blog.title}</h1>
-
-                <div className="blog-content-wrapper">
+                <div className="blog-content">
+                  <div className="blog-content-wrapper">
                     <img src={blog.image} alt={blog.title} className="blog-image" />
-
+                    <p className="blog-dates">
+                      Created At: {new Date(blog.createdAt).toLocaleDateString()} | Updated At: {new Date(blog.updatedAt).toLocaleDateString()}
+                    </p>
                     {user?.isAdmin && (
                         <div className="admin-btn">
                             <Link to={`/admin/blog/edit/${blog.slug}`} className="edit-link">Edit</Link>
@@ -99,6 +108,7 @@ const Blog = () => {
                     <div className="blog-content"
                       dangerouslySetInnerHTML={{ __html: blog.content }}
                     ></div>
+                  </div>
                 </div>
               </>
             )}
@@ -115,6 +125,7 @@ const Blog = () => {
                             slug={blog.slug}
                             image={blog.image}
                             summary={blog.summary}
+                            onDelete={() => deleteBlog(blog._id)}
                             />
                         </div>
                     )).slice(0, 3)}

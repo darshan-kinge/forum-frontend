@@ -67,6 +67,19 @@
     margin: 1.5rem 0;
 }
 
+/* Media Queries */
+@media (max-width: 768px) {
+    .team-title h1 {
+        font-size: 2.5rem; /* Adjusted for tablet */
+    }
+}
+
+@media (max-width: 480px) {
+    .team-title h1 {
+        font-size: 2rem; /* Adjusted for mobile */
+    }
+}
+
 @media screen and (max-width: 480px) {
     .team-section__title {
         text-align: center;

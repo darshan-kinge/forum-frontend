@@ -354,6 +354,7 @@ const AdminEventsPage = () => {
                         <label>
                             Event Images 
                             {editingEvent && " (Leave empty to keep current images)"}
+                            <span className="file-limit">Max size: {formatFileSize(MAX_FILE_SIZE)}</span>
                         </label>
                         <input
                             type="file"

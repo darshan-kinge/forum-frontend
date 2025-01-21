@@ -40,7 +40,7 @@ const BlogPage = () => {
         keywords='MIT-WPU, Science and Spirituality Forum, SNSF, Science, Spirituality, Forum, MIT, WPU, Vishwanath Karad, Rahul Karad'
       />
 
-      <h1 className="page-title">Blog</h1>
+      <h1 className="page-title">Blogs</h1>
       <div className="blog-grid">
         { blogs.length === 0 ? <div className="error-message">No blogs found</div> :
           blogs.map((blog) => (

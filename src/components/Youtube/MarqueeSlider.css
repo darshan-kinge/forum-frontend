@@ -1,0 +1,154 @@
+/* Styles for MarqueeSlider component */
+.video-marquee-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: hidden;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    white-space: nowrap; /* Prevent line breaks */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    position: relative; /* Positioning for the View All button */
+}
+
+.marquee-title {
+    font-size: 2rem; /* Title size */
+    text-align: center;
+    /* margin-bottom: 1rem; */
+    color: white; /* Adjust color as needed */
+}
+
+.title {
+  margin-bottom: 2rem;
+}
+
+.video-title {
+    font-size: 0.8rem; /* Adjust font size for titles */
+    color: #fff; /* Set text color */
+    text-align: center; /* Center the text */
+    margin-top: 0.5rem; /* Space above the title */
+}
+
+/* View All Button */
+.view-all {
+    position: absolute; /* Positioning */
+    bottom: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    background-color: var(--bg-color); /* Background color */
+    color: white; /* Text color */
+    padding: 0.5rem 1rem; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+.view-all:hover {
+    background-color: darken(var(--bg-color), 10%); /* Darken on hover */
+}
+
+/* Automatic scrolling animation */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%); /* Scroll to the left */
+    }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .marquee-title {
+        font-size: 2.5rem; /* Smaller title for mobile */
+    }
+
+    .video-title {
+        font-size: 0.8rem; /* Smaller font size for mobile */
+    }
+
+    .view-all {
+        font-size: 0.8rem; /* Smaller text for mobile */
+        bottom: 5px; /* Adjust position for mobile */
+        right: 5px; /* Adjust position for mobile */
+    }
+
+    .video-marquee-track {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-y: hidden;
+    }
+
+    .video-marquee-container::-webkit-scrollbar {
+      display: none; /* Hide scrollbar */
+    }
+  
+    .video-marquee-container {
+      scrollbar-width: none; /* Hide scrollbar */
+  }
+  
+
+    .video-marquee-item {
+      flex: 0 0 auto; /* Prevent items from shrinking */
+      overflow-y: hidden;
+    }
+
+    .video-marquee-container {
+      -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 480px) {
+    .marquee-title {
+        font-size: 1.2rem; /* Even smaller title for very small screens */
+    }
+
+    .video-title {
+        font-size: 0.7rem; /* Even smaller font size for very small screens */
+    }
+
+    .view-all {
+        font-size: 0.7rem; /* Even smaller text for very small screens */
+    }
+
+
+}
+
+.video-marquee-track {
+    gap: 2rem;
+    justify-content: center;
+    width: 100%;
+    display: inline-flex; /* Use inline-flex to keep items in a row */
+}
+
+.video-marquee-item {
+    /* background: white; */
+    display: inline-block; /* Ensure items are inline */
+    width: 350px; /* Set a smaller width for the items */
+    height: auto; /* Allow height to adjust automatically */
+    margin-right: 10px; 
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.video-marquee-item:hover {
+    transform: scale(1.01); /* Slightly enlarge the item */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+}
+
+.video-marquee-item img {
+    width: 100%; /* Ensure the image takes the full width of the item */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the area */
+}
+
+.video-marquee-title {
+    padding: 0 2.5rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.3rem;
+}
+
+.video-marquee-item a {
+    margin: 0;
+    padding: 0;
+}

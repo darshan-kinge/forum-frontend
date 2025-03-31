@@ -44,7 +44,7 @@ const BlogPage = () => {
       <div className="blog-grid">
         { blogs.length === 0 ? <div className="error-message">No blogs found</div> :
           blogs.map((blog) => (
-          <div className="blog-card" key={blog._id}>
+          // <div className='blog-page-cards' key={blog._id}>
             <BlogCard
               id={blog._id}
               title={blog.title}
@@ -52,7 +52,7 @@ const BlogPage = () => {
               image={blog.image}
               summary={blog.summary}
             />
-          </div>
+          // </div>
         ))}
       </div>
     </div>

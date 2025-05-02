@@ -189,6 +189,14 @@ section.hero {
         letter-spacing: 1px;
     }
 
+    .hero-video {
+      width: 100%;
+    }
+
+    .hero-video video {
+      width: 100%;
+    }
+
     /* Optimize leader cards for mobile */
     .leadership-messages {
         padding: 0.5rem;
@@ -245,6 +253,10 @@ section.hero {
 @media screen and (max-width: 380px) {
     .hero-title-mobile h2 {
         font-size: 1.2rem;
+    }
+
+    .hero-video video {
+      width: 100%;
     }
 
     .hero-title-mobile p {
@@ -824,7 +836,6 @@ img {
   /* Hero video adjustments */
   .hero-video {
     margin: 2rem 0;
-    padding: 0 1rem;
   }
 
   .hero-video video {

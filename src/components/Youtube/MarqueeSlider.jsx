@@ -22,25 +22,42 @@ const MarqueeSlider = ({ playlistId }) => {
   
     return (
         <>
-            <div className="video-marquee-title">
-                <h2 className="marquee-title">Sanvad - The Podcast Series</h2>
+            <div className="podcast-section-title">
+                <h2 className="podcast-title">Sanvad - The Podcast Series</h2>
             </div>
-            <div className="video-marquee-container">
-                <div className="video-marquee-track">
-                    {videos.map(video => (
-                    <div key={video.id} className="video-marquee-item">
-                    <a href={`https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}`} target="_blank" rel="noopener noreferrer">
-                        <img 
-                        src={video.snippet.thumbnails.maxres ? video.snippet.thumbnails.maxres.url : video.snippet.thumbnails.high.url} 
-                        alt={video.snippet.title} 
-                        />
-                        {/* <p className="video-title">{video.snippet.title}</p> */}
-                    </a>
+            <div className="podcast-grid-container">
+                {videos.map((video, idx) => (
+                    <div key={video.id} className="podcast-card-new">
+                        <a
+                            href={`https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="podcast-link-new"
+                        >
+                            <div className="podcast-thumb-area">
+                                <img
+                                    src={video.snippet.thumbnails.maxres ? video.snippet.thumbnails.maxres.url : video.snippet.thumbnails.high.url}
+                                    alt={video.snippet.title}
+                                    className="podcast-thumbnail-new"
+                                />
+                                <span className="podcast-badge">EP {idx + 1}</span>
+                                <span className="podcast-play-btn">
+                                    <svg width="32" height="32" viewBox="0 0 32 32">
+                                        <circle cx="16" cy="16" r="16" fill="rgba(0,0,0,0.55)" />
+                                        <polygon points="13,10 24,16 13,22" fill="#fff" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div className="podcast-info-new">
+                                <div className="podcast-title-new">{video.snippet.title}</div>
+                                <div className="podcast-desc-new">
+                                    {video.snippet.description ? video.snippet.description.slice(0, 80) + (video.snippet.description.length > 80 ? '...' : '') : ''}
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 ))}
             </div>
-
-      </div>
         </>
     );
   };

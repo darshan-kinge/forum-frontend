@@ -5,6 +5,7 @@ const apiVersion = import.meta.env.VITE_API_VERSION || 'v1';
 
 const api = axios.create({
   baseURL: `${url}/api/${apiVersion}`,
+  timeout: 30000, // 30 seconds for Vercel cold starts
   headers: {
     'Content-Type': 'application/json',
   },

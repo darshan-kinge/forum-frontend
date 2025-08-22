@@ -6,7 +6,6 @@ const serverUrl = config.serverUrl || 'http://localhost:5000';
 // Create axios instance with default configuration
 const api = axios.create({
   baseURL: `${serverUrl}/api/${config.apiVersion}`,
-  timeout: 10000, // 10 seconds timeout
   headers: {
     'Content-Type': 'application/json',
   },

@@ -5,7 +5,7 @@ import './Login.css'
 import config from '../../../config/config.js';
 import HelmetComponent from '../../../components/helmet/HelmetComponent.jsx';
 import Loader from '../../../components/loader/Loader.jsx';
-import { authAPI } from '../../../utils/api.js';
+import api from '../../../utils/api.js';
 
 const Login = () => {
   
@@ -43,7 +43,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await authAPI.login(user);
+      const response = await api.post('/auth/login', user);
       const data = response.data;
 
       storeTokenInLS(data.token)

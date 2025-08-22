@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../../components/loader/Loader.jsx';
 import './Blog.css';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import BlogCard from '../../../components/cards/blog-cards/BlogCard.jsx';
-import config from '../../../config/config.js';
 import HelmetComponent from '../../../components/helmet/HelmetComponent.jsx';
+import api from '../../../utils/api.js';
 
 const Blog = () => {
     const { slug } = useParams(); // Get slug from URL
@@ -19,11 +19,8 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/${slug}`);
-        if (!response.ok) {
-          throw new Error('Blog not found');
-        }
-        const data = await response.json();
+        const response = await api.get(`/blog/${slug}`);
+        const data = response.data;
         setBlog(data);
         setLoading(false);
       } catch (err) {
@@ -37,8 +34,8 @@ const Blog = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-              const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/all`);
-              const blogs = await response.json();                
+              const response = await api.get('/blog/all');
+              const blogs = response.data;                
               setAllBlogs(blogs);
             } catch (error) {
               console.error('Error fetching all blogs:', error);
@@ -52,12 +49,7 @@ const Blog = () => {
       const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
       if (confirmDelete) {
         try {
-          await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/delete/${id}`, {
-            method: 'DELETE',
-            headers: {
-              Authorization: AuthorizationToken
-            }
-          });
+          await api.delete(`/blog/delete/${id}`);
           setAllBlogs(allBlogs.filter(blog => blog._id !== id));
           navigate('/blogs');
         } catch (error) {

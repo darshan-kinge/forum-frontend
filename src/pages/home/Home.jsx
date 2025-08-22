@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import './Home.css'
-import { Link } from 'react-router-dom'
 import CommBtn from '../../components/btn/community-btn/CommBtn'
-import config from '../../config/config.js'
 import HelmetComponent from '../../components/helmet/HelmetComponent';
 import Loader from '../../components/loader/Loader';
 import Preloader from '../../components/preloader/Preloader';
 import ReactPlayer from 'react-player';
 import MarqueeSlider from '../../components/Youtube/MarqueeSlider.jsx'
-import { galleryAPI } from '../../utils/api.js'
+import api from '../../utils/api.js';
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState([[], [], []]);
-  const [progress, setProgress] = useState(0);
   const [images, setImages] = useState([]);
-  const [memberCount, setMemberCount] = useState(0);
 
   useEffect(() => {
     const fetchImages = async () => {
       setLoading(true);
       try {
-        const response = await galleryAPI.getAll();
+        const response = await api.get('/gallery/all');
         const data = response.data;
+        console.log(data);
+        console.log(response);
+
         if (data && data.length > 0) {
-          // Transform image URLs to reduce quality
           const transformedImages = data.map(image => ({
             ...image,
-            url: image.url.replace('/upload/', '/upload/q_auto/') // Append quality parameter to the URL
+            url: image.url.replace('/upload/', '/upload/q_auto/')
           }));
 
           setImages(transformedImages);

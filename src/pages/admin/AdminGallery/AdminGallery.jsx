@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './AdminGallery.css'
 import { useAuth } from '../../../context/AuthContext'
 import config from '../../../config/config.js';
-import { galleryAPI } from '../../../utils/api.js';
+import api from '../../../utils/api.js';
 
 const AdminGallery = () => {
 
@@ -18,7 +18,7 @@ const AdminGallery = () => {
   
   const fetchImages = async () => {
       try {
-        const response = await galleryAPI.getAll();
+        const response = await api.get('/gallery/all');
         const data = response.data;
         console.log(data);
         
@@ -44,13 +44,16 @@ const AdminGallery = () => {
 
     try {
       setLoading(true);
-      const response = await galleryAPI.upload(formData);
+      const response = await api.post('/gallery/upload', formData);
 
-      console.log(response);
+      if (response.status === 200) {
+        alert('File uploaded successfully');
+      } else {
+        throw new Error('Failed to upload file');
+      }
       
-      alert('File uploaded successfully');
       setLoading(false);
-      fileInputRef.current.value = ''; // Clear the file input
+      fileInputRef.current.value = '';
       fetchImages();
       
     } catch (error) {
@@ -62,10 +65,15 @@ const AdminGallery = () => {
 
   const handleDelete = async (id) => {
     try {
-        const response = await galleryAPI.delete(id);
+        const response = await api.delete(`/gallery/delete/${id}`);
 
-        alert('Image deleted successfully');
-        setAllImages(allImages.filter(image => image.id !== id));
+        if (response.status === 200) {
+          alert('Image deleted successfully');
+          setAllImages(allImages.filter(image => image.id !== id));
+        } else {
+          throw new Error('Failed to delete image');
+        }
+        
         fetchImages();
         
     } catch (error) {

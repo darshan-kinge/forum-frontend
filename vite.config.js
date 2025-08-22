@@ -7,8 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.VITE_SERVER_URL || 'https://server.snsf.live',
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        target: process.env.VITE_SERVER_URL,
         changeOrigin: true,
       },
     },

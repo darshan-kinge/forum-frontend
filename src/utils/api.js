@@ -52,6 +52,11 @@ api.interceptors.response.use(
       }
     } else if (error.request) {
       console.error('Network error - no response received');
+      console.error('Request details:', {
+        url: error.config?.url,
+        method: error.config?.method,
+        baseURL: error.config?.baseURL
+      });
     } else {
       console.error('Error:', error.message);
     }

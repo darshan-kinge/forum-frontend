@@ -38,16 +38,33 @@ const RegistrationForm = () => {
       const res = await api.post('/member/join', formdata);
 
       const data = res.data;
+      console.log('Registration response:', data); // Debug log
 
-      if (res.ok) {
-        alert('Registration successful');
-        const token = data.member._id;
-        navigate(`/member/badge/${token}`);
+      // Check if the request was successful
+      if (res.status === 200 || res.status === 201) {
+        // Check if data.member exists and has _id
+        if (data.member && data.member._id) {
+          const token = data.member._id;
+          console.log('Registration successful, navigating to badge page with token:', token);
+          
+          // Navigate immediately without alert
+          navigate(`/member/badge/${token}`);
+        } else {
+          console.error('Member data not found in response:', data);
+          alert('Registration successful but member ID not found');
+        }
       } else {
-        alert(`${data.details}`);
+        alert(`${data.details || 'Registration failed'}`);
       }
     } catch (error) {
-      console.log(error);
+      console.error('Registration error:', error);
+      if (error.response && error.response.data && error.response.data.details) {
+        alert(error.response.data.details);
+      } else if (error.message) {
+        alert(`Registration failed: ${error.message}`);
+      } else {
+        alert('Registration failed. Please try again.');
+      }
     } finally {
       setLoading(false); // Set loading to false after the request is complete
     }

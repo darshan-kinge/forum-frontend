@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import './JoinUs.css'; // Assuming you're using CSS modules
 import courseOptions from './courses.json';
 import { useNavigate } from 'react-router-dom';
-import config from '../../config/config.js';
 import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
-
+import api from '../../utils/api.js';
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Loading state
@@ -36,15 +35,9 @@ const RegistrationForm = () => {
         year: formData.year,
       };
 
-      const res = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/join`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formdata),
-      });
+      const res = await api.post('/member/join', formdata);
 
-      const data = await res.json();
+      const data = res.data;
 
       if (res.ok) {
         alert('Registration successful');

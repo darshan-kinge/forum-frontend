@@ -5,6 +5,7 @@ import Loader from '../../components/loader/Loader.jsx';
 import './Team.css';
 import config from '../../config/config.js';
 import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
+import api from '../../utils/api.js';
 
 const TeamPage = () => {
 
@@ -15,8 +16,8 @@ const TeamPage = () => {
   useEffect(() => {
     const getMembers = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/team/all`);
-        const data = await response.json();
+        const response = await api.get('/team/all');
+        const data = response.data;
         setMembers(data);
       } catch (err) {
         setError(err.message);

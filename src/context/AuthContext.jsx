@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createContext, useContext } from "react";
-import config from "../config/config.js";
+import api from "../utils/api.js";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -23,36 +23,30 @@ export const AuthProvider = ({ children }) => {
     const userAuthentication = async() => {
         try {
             setIsLoading(true)
-            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/auth/user`, {
-                method: "GET",
-                headers: {
-                    Authorization: AuthorizationToken,
-                }
-            })
+            const response = await api.get('/auth/user');
+            const data = response.data;
             
-            if(response.ok) {
-                const data = await response.json();
-                // console.log(data);
-                
-                setUser(data.userData)
+            setUser(data.userData)
 
-                const isAuthenticated = data.userData.isAdmin;
-                setIsAuthenticated(isAuthenticated);
+            const isAuthenticated = data.userData.isAdmin;
+            setIsAuthenticated(isAuthenticated);
 
-                setIsLoading(false)
-            } else {
-                console.log('Error fetching user data');
-                setIsLoading(false);
-            }
-
+            setIsLoading(false)
         } catch (error) {
-            console.log("Error fetching the user data");
+            console.log("Error fetching the user data:", error);
+            setIsLoading(false);
+            setIsAuthenticated(false);
         }
     }
 
     useEffect(() => {
-        userAuthentication();
-    }, [])
+        if (token) {
+            userAuthentication();
+        } else {
+            setIsLoading(false);
+            setIsAuthenticated(false);
+        }
+    }, [token])
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, storeTokenInLS, LogoutUser, user, isLoading, AuthorizationToken }}>

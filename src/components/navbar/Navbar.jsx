@@ -13,7 +13,7 @@ const Navbar = () => {
   }
 
   const closeMenuOnClick = () => {
-    navRef.current.classList.toogle('nav-active')
+    navRef.current.classList.toggle('nav-active')
   }
 
   return (

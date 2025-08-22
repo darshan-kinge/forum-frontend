@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './AdminGallery.css'
 import { useAuth } from '../../../context/AuthContext'
 import config from '../../../config/config.js';
+import { galleryAPI } from '../../../utils/api.js';
 
 const AdminGallery = () => {
 
@@ -17,8 +18,8 @@ const AdminGallery = () => {
   
   const fetchImages = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
-        const data = await response.json();
+        const response = await galleryAPI.getAll();
+        const data = response.data;
         console.log(data);
         
         setAllImages(data);
@@ -43,51 +44,33 @@ const AdminGallery = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/upload`, {
-        method: 'POST',
-        headers: {
-          Authorization: AuthorizationToken,
-        },
-        body: formData
-      });
+      const response = await galleryAPI.upload(formData);
 
-      if (response.ok) {
-        console.log(response);
-        
-        alert('File uploaded successfully');
-        setLoading(false);
-        fileInputRef.current.value = ''; // Clear the file input
-        fetchImages();
-      } else {
-        alert('Failed to upload file. Try again later');
-        setLoading(false);
-
-      }
-
+      console.log(response);
+      
+      alert('File uploaded successfully');
+      setLoading(false);
+      fileInputRef.current.value = ''; // Clear the file input
+      fetchImages();
+      
     } catch (error) {
       console.error(error);
+      alert('Failed to upload file. Try again later');
+      setLoading(false);
     }
   }
 
   const handleDelete = async (id) => {
     try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/delete/${id}`, {
-            method: 'DELETE',
-            headers: {
-              Authorization: AuthorizationToken,
-            },
-        });
+        const response = await galleryAPI.delete(id);
 
-        if (response.ok) {
-          alert('Image deleted successfully');
-          setAllImages(allImages.filter(image => image.id !== id));
-          fetchImages();
-        } else {
-          alert('Failed to delete image. Try again later');
-        }
-        // Remove the deleted image from the state
+        alert('Image deleted successfully');
+        setAllImages(allImages.filter(image => image.id !== id));
+        fetchImages();
+        
     } catch (error) {
         console.error('Error deleting image:', error);
+        alert('Failed to delete image. Try again later');
     }
 };
 

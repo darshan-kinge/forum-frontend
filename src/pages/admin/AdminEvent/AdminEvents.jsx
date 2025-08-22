@@ -4,7 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import Table from './AdminEventsTable/AdminEventsTable.jsx';
 import './AdminEvent.css';
 import { validateFileSize, formatFileSize, MAX_FILE_SIZE } from '../../../utils/filesizeValidation.js';
-import config from '../../../config/config.js';
+import api from '../../../utils/api.js';
 import Loader from '../../../components/loader/Loader.jsx';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -77,8 +77,8 @@ const AdminEventsPage = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/events/all`);
-            const data = await response.json();
+            const response = await api.get('/events/all');
+            const data = await response.data;
             setEvents(data);
         } catch (error) {
             console.error('Error fetching events:', error);
@@ -124,23 +124,9 @@ const AdminEventsPage = () => {
                 console.log(pair[0], pair[1]);
             }
 
-            const url = editingEvent
-                ? `${config.serverUrl}/api/${config.apiVersion}/events/update/${editingEvent._id}`
-                : `${config.serverUrl}/api/${config.apiVersion}/events/create`;
-
-            const response = await fetch(url, {
-                method: editingEvent ? 'PUT' : 'POST',
-                headers: {
-                    'Authorization': AuthorizationToken,
-                },
-                body: data
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-              console.log(result);
-            }
+            const response = await api.post(editingEvent
+                ? `/events/update/${editingEvent._id}`
+                : `/events/create`, data);
 
             alert(editingEvent ? 'Event updated successfully' : 'Event created successfully');
             resetForm();
@@ -157,19 +143,14 @@ const AdminEventsPage = () => {
         if (!window.confirm('Are you sure you want to delete this event?')) return;
 
         try {
-            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/events/delete/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': AuthorizationToken,
-                }
-            });
+            const response = await api.delete(`/events/delete/${id}`);
 
-            if (!response.ok) {
+            if (response.status === 200) {
+                fetchEvents();
+                alert('Event deleted successfully');
+            } else {
                 throw new Error('Failed to delete event');
             }
-
-            fetchEvents();
-            alert('Event deleted successfully');
         } catch (error) {
             console.error('Error:', error);
             alert(error.message);

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import AdminTable from './AdminTable/AdminTable.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import './AdminStyle.css';
-import config from '../../../config/config.js';
+import api from '../../../utils/api.js';
 
 const AdminPage = () => {
   const [members, setMembers] = useState([]);
@@ -24,8 +24,8 @@ const AdminPage = () => {
   const fetchMembers = async () => {
       try {
           setLoading(true);
-          const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/team/all`);
-          const data = await response.json();
+          const response = await api.get('/team/all');
+          const data = await response.data;
           setMembers(data);
           setLoading(false);
         } catch (error) {
@@ -77,26 +77,21 @@ const AdminPage = () => {
 
     try {
       const url = editingId 
-        ? `${config.serverUrl}/api/${config.apiVersion}/team/update/${editingId}`
-        : `${config.serverUrl}/api/${config.apiVersion}/team/add`;
+        ? `/team/update/${editingId}`
+        : `/team/add`;
 
-      const response = await fetch(url, {
-        method: editingId ? 'PUT' : 'POST',
-        headers: {
-          'Authorization': AuthorizationToken,
-        },
-        body: data
-      });
+      const response = await api.post(url, data);
 
-      const result = await response.json();
+      const result = await response.data;
       
-      if (!response.ok) {
+      if (response.status === 200) {
+        alert(editingId ? 'Member updated successfully' : 'Member added successfully');
+        await fetchMembers();
+        resetForm();
+      } else {
         throw new Error(result.message || 'Failed to process request');
       }
 
-      alert(editingId ? 'Member updated successfully' : 'Member added successfully');
-      await fetchMembers();
-      resetForm();
     } catch (error) {
       console.error('Error:', error);
       alert(error.message);

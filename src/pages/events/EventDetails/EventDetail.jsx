@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './EventDetail.css';
-import config from '../../../config/config.js';
+import api from '../../../utils/api.js';
 import Loader from '../../../components/loader/Loader.jsx';
 import HelmetComponent from '../../../components/helmet/HelmetComponent.jsx';
 
@@ -23,11 +23,11 @@ const EventDetailsPage = () => {
 
     const fetchEventDetails = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/events/${id}`);
-            if (!response.ok) {
+            const response = await api.get(`/events/${id}`);
+            if (response.status !== 200) {
                 throw new Error('Event not found');
             }
-            const data = await response.json();
+            const data = await response.data;
             setEvent(data);
             setActiveImage(data.coverImage);
         } catch (error) {

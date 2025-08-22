@@ -3,7 +3,7 @@ import { useAuth } from '../../../context/AuthContext';
 import Table from '../../../components/table/Table.jsx';
 import { FaFileExport } from 'react-icons/fa';
 import './AdminMember.css';
-import config from '../../../config/config.js';
+import api from '../../../utils/api.js';
 
 const MembersPage = () => {
     const [members, setMembers] = useState([]);
@@ -19,13 +19,8 @@ const MembersPage = () => {
 
     const fetchMembers = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/all`, {
-                headers: {
-                    'Authorization': AuthorizationToken
-                }
-            });
-            if (!response.ok) throw new Error('Failed to fetch members');
-            const data = await response.json();
+            const response = await api.get('/member/all');
+            const data = response.data;
             setMembers(data);
             console.log(data);
         } catch (error) {

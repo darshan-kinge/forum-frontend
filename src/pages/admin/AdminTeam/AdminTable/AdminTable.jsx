@@ -2,7 +2,7 @@
 import React from 'react';
 import '../../AdminTeam/AdminStyle.css';
 import { useAuth } from '../../../../context/AuthContext.jsx'; 
-import config from '../../../../config/config.js';
+import api from '../../../../utils/api.js';
 
 const AdminTable = ({ members, loading, onEdit, onRefresh }) => {
   const { AuthorizationToken } = useAuth();
@@ -17,21 +17,17 @@ const AdminTable = ({ members, loading, onEdit, onRefresh }) => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this member?')) {
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/team/delete/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': AuthorizationToken
-          }
-        });
+        const response = await api.delete(`/team/delete/${id}`);
 
-        if (response.ok) {
+        if (response.status === 200) {
           alert('Member deleted successfully');
           onRefresh();
         } else {
-          console.error('Failed to delete member');
+          throw new Error('Failed to delete member');
         }
       } catch (error) {
         console.error('Error deleting member:', error);
+        alert(error.message);
       }
     }
   };

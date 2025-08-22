@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import './BlogForm.css';
 
 import { useNavigate, useParams } from 'react-router-dom';
-import config from '../../config/config.js';
+import api from '../../utils/api.js';
 
 const BlogForm = ({ editMode = false, postData = {} }) => {
   const [editPostData, setEditPostData] = useState({});
@@ -21,15 +21,14 @@ const BlogForm = ({ editMode = false, postData = {} }) => {
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`${config.serverUrl}/api/v1/blog/${slug}`);
-      const data = await response.json();
+      const response = await api.get(`/blog/${slug}`);
+      const data = await response.data;
       setTitle(data.title);
       setSummary(data.summary);
       setContent(data.content);
       setBlogId(data._id);
-      // console.log(data)
     } catch (error) {
-      console.error('Error fetching post:', error);
+      alert(error.message);
     }
   }
 
@@ -51,30 +50,19 @@ const BlogForm = ({ editMode = false, postData = {} }) => {
       formData.append('image', image);
     }
 
-    console.log('Form Data:', formData);
-    
-
     try {
       setLoading(true);
-      const response = await fetch(
-        editMode ? `${config.serverUrl}/api/${config.apiVersion}/blog/edit/${blogId}` : `${config.serverUrl}/api/${config.apiVersion}/blog/create`, {
-        method: editMode ? 'PUT' : 'POST',
-        body: formData,
-        headers: {
-          Authorization: AuthorizationToken,
-        },
-      });
-      const data = await response.json();
-      if (response.ok) {
+      const response = await api.post(
+        editMode ? `/blog/edit/${blogId}` : `/blog/create`, formData);
+      const data = await response.data;
+      if (response.status === 200) {
         alert('Blog saved successfully');
         navigate('/blogs');
-        console.log('Blog saved successfully', data);
         setLoading(false);  
       }
     } catch (error) {
-        alert('Error creating or updating blog post');
+        alert(error.message);
         navigate('/admin/blog');
-        console.error('Error creating or updating blog post', error);
       setLoading(false);
     }
   };

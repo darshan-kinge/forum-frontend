@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 
 // import './App.css'
 import Home from './pages/home/Home.jsx';
@@ -33,11 +34,12 @@ import _404 from './pages/404/404.jsx';
 
 const App = () => {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Navbar />
-        <Suspense fallback={ <Loader /> }>
-          <Routes>
+    <ErrorBoundary>
+      <AuthProvider>
+        <BrowserRouter>
+          <Navbar />
+          <Suspense fallback={ <Loader /> }>
+            <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/join-us' element={<JoinUs />} />
             <Route path='/team' element={<Team />} />
@@ -74,6 +76,7 @@ const App = () => {
         <Footer />
       </BrowserRouter>
     </AuthProvider>
+    </ErrorBoundary>
   );
 };
 

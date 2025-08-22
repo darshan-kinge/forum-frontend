@@ -3,6 +3,7 @@ import './Gallery.css'
 import config from '../../config/config.js';
 import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
 import Loader from '../../components/loader/Loader.jsx';
+import { galleryAPI } from '../../utils/api.js';
 
 const Gallery = () => {
   const [allImages, setAllImages] = useState([]);
@@ -12,8 +13,8 @@ const Gallery = () => {
   useEffect(() => {
     const fetchImages = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
-            const data = await response.json();
+            const response = await galleryAPI.getAll();
+            const data = response.data;
             
             // Transform image URLs to reduce quality
             const transformedImages = data.map(image => ({

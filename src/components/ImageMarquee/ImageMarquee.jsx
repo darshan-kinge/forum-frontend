@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './ImageMarquee.css';
 import config from '../../config/config.js';
+import { galleryAPI } from '../../utils/api.js';
 
 const ImageMarquee = () => {
     const [images, setImages] = useState([]);
@@ -28,8 +29,8 @@ const ImageMarquee = () => {
         const fetchImages = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
-                const data = await response.json();
+                const response = await galleryAPI.getAll();
+                const data = response.data;
                 
                 if (data && data.length > 0) {
                     // Preload images before showing them
@@ -61,8 +62,9 @@ const ImageMarquee = () => {
         );
     }
 
-    if (!images.length || rows.some(row => row.length === 0)) {
-        return null;
+    // Don't return null when no images - just return an empty container
+    if (!images.length) {
+        return <div className="marquee-container empty"></div>;
     }
 
     return (

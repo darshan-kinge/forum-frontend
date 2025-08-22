@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBlog, FaImages, FaUsers, FaCalendarAlt, FaUserFriends } from 'react-icons/fa';
 import './Dashboard.css';
-import config from '../../../config/config';
+import api from '../../../utils/api.js';
 
 const Dashboard = () => {
   const [memberStats, setMemberStats] = useState({ totalMembers: 0 });
@@ -10,8 +10,8 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchMemberStats = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/stats`); // Adjust the URL based on your API structure
-        const data = await response.json();
+        const response = await api.get('/member/stats');
+        const data = await response.data;
         setMemberStats(data);
       } catch (error) {
         console.error('Error fetching member stats:', error);

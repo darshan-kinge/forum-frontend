@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './BlogList.css'
 import {useAuth} from '../../../../context/AuthContext.jsx';
-import config from '../../../../config/config.js';
+import api from '../../../../utils/api.js';
 
 const AdminBlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,8 +13,8 @@ const AdminBlogList = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/all?page=${page}`);
-        const data = await response.json();
+        const response = await api.get(`/blog/all?page=${page}`);
+        const data = await response.data;
         console.log(data);
         
         setBlogs(data);
@@ -33,19 +33,15 @@ const AdminBlogList = () => {
         console.error('Blog ID is undefined');
         return;
       }
-      const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/delete/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: AuthorizationToken
-        }
-      });
-      if (response.ok) {
+      const response = await api.delete(`/blog/delete/${id}`);
+      if (response.status === 200) {
         setBlogs(blogs.filter((blog) => blog._id !== id));
       } else {
-        console.error('Failed to delete blog');
+        throw new Error('Failed to delete blog');
       }
     } catch (error) {
       console.error('Error deleting blog:', error);
+      alert(error.message);
     }
   };
 

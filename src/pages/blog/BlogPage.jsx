@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './BlogPage.css';
 import BlogCard from '../../components/cards/blog-cards/BlogCard.jsx';
-import config from '../../config/config.js';
 import Loader from '../../components/loader/Loader.jsx';
 import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
+import api from '../../utils/api.js'; 
 
 const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -15,8 +15,8 @@ const BlogPage = () => {
 
       try {
         setLoading(true);
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/blog/all`);
-        const data = await response.json();
+        const response = await api.get('/blog/all');
+        const data = response.data;
         setBlogs(data);
         setLoading(false);
       } catch (error) {

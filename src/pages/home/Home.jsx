@@ -8,6 +8,7 @@ import Loader from '../../components/loader/Loader';
 import Preloader from '../../components/preloader/Preloader';
 import ReactPlayer from 'react-player';
 import MarqueeSlider from '../../components/Youtube/MarqueeSlider.jsx'
+import { galleryAPI } from '../../utils/api.js'
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -20,9 +21,8 @@ const Home = () => {
     const fetchImages = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/gallery/all`);
-        const data = await response.json();
-        
+        const response = await galleryAPI.getAll();
+        const data = response.data;
         if (data && data.length > 0) {
           // Transform image URLs to reduce quality
           const transformedImages = data.map(image => ({
@@ -40,6 +40,7 @@ const Home = () => {
         }
       } catch (error) {
         console.error('Error fetching images:', error);
+        // Don't set loading to false on error to show fallback content
       } finally {
         setLoading(false);
       }
@@ -50,9 +51,7 @@ const Home = () => {
 
   if (loading) return <Preloader loading={loading} />;
 
-  if (!images.length || rows.some(row => row.length === 0)) {
-    return null;
-  }
+  // Don't return null when no images - just render the page without the gallery section
 
   return (
     <>
@@ -151,83 +150,85 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="gallery-preview ">
-        
-      <div className="marquee-container">
-            {/* Row 1 - Left to Right */}
-            <div className="marquee-track marquee-right">
-                {rows[0].map((image) => (
-                    <div key={image._id} className="marquee-item">
-                        <img 
-                            src={image.url} 
-                            alt="Gallery" 
-                            loading="lazy"
-                            decoding="async"
-                        />
-                    </div>
-                ))}
-                {rows[0].map((image) => (
-                    <div key={`duplicate-${image._id}`} className="marquee-item">
-                        <img 
-                            src={image.url} 
-                            alt="Gallery"
-                            loading="lazy"
-                            decoding="async"
-                        />
-                    </div>
-                ))}
-            </div>
+      {images.length > 0 && (
+        <section className="gallery-preview ">
+          
+        <div className="marquee-container">
+              {/* Row 1 - Left to Right */}
+              <div className="marquee-track marquee-right">
+                  {rows[0].map((image) => (
+                      <div key={image._id} className="marquee-item">
+                          <img 
+                              src={image.url} 
+                              alt="Gallery" 
+                              loading="lazy"
+                              decoding="async"
+                          />
+                      </div>
+                  ))}
+                  {rows[0].map((image) => (
+                      <div key={`duplicate-${image._id}`} className="marquee-item">
+                          <img 
+                              src={image.url} 
+                              alt="Gallery"
+                              loading="lazy"
+                              decoding="async"
+                          />
+                      </div>
+                  ))}
+              </div>
 
-            {/* Row 2 - Right to Left */}
-            <div className="marquee-track marquee-left">
-                {rows[1].map((image) => (
-                    <div key={image._id} className="marquee-item">
-                        <img 
-                            src={image.url} 
-                            alt="Gallery"
-                            loading="lazy"
-                            decoding="async"
-                        />
-                    </div>
-                ))}
-                {rows[1].map((image) => (
-                    <div key={`duplicate-${image._id}`} className="marquee-item">
-                        <img 
-                            src={image.url} 
-                            alt="Gallery"
-                            loading="lazy"
-                            decoding="async"
-                        />
-                    </div>
-                ))}
-            </div>
+              {/* Row 2 - Right to Left */}
+              <div className="marquee-track marquee-left">
+                  {rows[1].map((image) => (
+                      <div key={image._id} className="marquee-item">
+                          <img 
+                              src={image.url} 
+                              alt="Gallery"
+                              loading="lazy"
+                              decoding="async"
+                          />
+                      </div>
+                  ))}
+                  {rows[1].map((image) => (
+                      <div key={`duplicate-${image._id}`} className="marquee-item">
+                          <img 
+                              src={image.url} 
+                              alt="Gallery"
+                              loading="lazy"
+                              decoding="async"
+                          />
+                      </div>
+                  ))}
+              </div>
 
-            {/* Row 3 - Left to Right */}
-            <div className="marquee-track marquee-right">
-              {rows[2].map((image) => (
-                <div key={image._id} className="marquee-item">
-                  <img 
-                    src={image.url} 
-                    alt="Gallery"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              ))}
+              {/* Row 3 - Left to Right */}
+              <div className="marquee-track marquee-right">
+                {rows[2].map((image) => (
+                  <div key={image._id} className="marquee-item">
+                    <img 
+                      src={image.url} 
+                      alt="Gallery"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                ))}
 
-              {rows[2].map((image) => (
-                <div key={`duplicate-${image._id}`} className="marquee-item">
-                  <img 
-                    src={image.url} 
-                    alt="Gallery"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              ))}
-            </div>
-        </div>
-      </section>
+                {rows[2].map((image) => (
+                  <div key={`duplicate-${image._id}`} className="marquee-item">
+                    <img 
+                      src={image.url} 
+                      alt="Gallery"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                ))}
+              </div>
+          </div>
+        </section>
+      )}
 
       {/* Leadership Messages */}
       <section className="about-us ">

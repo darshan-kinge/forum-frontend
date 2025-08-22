@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import EventCard from '../../components/cards/event-cards/EventCard.jsx';
 import './EventPage.css';
-import config from '../../config/config.js';
 import Loader from '../../components/loader/Loader.jsx';
 import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
+import api from '../../utils/api.js';
+
 const EventsPage = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,11 +18,8 @@ const EventsPage = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/events/all`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch events');
-            }
-            const data = await response.json();
+            const response = await api.get('/events/all');
+            const data = response.data;
             setEvents(data || []);
         } catch (error) {
             setError(error.message);

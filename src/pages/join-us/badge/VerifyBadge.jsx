@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import config from '../../../config/config.js';
 import './VerifyBadge.css';
+import api from '../../../utils/api.js';
 
 const VerifyBadge = () => {
   const { id } = useParams();
@@ -13,13 +14,8 @@ const VerifyBadge = () => {
   useEffect(() => {
     const VerifyBadge = async () => {
       try {
-        const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/member/badge/verify/${id}`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to verify member.');
-        }
-
-        const data = await response.json();
+        const response = await api.get(`/member/badge/verify/${id}`);
+        const data = response.data;
         setMemberData(data.member);
         setVerificationStatus(`Member Verified: ${data.member.name} (ID: ${data.member.member_id})`);
       } catch (error) {

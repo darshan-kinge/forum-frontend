@@ -5,6 +5,7 @@ import './Login.css'
 import config from '../../../config/config.js';
 import HelmetComponent from '../../../components/helmet/HelmetComponent.jsx';
 import Loader from '../../../components/loader/Loader.jsx';
+import { authAPI } from '../../../utils/api.js';
 
 const Login = () => {
   
@@ -42,32 +43,26 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${config.serverUrl}/api/${config.apiVersion}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(user),
+      const response = await authAPI.login(user);
+      const data = response.data;
+
+      storeTokenInLS(data.token)
+      console.log(data.token);  
+      setUser({
+        email: "",
+        password: "",
       })
 
-      const data = await response.json()
-
-      if(response.ok) {
-        storeTokenInLS(data.token)
-        console.log(data.token);  
-        setUser({
-          email: "",
-          password: "",
-        })
-
-        alert("Login Successful!");
-        window.location.href = "/admin/dashboard"
-      } else {
-        alert(data.details);
-      }
+      alert("Login Successful!");
+      window.location.href = "/admin/dashboard"
 
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.data) {
+        alert(error.response.data.details || 'Login failed');
+      } else {
+        alert('Login failed');
+      }
     }
   }
 

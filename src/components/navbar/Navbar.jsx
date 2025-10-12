@@ -33,6 +33,7 @@ const Navbar = () => {
           <NavLink onClick={closeMenuOnClick} className='nav-links' to="/gallery">Gallery</NavLink>
           <NavLink onClick={closeMenuOnClick} className='nav-links' to="/blogs">Blogs</NavLink>
           <NavLink onClick={closeMenuOnClick} className='nav-links' to="/team">Team</NavLink>
+          <NavLink onClick={closeMenuOnClick} className='nav-links' to="/recruitment">Recruitment</NavLink>
           <div className='vertical-line-links'></div>
           <div className="join-us-nav-btn">
             <CommBtn title={'Become a Member!'} to={'/join-us'} click={closeMenuOnClick} />

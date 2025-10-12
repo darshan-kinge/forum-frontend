@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBlog, FaImages, FaUsers, FaCalendarAlt, FaUserFriends } from 'react-icons/fa';
+import { FaBlog, FaImages, FaUsers, FaCalendarAlt, FaUserFriends, FaUserPlus } from 'react-icons/fa';
 import './Dashboard.css';
 import api from '../../../utils/api.js';
 
@@ -51,6 +51,12 @@ const Dashboard = () => {
       icon: <FaCalendarAlt />,
       link: '/admin/events',
       description: 'Manage upcoming and past events'
+    },
+    {
+      title: 'Recruitment',
+      icon: <FaUserPlus />,
+      link: '/admin/recruitment',
+      description: 'Manage recruitment forms and applications'
     }
   ];
 

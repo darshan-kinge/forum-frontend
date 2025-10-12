@@ -4,8 +4,9 @@ import './Badge.css';
 import { QRCodeCanvas } from 'qrcode.react'; 
 import html2canvas from 'html2canvas';  
 import { useParams } from 'react-router-dom';
-import HelmetComponent from '../../components/helmet/HelmetComponent';
-import Loader from '../../components/loader/Loader';
+import HelmetComponent from '../../components/helmet/HelmetComponent.jsx';
+import Loader from '../../components/loader/Loader.jsx';
+import api from '../../utils/api.js';
 
 const Badge = ({ memberData }) => {
   const { id } = useParams(); 

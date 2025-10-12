@@ -1,0 +1,361 @@
+.recruitment-page {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  padding: 2rem 0;
+}
+
+.recruitment-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.recruitment-header {
+  text-align: center;
+  color: var(--white-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.recruitment-header h1 {
+  font-size: 2.5rem;
+  /* margin-bottom: 10px; */
+
+  font-weight: 700;
+}
+
+.recruitment-description {
+  font-size: 1.2rem;
+  color: var(--white-color);  
+  /* text-align: center; */
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* Simplified header: removed info card */
+
+.recruitment-form {
+  background: var(--white-color);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  overflow: visible; /* ensure the form itself does not scroll */
+  max-height: none;
+}
+
+.form-section {
+  margin-bottom: 2.5rem;
+}
+
+.form-section h2 {
+  color: var(--bg-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--bg-color);
+  padding-bottom: 0.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--bg-color);
+  font-size: 1rem;
+}
+
+.required {
+  color: #e74c3c;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--bg-color);
+  background: var(--white-color);
+  box-shadow: 0 0 0 3px rgba(2, 56, 93, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.radio-label,
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.radio-label:hover,
+.checkbox-label:hover {
+  background-color: #f8f9fa;
+}
+
+.radio-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+  margin-right: 0.75rem;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--bg-color);
+}
+
+textarea {
+  resize: vertical;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+  min-height: 100px;
+}
+
+.radio-text,
+.checkbox-text {
+  font-size: 1rem;
+  color: var(--bg-color);
+}
+
+.form-action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-primary {
+  background: var(--bg-color);
+  color: var(--white-color);
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  margin-top: 0;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary.loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn-primary.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--white-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.error-message,
+.success-message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.error-message {
+  background-color: rgb(249, 249, 249);
+  color: rgb(151, 68, 68);
+  border: 1px solid rgb(249, 249, 249);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.success-message {
+  background-color: #efe;
+  color: #3c3;
+  border: 1px solid #cfc;
+}
+
+/* Modal styles for error/success */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000000;
+  padding: 1rem;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 10px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.modal-body {
+  padding: 1rem 1.25rem 1.25rem;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+}
+
+.close-btn:hover { color: #333; }
+
+.modal--error .modal-header { background: #fee; }
+.modal--success .modal-header { background: #efe; }
+
+.error-message h2 {
+  margin-top: 0;
+  color: #c33;
+}
+
+/* Additional styling for better visual hierarchy */
+.recruitment-header h1 {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.recruitment-info {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+  position: relative;
+}
+
+.form-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: var(--bg-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .recruitment-container {
+    padding: 0 0.5rem;
+  }
+
+  .recruitment-header {
+    gap: 0.5rem;
+  }
+  
+  .recruitment-header h1 {
+    font-size: 2rem;
+    color: var(--white-color);
+  }
+  
+  .recruitment-description {
+    font-size: 1rem;
+    color: var(--white-color);
+  }
+  
+  .recruitment-form {
+    padding: 1.5rem;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .recruitment-info {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .recruitment-page {
+    padding: 1rem 0;
+  }
+  
+  .recruitment-form {
+    padding: 1rem;
+  }
+  
+  .recruitment-header h1 {
+    font-size: 1.8rem;
+  }
+}

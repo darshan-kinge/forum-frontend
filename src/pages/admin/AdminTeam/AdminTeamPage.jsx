@@ -80,7 +80,9 @@ const AdminPage = () => {
         ? `/team/update/${editingId}`
         : `/team/add`;
 
-      const response = await api.post(url, data);
+      const response = editingId 
+        ? await api.put(url, data)
+        : await api.post(url, data);
 
       const result = await response.data;
       

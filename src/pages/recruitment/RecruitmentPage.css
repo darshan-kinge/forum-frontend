@@ -269,6 +269,26 @@ textarea {
 .modal-body {
   padding: 1rem 1.25rem 1.25rem;
   color: #333;
+  font-weight: 500;
+}
+
+.modal-body p {
+  margin-bottom: .5rem;
+  font-weight: 700;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.modal-body p > a {
+  padding-bottom: 0.5rem;
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  color: var(--white-color);
+  font-weight: 600;
+  border: 1px solid var(--bg-color);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
 }
 
 .close-btn {

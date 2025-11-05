@@ -41,10 +41,11 @@ const RecruitmentPage = () => {
       const response = await api.get('/recruitment/active');
       const data = response.data;
       // console.log(data);
-      if (data.success) {
+      if (data.success && data.data) {
         setRecruitment(data.data);
         // Initialize answers array with empty values
-        const initialAnswers = data.data.customQuestions.map((q, index) => ({
+        const customQuestions = data.data.customQuestions || [];
+        const initialAnswers = customQuestions.map((q, index) => ({
           questionIndex: index,
           question: q.question,
           answer: ''
@@ -54,11 +55,17 @@ const RecruitmentPage = () => {
           answers: initialAnswers
         }));
       } else {
-        setError(data.message);        
+        setError(data.message || 'No active recruitment found.');        
       }
     } catch (error) {
-      console.error('Error fetching recruitment:', error.response.data.message);  
-      setError(error.response.data.message);
+      console.error('Error fetching recruitment:', error);
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else if (error.request) {
+        setError('Network error: Unable to connect to the server. Please check your internet connection and try again.');
+      } else {
+        setError('Failed to fetch recruitment information. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -146,6 +153,13 @@ const RecruitmentPage = () => {
         return;
       }
 
+      if (!recruitment?._id) {
+        setError('Recruitment information is missing. Please refresh the page and try again.');
+        setShowErrorModal(true);
+        setSubmitting(false);
+        return;
+      }
+
       const response = await api.post('/recruitment/apply', {
         recruitmentId: recruitment._id,
         applicantInfo: formData.applicantInfo,
@@ -168,11 +182,11 @@ const RecruitmentPage = () => {
             year: '',
             course: ''
           },
-          answers: recruitment.customQuestions.map((q, index) => ({
+          answers: recruitment?.customQuestions?.map((q, index) => ({
             questionIndex: index,
             question: q.question,
             answer: ''
-          }))
+          })) || []
         });
       } else {
         setError(response.data.message);
@@ -307,7 +321,7 @@ const RecruitmentPage = () => {
   };
 
   const isQuestionVisible = (question, questionIndex) => {
-    if (!question.showIf) return true;
+    if (!question.showIf || !recruitment?.customQuestions) return true;
     
     const parentIdx = question.showIf.questionIndex;
     const parentAnswer = formData.answers[parentIdx]?.answer;
@@ -330,7 +344,7 @@ const RecruitmentPage = () => {
     return <Loader />;
   }
 
-  if (!recruitment && error) {
+  if (!recruitment) {
     return (
       <div className="recruitment-page">
         <HelmetComponent
@@ -340,7 +354,7 @@ const RecruitmentPage = () => {
         <div className="recruitment-container">
           <div className="error-message">
             <h2>Recruitment Currently Closed</h2>
-            <p>{error}</p>
+            <p>{error || 'No active recruitment found.'}</p>
             <button onClick={() => navigate('/')} className="btn-primary">
               Go to Home
             </button>
@@ -502,7 +516,7 @@ const RecruitmentPage = () => {
             </div>
           </div>
 
-          {recruitment.customQuestions.length > 0 && (
+          {recruitment?.customQuestions && recruitment.customQuestions.length > 0 && (
             <div className="form-section">
               <h2>Additional Questions</h2>
               {recruitment.customQuestions.map((question, index) => (

@@ -15,6 +15,13 @@ const AdminRecruitment = () => {
   const [selectedRecruitment, setSelectedRecruitment] = useState(null);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [showApplicationModal, setShowApplicationModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [applicationsPerPage] = useState(10);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pages: 1,
+    total: 0
+  });
 
   const [formData, setFormData] = useState({
     title: '',
@@ -54,10 +61,21 @@ const AdminRecruitment = () => {
     }
   };
 
-  const fetchApplications = async (recruitmentId) => {
+  const fetchApplications = async (recruitmentId, page = 1) => {
     try {
-      const response = await api.get(`/recruitment/admin/applications/${recruitmentId}`);
+      const response = await api.get(`/recruitment/admin/applications/${recruitmentId}`, {
+        params: {
+          page,
+          limit: applicationsPerPage
+        }
+      });
       setApplications(response.data.data.applications);
+      setPagination(response.data.data.pagination || {
+        current: page,
+        pages: 1,
+        total: response.data.data.applications.length
+      });
+      setCurrentPage(page);
     } catch (error) {
       console.error('Error fetching applications:', error);
     }
@@ -231,7 +249,7 @@ const AdminRecruitment = () => {
       await api.put(`/recruitment/admin/application/${applicationId}/status`, { status });
       alert('Application status updated successfully');
       if (selectedRecruitment) {
-        fetchApplications(selectedRecruitment._id);
+        fetchApplications(selectedRecruitment._id, currentPage);
       }
     } catch (error) {
       console.error('Error updating application status:', error);
@@ -303,7 +321,8 @@ const AdminRecruitment = () => {
                       className="btn-secondary"
                       onClick={() => {
                         setSelectedRecruitment(recruitment);
-                        fetchApplications(recruitment._id);
+                        setCurrentPage(1);
+                        fetchApplications(recruitment._id, 1);
                         setActiveTab('applications');
                       }}
                     >
@@ -336,33 +355,75 @@ const AdminRecruitment = () => {
               <p>No applications found for this recruitment.</p>
             </div>
           ) : (
-            <div className="applications-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Submitted</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {applications.map(application => (
-                    <tr 
-                      key={application._id}
-                      className="clickable-row"
-                      onClick={() => {
-                        setSelectedApplication(application);
-                        setShowApplicationModal(true);
-                      }}
-                    >
-                      <td>{application.applicantInfo?.name}</td>
-                      <td>{application.applicantInfo?.email}</td>
-                      <td>{new Date(application.submittedAt).toLocaleDateString()}</td>
+            <>
+              <div className="applications-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Submitted</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {applications.map(application => (
+                      <tr 
+                        key={application._id}
+                        className="clickable-row"
+                        onClick={() => {
+                          setSelectedApplication(application);
+                          setShowApplicationModal(true);
+                        }}
+                      >
+                        <td>{application.applicantInfo?.name}</td>
+                        <td>{application.applicantInfo?.email}</td>
+                        <td>{new Date(application.submittedAt).toLocaleDateString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              {pagination.pages > 1 && (
+                <div className="admin-pagination">
+                  <button 
+                    className="page-button"
+                    disabled={currentPage === 1}
+                    onClick={() => {
+                      const newPage = currentPage - 1;
+                      fetchApplications(selectedRecruitment._id, newPage);
+                    }}
+                  >
+                    Previous
+                  </button>
+                  
+                  <div className="page-numbers">
+                    {Array.from({ length: pagination.pages }, (_, i) => i + 1).map(number => (
+                      <button
+                        key={number}
+                        className={`page-number ${currentPage === number ? 'active' : ''}`}
+                        onClick={() => {
+                          fetchApplications(selectedRecruitment._id, number);
+                        }}
+                      >
+                        {number}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button 
+                    className="page-button"
+                    disabled={currentPage === pagination.pages}
+                    onClick={() => {
+                      const newPage = currentPage + 1;
+                      fetchApplications(selectedRecruitment._id, newPage);
+                    }}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       )}

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { Navigate } from 'react-router-dom';
+import { canView } from '../../../utils/permissions';
 import './AdminRecruitment.css';
 import api from '../../../utils/api';
 import Loader from '../../../components/loader/Loader';
 
 const AdminRecruitment = () => {
-  const { AuthorizationToken } = useAuth();
+  const { AuthorizationToken, user, isLoading } = useAuth();
   const [recruitments, setRecruitments] = useState([]);
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,6 +24,12 @@ const AdminRecruitment = () => {
     pages: 1,
     total: 0
   });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [questionFilter, setQuestionFilter] = useState({
+    questionIndex: '',
+    answerValue: ''
+  });
+  const [choiceQuestions, setChoiceQuestions] = useState([]);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -61,14 +69,21 @@ const AdminRecruitment = () => {
     }
   };
 
-  const fetchApplications = async (recruitmentId, page = 1) => {
+  const fetchApplications = async (recruitmentId, page = 1, search = '', questionFilterData = null) => {
     try {
-      const response = await api.get(`/recruitment/admin/applications/${recruitmentId}`, {
-        params: {
-          page,
-          limit: applicationsPerPage
-        }
-      });
+      const params = {
+        page,
+        limit: applicationsPerPage
+      };
+      if (search) {
+        params.search = search;
+      }
+      if (questionFilterData && questionFilterData.questionIndex !== '' && questionFilterData.answerValue !== '') {
+        params.questionIndex = questionFilterData.questionIndex;
+        params.answerValue = questionFilterData.answerValue;
+      }
+      
+      const response = await api.get(`/recruitment/admin/applications/${recruitmentId}`, { params });
       setApplications(response.data.data.applications);
       setPagination(response.data.data.pagination || {
         current: page,
@@ -78,6 +93,50 @@ const AdminRecruitment = () => {
       setCurrentPage(page);
     } catch (error) {
       console.error('Error fetching applications:', error);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (selectedRecruitment) {
+      setCurrentPage(1);
+      fetchApplications(selectedRecruitment._id, 1, searchQuery, questionFilter);
+    }
+  };
+
+  const handleQuestionFilterChange = (e) => {
+    const { name, value } = e.target;
+    const newFilter = {
+      ...questionFilter,
+      [name]: value
+    };
+    // Reset answerValue when question changes
+    if (name === 'questionIndex') {
+      newFilter.answerValue = '';
+    }
+    setQuestionFilter(newFilter);
+    
+    if (selectedRecruitment) {
+      setCurrentPage(1);
+      fetchApplications(selectedRecruitment._id, 1, searchQuery, newFilter);
+    }
+  };
+
+  const clearQuestionFilter = () => {
+    const clearedFilter = { questionIndex: '', answerValue: '' };
+    setQuestionFilter(clearedFilter);
+    if (selectedRecruitment) {
+      setCurrentPage(1);
+      fetchApplications(selectedRecruitment._id, 1, searchQuery, clearedFilter);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    // Optional: Clear search when input is empty
+    if (e.target.value === '' && selectedRecruitment) {
+      setCurrentPage(1);
+      fetchApplications(selectedRecruitment._id, 1, '');
     }
   };
 
@@ -249,7 +308,7 @@ const AdminRecruitment = () => {
       await api.put(`/recruitment/admin/application/${applicationId}/status`, { status });
       alert('Application status updated successfully');
       if (selectedRecruitment) {
-        fetchApplications(selectedRecruitment._id, currentPage);
+        fetchApplications(selectedRecruitment._id, currentPage, searchQuery, questionFilter);
       }
     } catch (error) {
       console.error('Error updating application status:', error);
@@ -322,7 +381,14 @@ const AdminRecruitment = () => {
                       onClick={() => {
                         setSelectedRecruitment(recruitment);
                         setCurrentPage(1);
-                        fetchApplications(recruitment._id, 1);
+                        setSearchQuery('');
+                        setQuestionFilter({ questionIndex: '', answerValue: '' });
+                        // Extract choice-based questions (dropdown, radio, checkbox)
+                        const choiceBased = recruitment.customQuestions
+                          .map((q, idx) => ({ ...q, index: idx }))
+                          .filter(q => ['dropdown', 'radio', 'checkbox'].includes(q.type));
+                        setChoiceQuestions(choiceBased);
+                        fetchApplications(recruitment._id, 1, '', null);
                         setActiveTab('applications');
                       }}
                     >
@@ -349,10 +415,88 @@ const AdminRecruitment = () => {
               <h3>Applications for: {selectedRecruitment.title}</h3>
             </div>
           )}
+
+          {selectedRecruitment && (
+            <div className="applications-search-bar">
+              <form onSubmit={handleSearch} className="search-form">
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search by name or PRN..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+                <button type="submit" className="btn-secondary search-button">
+                  Search
+                </button>
+                {searchQuery && (
+                  <button
+                    type="button"
+                    className="btn-secondary clear-search-button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setCurrentPage(1);
+                      fetchApplications(selectedRecruitment._id, 1, '', questionFilter);
+                    }}
+                  >
+                    Clear
+                  </button>
+                )}
+              </form>
+            </div>
+          )}
+
+          {selectedRecruitment && choiceQuestions.length > 0 && (
+            <div className="applications-filter-bar">
+              <h4>Filter by Question:</h4>
+              <div className="filter-form">
+                <select
+                  className="filter-select"
+                  name="questionIndex"
+                  value={questionFilter.questionIndex}
+                  onChange={handleQuestionFilterChange}
+                >
+                  <option value="">Select a question...</option>
+                  {choiceQuestions.map((q) => (
+                    <option key={q.index} value={q.index}>
+                      {q.question}
+                    </option>
+                  ))}
+                </select>
+
+                {questionFilter.questionIndex !== '' && (
+                  <>
+                    <select
+                      className="filter-select"
+                      name="answerValue"
+                      value={questionFilter.answerValue}
+                      onChange={handleQuestionFilterChange}
+                    >
+                      <option value="">Select an answer...</option>
+                      {choiceQuestions
+                        .find(q => q.index === parseInt(questionFilter.questionIndex))
+                        ?.options.map((option, idx) => (
+                          <option key={idx} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                    </select>
+                    <button
+                      type="button"
+                      className="btn-secondary clear-filter-button"
+                      onClick={clearQuestionFilter}
+                    >
+                      Clear Filter
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
           
           {applications.length === 0 ? (
             <div className="empty-state">
-              <p>No applications found for this recruitment.</p>
+              <p>{searchQuery ? 'No applications found matching your search.' : 'No applications found for this recruitment.'}</p>
             </div>
           ) : (
             <>
@@ -362,6 +506,9 @@ const AdminRecruitment = () => {
                     <tr>
                       <th>Name</th>
                       <th>Email</th>
+                      <th>Course</th>
+                      <th>Year</th>
+                      <th>PRN</th>
                       <th>Submitted</th>
                     </tr>
                   </thead>
@@ -377,6 +524,9 @@ const AdminRecruitment = () => {
                       >
                         <td>{application.applicantInfo?.name}</td>
                         <td>{application.applicantInfo?.email}</td>
+                        <td>{application.applicantInfo?.course || 'N/A'}</td>
+                        <td>{application.applicantInfo?.year || 'N/A'}</td>
+                        <td>{application.applicantInfo?.prn || 'N/A'}</td>
                         <td>{new Date(application.submittedAt).toLocaleDateString()}</td>
                       </tr>
                     ))}
@@ -391,7 +541,7 @@ const AdminRecruitment = () => {
                     disabled={currentPage === 1}
                     onClick={() => {
                       const newPage = currentPage - 1;
-                      fetchApplications(selectedRecruitment._id, newPage);
+                      fetchApplications(selectedRecruitment._id, newPage, searchQuery);
                     }}
                   >
                     Previous
@@ -403,7 +553,7 @@ const AdminRecruitment = () => {
                         key={number}
                         className={`page-number ${currentPage === number ? 'active' : ''}`}
                         onClick={() => {
-                          fetchApplications(selectedRecruitment._id, number);
+                          fetchApplications(selectedRecruitment._id, number, searchQuery, questionFilter);
                         }}
                       >
                         {number}
@@ -416,7 +566,7 @@ const AdminRecruitment = () => {
                     disabled={currentPage === pagination.pages}
                     onClick={() => {
                       const newPage = currentPage + 1;
-                      fetchApplications(selectedRecruitment._id, newPage);
+                      fetchApplications(selectedRecruitment._id, newPage, searchQuery, questionFilter);
                     }}
                   >
                     Next

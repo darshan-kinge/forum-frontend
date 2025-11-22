@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { Navigate } from 'react-router-dom';
 import Table from '../../../components/table/Table.jsx';
 import { FaFileExport } from 'react-icons/fa';
+import { canView } from '../../../utils/permissions';
 import './AdminMember.css';
 import api from '../../../utils/api.js';
 
 const MembersPage = () => {
+    const { AuthorizationToken, user, isLoading } = useAuth();
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [error, setError] = useState(null);
-    const { AuthorizationToken } = useAuth();
     const membersPerPage = 15;
+
+    // Check permissions
+    if (!isLoading && !canView(user, 'members')) {
+        return (
+            <div style={{ padding: '2rem', textAlign: 'center' }}>
+                <h2>Access Denied</h2>
+                <p>You don't have permission to access the Members page.</p>
+                <Navigate to="/admin/dashboard" replace />
+            </div>
+        );
+    }
 
     useEffect(() => {
         fetchMembers();

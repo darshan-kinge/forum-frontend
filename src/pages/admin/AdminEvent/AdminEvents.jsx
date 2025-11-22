@@ -1,6 +1,8 @@
 // pages/admin/AdminEvents/AdminEventsPage.jsx
 import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
+import { canView } from '../../../utils/permissions';
 import Table from './AdminEventsTable/AdminEventsTable.jsx';
 import './AdminEvent.css';
 import { validateFileSize, formatFileSize, MAX_FILE_SIZE } from '../../../utils/filesizeValidation.js';
@@ -10,12 +12,23 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const AdminEventsPage = () => {
+    const { AuthorizationToken, user, isLoading } = useAuth();
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [editingEvent, setEditingEvent] = useState(null);
-    const { AuthorizationToken } = useAuth();
     const eventsPerPage = 5;
+
+    // Check permissions
+    if (!isLoading && !canView(user, 'events')) {
+        return (
+            <div style={{ padding: '2rem', textAlign: 'center' }}>
+                <h2>Access Denied</h2>
+                <p>You don't have permission to access the Events page.</p>
+                <Navigate to="/admin/dashboard" replace />
+            </div>
+        );
+    }
 
     const [formData, setFormData] = useState({
         title: '',

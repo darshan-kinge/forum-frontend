@@ -1,11 +1,14 @@
 // src/components/Admin/AdminPage.js
 import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import AdminTable from './AdminTable/AdminTable.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
+import { canView } from '../../../utils/permissions';
 import './AdminStyle.css';
 import api from '../../../utils/api.js';
 
 const AdminPage = () => {
+  const { AuthorizationToken, user, isLoading } = useAuth();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
@@ -19,7 +22,16 @@ const AdminPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { AuthorizationToken } = useAuth();
+  // Check permissions
+  if (!isLoading && !canView(user, 'team')) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <h2>Access Denied</h2>
+        <p>You don't have permission to access the Team page.</p>
+        <Navigate to="/admin/dashboard" replace />
+      </div>
+    );
+  }
   
   const fetchMembers = async () => {
       try {

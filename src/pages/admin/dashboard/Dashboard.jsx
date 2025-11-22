@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBlog, FaImages, FaUsers, FaCalendarAlt, FaUserFriends, FaUserPlus } from 'react-icons/fa';
+import { useAuth } from '../../../context/AuthContext';
+import { hasAccess } from '../../../utils/permissions';
 import './Dashboard.css';
 import api from '../../../utils/api.js';
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const [memberStats, setMemberStats] = useState({ totalMembers: 0 });
 
   useEffect(() => {
@@ -21,44 +24,53 @@ const Dashboard = () => {
     fetchMemberStats();
   }, []);
 
-  const dashboardItems = [
+  const allDashboardItems = [
     {
       title: 'Blogs',
       icon: <FaBlog />,
       link: '/admin/blog',
-      description: 'Manage blog posts and articles'
+      description: 'Manage blog posts and articles',
+      pageName: 'blog'
     },
     {
       title: 'Gallery',
       icon: <FaImages />,
       link: '/admin/gallery',
-      description: 'Manage image gallery'
+      description: 'Manage image gallery',
+      pageName: 'gallery'
     },
     {
       title: 'Members',
       icon: <FaUserFriends />,
       link: '/admin/members',
-      description: 'Manage members'
+      description: 'Manage members',
+      pageName: 'members'
     },
     {
       title: 'Team',
       icon: <FaUsers />,
       link: '/admin/team',
-      description: 'Manage team members'
+      description: 'Manage team members',
+      pageName: 'team'
     },
     {
       title: 'Events',
       icon: <FaCalendarAlt />,
       link: '/admin/events',
-      description: 'Manage upcoming and past events'
+      description: 'Manage upcoming and past events',
+      pageName: 'events'
     },
     {
       title: 'Recruitment',
       icon: <FaUserPlus />,
       link: '/admin/recruitment',
-      description: 'Manage recruitment forms and applications'
+      description: 'Manage recruitment forms and applications',
+      pageName: 'recruitment'
     }
   ];
+
+  // Filter dashboard items based on permissions
+  const dashboardItems = allDashboardItems.filter(item => hasAccess(user, item.pageName));
 
   return (
     <div className="dashboard">

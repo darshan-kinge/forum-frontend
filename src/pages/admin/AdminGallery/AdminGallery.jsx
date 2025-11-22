@@ -1,19 +1,30 @@
 import { useState, useEffect, useRef } from 'react'
+import { Navigate } from 'react-router-dom';
 import './AdminGallery.css'
 import { useAuth } from '../../../context/AuthContext'
+import { canView } from '../../../utils/permissions';
 import config from '../../../config/config.js';
 import api from '../../../utils/api.js';
 
 const AdminGallery = () => {
-
+  const { AuthorizationToken, user, isLoading } = useAuth();
   const [allImages, setAllImages] = useState([]);
-
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const fileInputRef = useRef(null);
   const imagesPerPage = 4;
-  const { AuthorizationToken } = useAuth();
+
+  // Check permissions
+  if (!isLoading && !canView(user, 'gallery')) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <h2>Access Denied</h2>
+        <p>You don't have permission to access the Gallery page.</p>
+        <Navigate to="/admin/dashboard" replace />
+      </div>
+    );
+  }
 
   
   const fetchImages = async () => {
@@ -39,6 +50,11 @@ const AdminGallery = () => {
   }   
 
   const handleImageUpload = async() => {
+    if (!image) {
+      alert('Please select an image first');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('image', image);
 
@@ -46,15 +62,16 @@ const AdminGallery = () => {
       setLoading(true);
       const response = await api.post('/gallery/upload', formData);
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         alert('File uploaded successfully');
+        setImage(null);
+        fileInputRef.current.value = '';
+        fetchImages();
       } else {
         throw new Error('Failed to upload file');
       }
       
       setLoading(false);
-      fileInputRef.current.value = '';
-      fetchImages();
       
     } catch (error) {
       console.error(error);

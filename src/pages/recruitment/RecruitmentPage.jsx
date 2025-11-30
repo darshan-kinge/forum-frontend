@@ -456,7 +456,7 @@ const RecruitmentPage = () => {
               </div>
 
               <div className="form-group">
-                <label>Email *</label>
+                <label>Email (MIT-WPU Email Only) *</label>
                 <input
                   type="email"
                   name="email"

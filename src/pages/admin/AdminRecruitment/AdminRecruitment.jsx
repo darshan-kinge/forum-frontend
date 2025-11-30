@@ -500,39 +500,39 @@ const AdminRecruitment = () => {
             </div>
           ) : (
             <>
-              <div className="applications-table">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
+            <div className="applications-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
                       <th>Course</th>
                       <th>Year</th>
                       <th>PRN</th>
-                      <th>Submitted</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {applications.map(application => (
-                      <tr 
-                        key={application._id}
-                        className="clickable-row"
-                        onClick={() => {
-                          setSelectedApplication(application);
-                          setShowApplicationModal(true);
-                        }}
-                      >
-                        <td>{application.applicantInfo?.name}</td>
-                        <td>{application.applicantInfo?.email}</td>
+                    <th>Submitted</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {applications.map(application => (
+                    <tr 
+                      key={application._id}
+                      className="clickable-row"
+                      onClick={() => {
+                        setSelectedApplication(application);
+                        setShowApplicationModal(true);
+                      }}
+                    >
+                      <td>{application.applicantInfo?.name}</td>
+                      <td>{application.applicantInfo?.email}</td>
                         <td>{application.applicantInfo?.course || 'N/A'}</td>
                         <td>{application.applicantInfo?.year || 'N/A'}</td>
                         <td>{application.applicantInfo?.prn || 'N/A'}</td>
-                        <td>{new Date(application.submittedAt).toLocaleDateString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                      <td>{new Date(application.submittedAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
               
               {pagination.pages > 1 && (
                 <div className="admin-pagination">

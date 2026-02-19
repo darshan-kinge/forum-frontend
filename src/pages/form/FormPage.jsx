@@ -506,10 +506,20 @@ const FormPage = () => {
       />
       
       <div className="form-container">
-        <div className="form-header">
-          <h1>{form.title}</h1>
-          <p className="form-description">{form.description}</p>
-        </div>
+        <header className={`form-hero ${form.headerImage ? 'form-hero--with-image' : 'form-hero--no-image'}`}>
+          {form.headerImage && (
+            <div className="form-hero-banner">
+              <img src={form.headerImage} alt="" />
+              <div className="form-hero-overlay" aria-hidden="true" />
+            </div>
+          )}
+          <div className="form-hero-content">
+            <h1 className="form-hero-title">{form.title}</h1>
+            {form.description && (
+              <p className="form-hero-description">{form.description}</p>
+            )}
+          </div>
+        </header>
 
         {showErrorModal && (
           <div className="modal-overlay" onClick={() => setShowErrorModal(false)}>
@@ -539,7 +549,7 @@ const FormPage = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="form-form">
+        <form onSubmit={handleSubmit} className={`form-form ${form.headerImage ? 'form-form--attached' : ''}`}>
           {/* Respondent Info Section */}
           {(form.respondentFields && form.respondentFields.length > 0) || form.collectName || form.collectEmail ? (
             <div className="form-section">

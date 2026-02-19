@@ -36,6 +36,7 @@ const AdminForms = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    headerImage: '',
     customRoute: '',
     isActive: false,
     customQuestions: [],
@@ -48,6 +49,7 @@ const AdminForms = () => {
     collectName: true,
     respondentFields: []
   });
+  const [headerImageUploading, setHeaderImageUploading] = useState(false);
 
   const [questionForm, setQuestionForm] = useState({
     question: '',
@@ -383,6 +385,7 @@ const AdminForms = () => {
       const cleanedFormData = {
         title: formData.title,
         description: formData.description,
+        headerImage: formData.headerImage || undefined,
         customRoute: formData.customRoute,
         isActive: formData.isActive,
         customQuestions: cleanedQuestions,
@@ -434,6 +437,7 @@ const AdminForms = () => {
     setFormData({
       title: '',
       description: '',
+      headerImage: '',
       customRoute: '',
       isActive: false,
       customQuestions: [],
@@ -464,9 +468,39 @@ const AdminForms = () => {
     }
   };
 
+  const handleHeaderImageChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith('image/')) {
+      alert('Please select an image file (e.g. JPG, PNG)');
+      return;
+    }
+    setHeaderImageUploading(true);
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append('headerImage', file);
+      const res = await api.post('/form/admin/upload-header', formDataUpload, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      if (res.data?.url) {
+        setFormData(prev => ({ ...prev, headerImage: res.data.url }));
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || 'Failed to upload image');
+    } finally {
+      setHeaderImageUploading(false);
+      e.target.value = '';
+    }
+  };
+
+  const removeHeaderImage = () => {
+    setFormData(prev => ({ ...prev, headerImage: '' }));
+  };
+
   const editForm = (form) => {
     setFormData({
       ...form,
+      headerImage: form.headerImage || '',
       customQuestions: Array.isArray(form.customQuestions) ? form.customQuestions : [],
       submissionDeadline: form.submissionDeadline ? 
         new Date(form.submissionDeadline).toISOString().split('T')[0] : null
@@ -867,6 +901,44 @@ const AdminForms = () => {
                   required
                   rows={4}
                 />
+              </div>
+
+              <div className="form-group form-header-image-group">
+                <label>Header image (optional)</label>
+                <p className="form-header-image-hint">Shows a banner at the top of the form, like Google Forms.</p>
+                {formData.headerImage ? (
+                  <div className="form-header-image-preview-wrap">
+                    <img src={formData.headerImage} alt="Header" className="form-header-image-preview" />
+                    <div className="form-header-image-actions">
+                      <label className="btn-secondary form-header-image-upload-btn">
+                        {headerImageUploading ? 'Uploading…' : 'Change'}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          hidden
+                          disabled={headerImageUploading}
+                          onChange={handleHeaderImageChange}
+                        />
+                      </label>
+                      <button type="button" className="btn-secondary" onClick={removeHeaderImage}>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <label className="form-header-image-upload-area">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      disabled={headerImageUploading}
+                      onChange={handleHeaderImageChange}
+                    />
+                    <span className="form-header-image-upload-text">
+                      {headerImageUploading ? 'Uploading…' : 'Choose an image'}
+                    </span>
+                  </label>
+                )}
               </div>
 
               <div className="form-group">

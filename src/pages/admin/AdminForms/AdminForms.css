@@ -623,6 +623,68 @@
   font-size: 0.85rem;
 }
 
+/* Header image (Google Forms style) */
+.form-header-image-group label:first-of-type {
+  margin-bottom: 0.25rem;
+}
+
+.form-header-image-hint {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0 0 0.75rem 0;
+}
+
+.form-header-image-upload-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.form-header-image-upload-area:hover {
+  border-color: var(--bg-color);
+  background: #f1f5f9;
+}
+
+.form-header-image-upload-text {
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.form-header-image-preview-wrap {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.form-header-image-preview {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.form-header-image-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-top: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.form-header-image-upload-btn {
+  margin: 0;
+  cursor: pointer;
+}
+
 .form-checkbox {
   display: flex;
   align-items: center;

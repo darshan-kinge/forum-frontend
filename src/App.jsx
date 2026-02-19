@@ -30,9 +30,11 @@ import AdminEventsPage from './pages/admin/AdminEvent/AdminEvents.jsx';
 import AdminTeamPage from './pages/admin/AdminTeam/AdminTeamPage.jsx';
 import AdminMember from './pages/admin/AdminMember/AdminMember.jsx';
 import AdminRecruitment from './pages/admin/AdminRecruitment/AdminRecruitment.jsx';
+import AdminForms from './pages/admin/AdminForms/AdminForms.jsx';
 import AdminManagement from './pages/admin/AdminManagement/AdminManagement.jsx';
 import Badge from './pages/join-us/Badge.jsx';
 import RecruitmentPage from './pages/recruitment/RecruitmentPage.jsx';
+import FormPage from './pages/form/FormPage.jsx';
 import _404 from './pages/404/404.jsx';
 
 const App = () => {
@@ -53,6 +55,7 @@ const App = () => {
             <Route path='/events' element={<EventsPage /> } />
             <Route path='/events/:id' element={<EventDetail />} />
             <Route path='/recruitment' element={<RecruitmentPage />} />
+            <Route path='/f/:route' element={<FormPage />} />
             <Route path='/certificate' element={<Badge />} />
 
 
@@ -75,6 +78,7 @@ const App = () => {
               <Route path='team' element={<AdminTeamPage />} />
               <Route path='events' element={<AdminEventsPage />} />
               <Route path='recruitment' element={<AdminRecruitment />} />
+              <Route path='forms' element={<AdminForms />} />
               <Route path='admins' element={<AdminManagement />} />
             </Route>
           </Routes> 

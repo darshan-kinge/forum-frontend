@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = import.meta.env.VITE_SERVER_URL || 'https://server.snsf.live';
+const url = import.meta.env.VITE_SERVER_URL || 'https://server.snsf.club';
 const apiVersion = import.meta.env.VITE_API_VERSION || 'v1';
 
 const api = axios.create({

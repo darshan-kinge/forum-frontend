@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBlog, FaImages, FaUsers, FaCalendarAlt, FaUserFriends, FaUserPlus } from 'react-icons/fa';
+import { FaBlog, FaImages, FaUsers, FaCalendarAlt, FaUserFriends, FaUserPlus, FaFileAlt } from 'react-icons/fa';
 import { useAuth } from '../../../context/AuthContext';
 import { hasAccess } from '../../../utils/permissions';
 import './Dashboard.css';
@@ -66,6 +66,13 @@ const Dashboard = () => {
       link: '/admin/recruitment',
       description: 'Manage recruitment forms and applications',
       pageName: 'recruitment'
+    },
+    {
+      title: 'Forms',
+      icon: <FaFileAlt />,
+      link: '/admin/forms',
+      description: 'Create and manage custom forms',
+      pageName: 'forms'
     }
   ];
 

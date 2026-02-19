@@ -6,6 +6,6 @@
         }
     ],
     "env": {
-        "VITE_SERVER_URL": "https://server.snsf.live"
+        "VITE_SERVER_URL": "https://server.snsf.club"
     }
 }

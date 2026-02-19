@@ -1,0 +1,337 @@
+.form-page {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  padding: 2rem 0;
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.form-header {
+  text-align: center;
+  color: var(--white-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.form-description {
+  font-size: 1.2rem;
+  color: var(--white-color);  
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.form-form {
+  background: var(--white-color);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  overflow: visible;
+  max-height: none;
+}
+
+.form-section {
+  margin-bottom: 2.5rem;
+}
+
+.form-section-questions {
+  margin-top: 2rem;
+}
+
+.form-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-question-group {
+  padding: 0.25rem 0;
+}
+
+.form-section h2 {
+  color: var(--bg-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--bg-color);
+  padding-bottom: 0.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--bg-color);
+  font-size: 1rem;
+}
+
+.required {
+  color: #e74c3c;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--bg-color);
+  background: var(--white-color);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.radio-label,
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  padding: 0.875rem 1rem;
+  border-radius: 10px;
+  border: 2px solid #e8eaed;
+  background: #fafbfc;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 48px;
+}
+
+.radio-label input,
+.checkbox-label input {
+  align-self: center;
+  vertical-align: middle;
+}
+
+.radio-label:hover,
+.checkbox-label:hover {
+  border-color: #c5c9d0;
+  background: #f1f3f5;
+}
+
+.radio-label:has(input:checked),
+.checkbox-label:has(input:checked) {
+  border-color: var(--bg-color);
+  background: rgba(102, 126, 234, 0.08);
+  box-shadow: 0 0 0 1px var(--bg-color);
+}
+
+/* Custom checkbox – hide default, style the box */
+.checkbox-label input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin: 0;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 2px solid #adb5bd;
+  border-radius: 5px;
+  background: #fff;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.checkbox-label input[type="checkbox"]:hover {
+  border-color: var(--bg-color);
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+  border-color: var(--bg-color);
+  background: var(--bg-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7l3 3 5-6'/%3E%3C/svg%3E");
+  background-size: 85%;
+  background-position: center;
+}
+
+/* Custom radio – hide default, style the circle */
+.radio-label input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin: 0;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 2px solid #adb5bd;
+  border-radius: 50%;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.radio-label input[type="radio"]:hover {
+  border-color: var(--bg-color);
+}
+
+.radio-label input[type="radio"]:checked {
+  border-color: var(--bg-color);
+  background: var(--bg-color);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.radio-text,
+.checkbox-text {
+  font-weight: 500;
+  color: var(--bg-color);
+  font-size: 0.9875rem;
+  line-height: 1.35rem;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.35rem;
+}
+
+.form-action-button {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--bg-color);
+  color: var(--white-color);
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--bg-color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:disabled,
+.btn-primary.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background: var(--white-color);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  color: var(--bg-color);
+}
+
+.error-message h2 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--white-color);
+  border-radius: 15px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal--error {
+  border-top: 4px solid #e74c3c;
+}
+
+.modal--success {
+  border-top: 4px solid #27ae60;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.modal-title {
+  margin: 0;
+  color: var(--bg-color);
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  color: var(--bg-color);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  color: var(--bg-color);
+}
+
+.modal-body p {
+  margin: 0;
+  line-height: 1.6;
+}

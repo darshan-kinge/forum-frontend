@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { canView } from '../../../utils/permissions';
@@ -53,6 +53,7 @@ const AdminRecruitment = () => {
     showIf: null
   });
   const [editingQuestionIndexLocal, setEditingQuestionIndexLocal] = useState(null);
+  const questionsListRef = useRef(null);
 
   useEffect(() => {
     fetchRecruitments();
@@ -174,9 +175,16 @@ const AdminRecruitment = () => {
     } else {
       // Add new question
       setFormData(prev => ({
-        ...prev,
-        customQuestions: [...prev.customQuestions, newQuestion]
-      }));
+      ...prev,
+      customQuestions: [...prev.customQuestions, newQuestion]
+    }));
+    // Auto-scroll to the new question in the list
+    setTimeout(() => {
+      if (questionsListRef.current) {
+        const items = questionsListRef.current.querySelectorAll('.question-item');
+        if (items.length > 0) items[items.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 50);
     }
 
     setQuestionForm({
@@ -199,6 +207,14 @@ const AdminRecruitment = () => {
       setEditingQuestionIndexLocal(null);
       setQuestionForm({ question: '', type: 'text', options: [], required: false, allowMultiple: false, placeholder: '', showIf: null });
     }
+  };
+
+  const moveQuestion = (index, direction) => {
+    const newQuestions = [...formData.customQuestions];
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= newQuestions.length) return;
+    [newQuestions[index], newQuestions[targetIndex]] = [newQuestions[targetIndex], newQuestions[index]];
+    setFormData(prev => ({ ...prev, customQuestions: newQuestions }));
   };
 
   const editQuestion = (index) => {
@@ -698,12 +714,13 @@ const AdminRecruitment = () => {
               <div className="questions-section">
                 <h3>Custom Questions</h3>
                 
-                <div className="questions-list">
+                <div className="questions-list" ref={questionsListRef}>
                   {formData.customQuestions.map((question, index) => (
                     <div key={index} className="question-item">
                       <div className="question-content">
+                        <span className="question-index">Q{index + 1}</span>
                         <strong>{question.question}</strong>
-                        <span className="question-type">({question.type})</span>
+                        <span className="question-type">({question.type}{question.allowMultiple ? ', multi' : ''})</span>
                         {question.required && <span className="required">*</span>}
                         {question.showIf && (
                           <span className="visibility-chip" title="Visibility rule">
@@ -711,7 +728,21 @@ const AdminRecruitment = () => {
                           </span>
                         )}
                       </div>
-                      <div style={{display:'flex', gap:'0.5rem'}}>
+                      <div style={{display:'flex', gap:'0.4rem', alignItems:'center'}}>
+                        <button
+                          type="button"
+                          onClick={() => moveQuestion(index, -1)}
+                          className="btn-move"
+                          disabled={index === 0}
+                          title="Move up"
+                        >↑</button>
+                        <button
+                          type="button"
+                          onClick={() => moveQuestion(index, 1)}
+                          className="btn-move"
+                          disabled={index === formData.customQuestions.length - 1}
+                          title="Move down"
+                        >↓</button>
                         <button
                           type="button"
                           onClick={() => editQuestion(index)}

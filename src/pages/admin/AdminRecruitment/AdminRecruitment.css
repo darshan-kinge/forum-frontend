@@ -797,6 +797,50 @@
   border-color: #fda4af;
 }
 
+.btn-move {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #f8f9fa;
+  color: #555;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.btn-move:hover:not(:disabled) {
+  background: #e2e8f0;
+  border-color: #adb5bd;
+  color: #02385D;
+}
+
+.btn-move:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.question-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 22px;
+  padding: 0 6px;
+  background: #02385D;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
 .form-actions {
   display: flex;
   gap: 1rem;

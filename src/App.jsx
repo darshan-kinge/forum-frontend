@@ -67,6 +67,7 @@ const App = () => {
             <Route path='*' element={ <_404 /> } />
 
             <Route path='admin' element={<AdminLayout />}>
+              <Route index element={<Navigate to='dashboard' replace />} />
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='members' element={<AdminMember />} />
               <Route path='gallery' element={<AdminGallery />} />

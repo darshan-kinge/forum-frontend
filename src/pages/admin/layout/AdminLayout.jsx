@@ -26,7 +26,7 @@ const AdminLayout = () => {
     }
 
     if (!isAuthenticated) {
-        return <Navigate to="/" />;
+        return <Navigate to="/admin/login" replace />;
     }
 
     // Check if user is super admin (no permissions = full access)

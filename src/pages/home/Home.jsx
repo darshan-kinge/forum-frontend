@@ -47,12 +47,13 @@ const Home = () => {
     fetchImages();
   }, []);
 
-  if (loading) return <Preloader loading={loading} />;
+
 
   // Don't return null when no images - just render the page without the gallery section
 
   return (
     <>
+      <Preloader loading={loading} />
       <HelmetComponent
         pageName='Home'
         description='MIT-WPU Science and Spirituality Forum is a unique initiative that seeks to bridge the gap between scientific knowledge and spiritual wisdom.'

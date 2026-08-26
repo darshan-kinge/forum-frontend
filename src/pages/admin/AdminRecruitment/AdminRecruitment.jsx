@@ -290,6 +290,18 @@ const AdminRecruitment = () => {
     setShowForm(true);
   };
 
+  const duplicateRecruitment = (recruitment) => {
+    const { _id, ...rest } = recruitment;
+    setFormData({
+      ...rest,
+      title: `${recruitment.title} (Copy)`,
+      applicationDeadline: recruitment.applicationDeadline ? 
+        new Date(recruitment.applicationDeadline).toISOString().split('T')[0] : ''
+    });
+    setEditingRecruitment(null);
+    setShowForm(true);
+  };
+
   const deleteRecruitment = async (id) => {
     if (!window.confirm('Are you sure you want to delete this recruitment?')) return;
 
@@ -375,6 +387,12 @@ const AdminRecruitment = () => {
                       onClick={() => editRecruitment(recruitment)}
                     >
                       Edit
+                    </button>
+                    <button 
+                      className="btn-secondary"
+                      onClick={() => duplicateRecruitment(recruitment)}
+                    >
+                      Duplicate
                     </button>
                     <button 
                       className="btn-secondary"
@@ -678,6 +696,39 @@ const AdminRecruitment = () => {
               <div className="questions-section">
                 <h3>Custom Questions</h3>
                 
+                <div className="questions-list">
+                  {formData.customQuestions.map((question, index) => (
+                    <div key={index} className="question-item">
+                      <div className="question-content">
+                        <strong>{question.question}</strong>
+                        <span className="question-type">({question.type})</span>
+                        {question.required && <span className="required">*</span>}
+                        {question.showIf && (
+                          <span className="visibility-chip" title="Visibility rule">
+                            Visible when Q{(question.showIf.questionIndex ?? 0) + 1} equals "{question.showIf.value}"
+                          </span>
+                        )}
+                      </div>
+                      <div style={{display:'flex', gap:'0.5rem'}}>
+                        <button
+                          type="button"
+                          onClick={() => editQuestion(index)}
+                          className="btn-secondary"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => removeQuestion(index)}
+                          className="remove-question"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
                 <div className="question-builder">
                   <div className="form-group">
                     <label>Question</label>
@@ -829,39 +880,6 @@ const AdminRecruitment = () => {
                       </button>
                     )}
                   </div>
-                </div>
-
-                <div className="questions-list">
-                  {formData.customQuestions.map((question, index) => (
-                    <div key={index} className="question-item">
-                      <div className="question-content">
-                        <strong>{question.question}</strong>
-                        <span className="question-type">({question.type})</span>
-                        {question.required && <span className="required">*</span>}
-                        {question.showIf && (
-                          <span className="visibility-chip" title="Visibility rule">
-                            Visible when Q{(question.showIf.questionIndex ?? 0) + 1} equals "{question.showIf.value}"
-                          </span>
-                        )}
-                      </div>
-                      <div style={{display:'flex', gap:'0.5rem'}}>
-                        <button
-                          type="button"
-                          onClick={() => editQuestion(index)}
-                          className="btn-secondary"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => removeQuestion(index)}
-                          className="remove-question"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </div>
 

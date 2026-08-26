@@ -48,6 +48,7 @@ const AdminRecruitment = () => {
     type: 'text',
     options: [],
     required: false,
+    allowMultiple: false,
     placeholder: '',
     showIf: null
   });
@@ -183,6 +184,7 @@ const AdminRecruitment = () => {
       type: 'text',
       options: [],
       required: false,
+      allowMultiple: false,
       placeholder: '',
       showIf: null
     });
@@ -195,7 +197,7 @@ const AdminRecruitment = () => {
     }));
     if (editingQuestionIndexLocal === index) {
       setEditingQuestionIndexLocal(null);
-      setQuestionForm({ question: '', type: 'text', options: [], required: false, placeholder: '', showIf: null });
+      setQuestionForm({ question: '', type: 'text', options: [], required: false, allowMultiple: false, placeholder: '', showIf: null });
     }
   };
 
@@ -771,6 +773,21 @@ const AdminRecruitment = () => {
                         <span> Required</span>
                       </label>
                     </div>
+
+                    {questionForm.type === 'radio' && (
+                      <div className="form-group form-checkbox">
+                        <label htmlFor="allowMultiple">
+                          <input
+                            id="allowMultiple"
+                            type="checkbox"
+                            name="allowMultiple"
+                            checked={questionForm.allowMultiple}
+                            onChange={handleQuestionChange}
+                          />
+                          <span> Allow Multiple Selections</span>
+                        </label>
+                      </div>
+                    )}
                   </div>
 
                   {/* Conditional visibility configuration */}

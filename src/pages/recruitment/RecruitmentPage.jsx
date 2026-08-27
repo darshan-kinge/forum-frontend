@@ -111,17 +111,25 @@ const RecruitmentPage = () => {
       ? newAnswers[questionIndex].answer 
       : [newAnswers[questionIndex].answer];
 
+    // Compute the NEW answer array after this toggle
+    let updatedAnswers;
     if (currentAnswers.includes(option)) {
-      newAnswers[questionIndex].answer = currentAnswers.filter(a => a !== option);
+      updatedAnswers = currentAnswers.filter(a => a !== option);
     } else {
-      newAnswers[questionIndex].answer = [...currentAnswers, option];
+      updatedAnswers = [...currentAnswers, option];
     }
+    newAnswers[questionIndex].answer = updatedAnswers;
 
-    // Clear answers for questions that depend on this question
+    // Only clear a dependent question's answer if its trigger value
+    // is NO LONGER in the parent's selected answers
     if (recruitment && recruitment.customQuestions) {
       recruitment.customQuestions.forEach((question, idx) => {
         if (question.showIf && question.showIf.questionIndex === questionIndex) {
-          newAnswers[idx].answer = '';
+          const triggerValue = question.showIf.value;
+          const isStillVisible = updatedAnswers.includes(triggerValue);
+          if (!isStillVisible) {
+            newAnswers[idx].answer = '';
+          }
         }
       });
     }

@@ -756,6 +756,36 @@
   transform: translateY(-1px);
 }
 
+.question-item.drag-over {
+  border-color: #02385D;
+  background: #f0f7ff;
+  box-shadow: 0 0 0 2px rgba(2, 56, 93, 0.2);
+  transform: scale(1.01);
+}
+
+.question-item[draggable] {
+  cursor: grab;
+}
+
+.question-item[draggable]:active {
+  cursor: grabbing;
+  opacity: 0.6;
+}
+
+.drag-handle {
+  font-size: 1.2rem;
+  color: #adb5bd;
+  cursor: grab;
+  padding: 0 0.5rem 0 0;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.drag-handle:hover {
+  color: #495057;
+}
+
 .question-content {
   flex: 1;
   font-weight: 500;

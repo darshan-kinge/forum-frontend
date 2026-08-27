@@ -54,6 +54,8 @@ const AdminRecruitment = () => {
   });
   const [editingQuestionIndexLocal, setEditingQuestionIndexLocal] = useState(null);
   const questionsListRef = useRef(null);
+  const dragIndexRef = useRef(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
 
   useEffect(() => {
     fetchRecruitments();
@@ -716,7 +718,28 @@ const AdminRecruitment = () => {
                 
                 <div className="questions-list" ref={questionsListRef}>
                   {formData.customQuestions.map((question, index) => (
-                    <div key={index} className="question-item">
+                    <div
+                      key={index}
+                      className={`question-item${
+                        dragOverIndex === index ? ' drag-over' : ''
+                      }`}
+                      draggable
+                      onDragStart={() => { dragIndexRef.current = index; }}
+                      onDragOver={(e) => { e.preventDefault(); setDragOverIndex(index); }}
+                      onDrop={() => {
+                        const from = dragIndexRef.current;
+                        const to = index;
+                        if (from === null || from === to) { setDragOverIndex(null); return; }
+                        const updated = [...formData.customQuestions];
+                        const [moved] = updated.splice(from, 1);
+                        updated.splice(to, 0, moved);
+                        setFormData(prev => ({ ...prev, customQuestions: updated }));
+                        dragIndexRef.current = null;
+                        setDragOverIndex(null);
+                      }}
+                      onDragEnd={() => { dragIndexRef.current = null; setDragOverIndex(null); }}
+                    >
+                      <span className="drag-handle" title="Drag to reorder">⠿</span>
                       <div className="question-content">
                         <span className="question-index">Q{index + 1}</span>
                         <strong>{question.question}</strong>

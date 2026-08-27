@@ -763,6 +763,18 @@
   transform: scale(1.01);
 }
 
+/* The card being dragged — fade it out */
+.question-item.dragging {
+  opacity: 0.4;
+  border-style: dashed;
+}
+
+/* KEY FIX: disable pointer events on all children while any drag is active
+   so that child elements (text, buttons) don't intercept dragOver events */
+.questions-list.is-dragging .question-item > * {
+  pointer-events: none;
+}
+
 .question-item[draggable] {
   cursor: grab;
 }

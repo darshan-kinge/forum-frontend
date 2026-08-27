@@ -378,6 +378,25 @@ const FormPage = () => {
         );
 
       case 'radio':
+        // If allowMultiple is set, render as checkboxes so users can pick more than one
+        if (question.allowMultiple) {
+          return (
+            <div className="checkbox-group">
+              {options.map((option, optIndex) => (
+                <label key={optIndex} className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    value={option}
+                    checked={Array.isArray(answer) ? answer.includes(option) : false}
+                    onChange={() => handleCheckboxChange(index, option)}
+                    required={question.required && (!answer || answer.length === 0)}
+                  />
+                  <span className="checkbox-text">{option}</span>
+                </label>
+              ))}
+            </div>
+          );
+        }
         return (
           <div className="radio-group">
             {options.map((option, optIndex) => (

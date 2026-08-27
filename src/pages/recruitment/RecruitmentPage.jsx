@@ -23,6 +23,7 @@ const RecruitmentPage = () => {
       gender: '',
       email: '',
       prn: '',
+      phone: '',
       year: '',
       course: ''
     },
@@ -475,6 +476,21 @@ const RecruitmentPage = () => {
                   value={formData.applicantInfo.prn}
                   onChange={(e) => handleInputChange(e, 'applicantInfo')}
                   required
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Phone Number *</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.applicantInfo.phone}
+                  onChange={(e) => handleInputChange(e, 'applicantInfo')}
+                  required
+                  placeholder="10-digit mobile number"
+                  pattern="[0-9]{10}"
+                  maxLength={10}
                   className="form-input"
                 />
               </div>

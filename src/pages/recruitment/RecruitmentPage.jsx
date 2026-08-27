@@ -102,7 +102,8 @@ const RecruitmentPage = () => {
   };
 
   const handleCheckboxChange = (questionIndex, option) => {
-    const newAnswers = [...formData.answers];
+    const newAnswers = formData.answers.map(a => ({ ...a })); // Deep copy objects
+    
     if (!newAnswers[questionIndex].answer) {
       newAnswers[questionIndex].answer = [];
     }
@@ -124,7 +125,7 @@ const RecruitmentPage = () => {
     // is NO LONGER in the parent's selected answers
     if (recruitment && recruitment.customQuestions) {
       recruitment.customQuestions.forEach((question, idx) => {
-        if (question.showIf && question.showIf.questionIndex === questionIndex) {
+        if (question.showIf && Number(question.showIf.questionIndex) === questionIndex) {
           const triggerValue = question.showIf.value;
           const isStillVisible = updatedAnswers.includes(triggerValue);
           if (!isStillVisible) {
@@ -350,7 +351,7 @@ const RecruitmentPage = () => {
   const isQuestionVisible = (question, questionIndex) => {
     if (!question.showIf || !recruitment?.customQuestions) return true;
     
-    const parentIdx = question.showIf.questionIndex;
+    const parentIdx = Number(question.showIf.questionIndex);
     const parentAnswer = formData.answers[parentIdx]?.answer;
     
     // Check if parent question is visible first

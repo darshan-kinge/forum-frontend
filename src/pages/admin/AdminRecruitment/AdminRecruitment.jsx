@@ -56,6 +56,8 @@ const AdminRecruitment = () => {
   const questionsListRef = useRef(null);
   const dragIndexRef = useRef(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const inlineEditRef = useRef(null);
 
   useEffect(() => {
     fetchRecruitments();
@@ -226,10 +228,18 @@ const AdminRecruitment = () => {
       type: q.type || 'text',
       options: Array.isArray(q.options) ? q.options : [],
       required: !!q.required,
+      allowMultiple: !!q.allowMultiple,
       placeholder: q.placeholder || '',
       showIf: q.showIf || null
     });
     setEditingQuestionIndexLocal(index);
+    // Scroll to inline editor after it renders
+    setTimeout(() => {
+      if (inlineEditRef.current) {
+        inlineEditRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        inlineEditRef.current.querySelector('input,textarea,select')?.focus();
+      }
+    }, 50);
   };
 
   const addOption = () => {
@@ -716,28 +726,42 @@ const AdminRecruitment = () => {
               <div className="questions-section">
                 <h3>Custom Questions</h3>
                 
-                <div className="questions-list" ref={questionsListRef}>
+                 <div className={`questions-list${isDragging ? ' is-dragging' : ''}`} ref={questionsListRef}>
                   {formData.customQuestions.map((question, index) => (
+                    <React.Fragment key={index}>
                     <div
-                      key={index}
                       className={`question-item${
                         dragOverIndex === index ? ' drag-over' : ''
+                      }${editingQuestionIndexLocal === index ? ' editing' : ''}${
+                        isDragging && dragIndexRef.current === index ? ' dragging' : ''
                       }`}
                       draggable
-                      onDragStart={() => { dragIndexRef.current = index; }}
-                      onDragOver={(e) => { e.preventDefault(); setDragOverIndex(index); }}
-                      onDrop={() => {
+                      onDragStart={(e) => {
+                        dragIndexRef.current = index;
+                        setIsDragging(true);
+                        // Required for Firefox
+                        e.dataTransfer.effectAllowed = 'move';
+                        e.dataTransfer.setData('text/plain', index);
+                      }}
+                      onDragEnter={(e) => {
+                        e.preventDefault();
+                        if (dragIndexRef.current !== index) setDragOverIndex(index);
+                      }}
+                      onDragOver={(e) => { e.preventDefault(); }}
+                      onDrop={(e) => {
+                        e.preventDefault();
                         const from = dragIndexRef.current;
                         const to = index;
-                        if (from === null || from === to) { setDragOverIndex(null); return; }
+                        if (from === null || from === to) { setDragOverIndex(null); setIsDragging(false); return; }
                         const updated = [...formData.customQuestions];
                         const [moved] = updated.splice(from, 1);
                         updated.splice(to, 0, moved);
                         setFormData(prev => ({ ...prev, customQuestions: updated }));
                         dragIndexRef.current = null;
                         setDragOverIndex(null);
+                        setIsDragging(false);
                       }}
-                      onDragEnd={() => { dragIndexRef.current = null; setDragOverIndex(null); }}
+                      onDragEnd={() => { dragIndexRef.current = null; setDragOverIndex(null); setIsDragging(false); }}
                     >
                       <span className="drag-handle" title="Drag to reorder">⠿</span>
                       <div className="question-content">
@@ -782,9 +806,145 @@ const AdminRecruitment = () => {
                         </button>
                       </div>
                     </div>
+
+                    {/* Inline edit form — appears right below the card being edited */}
+                    {editingQuestionIndexLocal === index && (
+                      <div className="question-builder question-builder-inline" ref={inlineEditRef}>
+                        <div className="inline-edit-header">✏️ Editing Q{index + 1}</div>
+                        <div className="form-group">
+                          <label>Question</label>
+                          <input
+                            type="text"
+                            value={questionForm.question}
+                            onChange={(e) => setQuestionForm(prev => ({ ...prev, question: e.target.value }))}
+                            placeholder="Enter your question"
+                          />
+                        </div>
+
+                        <div className="form-row">
+                          <div className="form-group">
+                            <label>Type</label>
+                            <select value={questionForm.type} onChange={handleQuestionChange} name="type">
+                              <option value="text">Text Input</option>
+                              <option value="textarea">Text Area</option>
+                              <option value="email">Email</option>
+                              <option value="number">Number</option>
+                              <option value="date">Date</option>
+                              <option value="dropdown">Dropdown</option>
+                              <option value="radio">Radio Buttons</option>
+                              <option value="checkbox">Checkboxes</option>
+                            </select>
+                          </div>
+                          <div className="form-group form-checkbox">
+                            <label htmlFor={`required-inline-${index}`}>
+                              <input id={`required-inline-${index}`} type="checkbox" name="required" checked={questionForm.required} onChange={handleQuestionChange} />
+                              <span> Required</span>
+                            </label>
+                          </div>
+                          {questionForm.type === 'radio' && (
+                            <div className="form-group form-checkbox">
+                              <label htmlFor={`allowMultiple-inline-${index}`}>
+                                <input id={`allowMultiple-inline-${index}`} type="checkbox" name="allowMultiple" checked={questionForm.allowMultiple} onChange={handleQuestionChange} />
+                                <span> Allow Multiple Selections</span>
+                              </label>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="form-group">
+                          <label>Visibility (optional)</label>
+                          <div className="form-row">
+                            <div className="form-group">
+                              <label>Parent Question</label>
+                              <select
+                                value={questionForm.showIf?.questionIndex ?? ''}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  setQuestionForm(prev => ({
+                                    ...prev,
+                                    showIf: val === '' ? null : { questionIndex: Number(val), operator: 'equals', value: '' }
+                                  }));
+                                }}
+                              >
+                                <option value="">None</option>
+                                {formData.customQuestions.map((q, idx) => (
+                                  (q.type === 'dropdown' || q.type === 'radio') && idx !== index && (
+                                    <option key={idx} value={idx}>{idx + 1}. {q.question}</option>
+                                  )
+                                ))}
+                              </select>
+                            </div>
+                            <div className="form-group">
+                              <label>Value</label>
+                              <select
+                                value={questionForm.showIf?.value ?? ''}
+                                onChange={(e) => setQuestionForm(prev => prev.showIf ? ({ ...prev, showIf: { ...prev.showIf, value: e.target.value } }) : prev)}
+                                disabled={!(questionForm.showIf && (formData.customQuestions[questionForm.showIf.questionIndex]?.options?.length))}
+                              >
+                                <option value="">Select value</option>
+                                {questionForm.showIf && formData.customQuestions[questionForm.showIf.questionIndex]?.options?.map((opt, i) => (
+                                  <option key={i} value={opt}>{opt}</option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        {(questionForm.type === 'dropdown' || questionForm.type === 'radio' || questionForm.type === 'checkbox') && (
+                          <div className="form-group">
+                            <label>Options</label>
+                            <div className="options-pill-row">
+                              {questionForm.options.map((option, optIdx) => (
+                                <span key={optIdx} className="option-pill">
+                                  {option || `Option ${optIdx + 1}`}
+                                  <button type="button" className="pill-remove" onClick={() => removeOption(optIdx)}>×</button>
+                                </span>
+                              ))}
+                              <input
+                                className="pill-input"
+                                type="text"
+                                placeholder="Type option and press Enter"
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    const val = e.currentTarget.value.trim();
+                                    if (val) {
+                                      setQuestionForm(prev => ({ ...prev, options: [...prev.options, val] }));
+                                      e.currentTarget.value = '';
+                                    }
+                                  }
+                                }}
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="form-group">
+                          <label>Placeholder</label>
+                          <input type="text" name="placeholder" value={questionForm.placeholder} onChange={handleQuestionChange} placeholder="Enter placeholder text" />
+                        </div>
+
+                        <div style={{display:'flex', gap:'0.5rem'}}>
+                          <button type="button" onClick={addQuestion} className="add-question">Save Question</button>
+                          <button
+                            type="button"
+                            className="btn-secondary"
+                            onClick={() => {
+                              setEditingQuestionIndexLocal(null);
+                              setQuestionForm({ question: '', type: 'text', options: [], required: false, allowMultiple: false, placeholder: '', showIf: null });
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    </React.Fragment>
                   ))}
                 </div>
 
+                {/* Bottom builder — only shown when NOT editing an existing question */}
+                {editingQuestionIndexLocal === null && (
                 <div className="question-builder">
                   <div className="form-group">
                     <label>Question</label>
@@ -936,22 +1096,11 @@ const AdminRecruitment = () => {
 
                   <div style={{display:'flex', gap:'0.5rem'}}>
                     <button type="button" onClick={addQuestion} className="add-question">
-                      {editingQuestionIndexLocal !== null ? 'Save Question' : 'Add Question'}
+                      Add Question
                     </button>
-                    {editingQuestionIndexLocal !== null && (
-                      <button
-                        type="button"
-                        className="btn-secondary"
-                        onClick={() => {
-                          setEditingQuestionIndexLocal(null);
-                          setQuestionForm({ question: '', type: 'text', options: [], required: false, placeholder: '', showIf: null });
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    )}
                   </div>
                 </div>
+                )}
               </div>
 
               <div className="form-actions">

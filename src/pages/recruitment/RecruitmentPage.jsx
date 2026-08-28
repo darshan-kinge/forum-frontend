@@ -222,7 +222,9 @@ const RecruitmentPage = () => {
   };
 
   const renderQuestion = (question, index) => {
-    const answer = formData.answers[index]?.answer || '';
+    const rawAnswer = formData.answers[index]?.answer;
+    // Preserve arrays (for allowMultiple/checkbox questions); fall back to '' for others
+    const answer = rawAnswer !== undefined && rawAnswer !== null ? rawAnswer : '';
 
     switch (question.type) {
       case 'text':

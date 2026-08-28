@@ -203,11 +203,28 @@ const AdminRecruitment = () => {
     });
   };
 
+  // Rebuild showIf.questionIndex values after reorder using an old→new index map
+  const remapShowIfIndices = (questions, indexMap) => {
+    return questions.map(q => {
+      if (!q.showIf || q.showIf.questionIndex == null) return q;
+      const newIdx = indexMap[q.showIf.questionIndex];
+      if (newIdx === undefined || newIdx === null) return { ...q, showIf: null }; // parent was removed
+      return { ...q, showIf: { ...q.showIf, questionIndex: newIdx } };
+    });
+  };
+
   const removeQuestion = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      customQuestions: prev.customQuestions.filter((_, i) => i !== index)
-    }));
+    // Build index map: remove index, shift everything above it down
+    const questions = formData.customQuestions;
+    const indexMap = {};
+    for (let i = 0; i < questions.length; i++) {
+      if (i === index) indexMap[i] = null; // removed
+      else if (i > index) indexMap[i] = i - 1;
+      else indexMap[i] = i;
+    }
+    const updated = questions.filter((_, i) => i !== index);
+    const remapped = remapShowIfIndices(updated, indexMap);
+    setFormData(prev => ({ ...prev, customQuestions: remapped }));
     if (editingQuestionIndexLocal === index) {
       setEditingQuestionIndexLocal(null);
       setQuestionForm({ question: '', type: 'text', options: [], required: false, allowMultiple: false, placeholder: '', showIf: null });
@@ -215,11 +232,19 @@ const AdminRecruitment = () => {
   };
 
   const moveQuestion = (index, direction) => {
-    const newQuestions = [...formData.customQuestions];
+    const questions = [...formData.customQuestions];
     const targetIndex = index + direction;
-    if (targetIndex < 0 || targetIndex >= newQuestions.length) return;
-    [newQuestions[index], newQuestions[targetIndex]] = [newQuestions[targetIndex], newQuestions[index]];
-    setFormData(prev => ({ ...prev, customQuestions: newQuestions }));
+    if (targetIndex < 0 || targetIndex >= questions.length) return;
+    // Build index map for swap
+    const indexMap = {};
+    for (let i = 0; i < questions.length; i++) {
+      if (i === index) indexMap[i] = targetIndex;
+      else if (i === targetIndex) indexMap[i] = index;
+      else indexMap[i] = i;
+    }
+    [questions[index], questions[targetIndex]] = [questions[targetIndex], questions[index]];
+    const remapped = remapShowIfIndices(questions, indexMap);
+    setFormData(prev => ({ ...prev, customQuestions: remapped }));
   };
 
   const editQuestion = (index) => {
@@ -754,10 +779,20 @@ const AdminRecruitment = () => {
                         const from = dragIndexRef.current;
                         const to = index;
                         if (from === null || from === to) { setDragOverIndex(null); setIsDragging(false); return; }
-                        const updated = [...formData.customQuestions];
-                        const [moved] = updated.splice(from, 1);
-                        updated.splice(to, 0, moved);
-                        setFormData(prev => ({ ...prev, customQuestions: updated }));
+                        const questions = [...formData.customQuestions];
+                        const n = questions.length;
+                        // Build old→new index map for splice reorder
+                        const indexMap = {};
+                        for (let i = 0; i < n; i++) {
+                          if (i === from) indexMap[i] = to;
+                          else if (from < to && i > from && i <= to) indexMap[i] = i - 1;
+                          else if (from > to && i >= to && i < from) indexMap[i] = i + 1;
+                          else indexMap[i] = i;
+                        }
+                        const [moved] = questions.splice(from, 1);
+                        questions.splice(to, 0, moved);
+                        const remapped = remapShowIfIndices(questions, indexMap);
+                        setFormData(prev => ({ ...prev, customQuestions: remapped }));
                         dragIndexRef.current = null;
                         setDragOverIndex(null);
                         setIsDragging(false);

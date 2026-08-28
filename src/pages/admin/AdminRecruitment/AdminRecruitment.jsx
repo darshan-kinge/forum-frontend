@@ -53,6 +53,7 @@ const AdminRecruitment = () => {
     showIf: null
   });
   const [editingQuestionIndexLocal, setEditingQuestionIndexLocal] = useState(null);
+  const [editingOptionIndex, setEditingOptionIndex] = useState(null);
   const questionsListRef = useRef(null);
   const dragIndexRef = useRef(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
@@ -892,13 +893,22 @@ const AdminRecruitment = () => {
 
                         {(questionForm.type === 'dropdown' || questionForm.type === 'radio' || questionForm.type === 'checkbox') && (
                           <div className="form-group">
-                            <label>Options</label>
+                            <label>Options <span style={{fontSize:'0.78rem',color:'#64748b',fontWeight:400}}>(double-click to rename)</span></label>
                             <div className="options-pill-row">
                               {questionForm.options.map((option, optIdx) => (
-                                <span key={optIdx} className="option-pill">
-                                  {option || `Option ${optIdx + 1}`}
-                                  <button type="button" className="pill-remove" onClick={() => removeOption(optIdx)}>×</button>
-                                </span>
+                                editingOptionIndex === optIdx
+                                  ? <input
+                                      key={optIdx}
+                                      className="option-pill option-pill-editing"
+                                      autoFocus
+                                      defaultValue={option}
+                                      onBlur={(e) => { updateOption(optIdx, e.target.value.trim() || option); setEditingOptionIndex(null); }}
+                                      onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); updateOption(optIdx, e.target.value.trim() || option); setEditingOptionIndex(null); } if (e.key === 'Escape') setEditingOptionIndex(null); }}
+                                    />
+                                  : <span key={optIdx} className="option-pill" onDoubleClick={() => setEditingOptionIndex(optIdx)} title="Double-click to rename">
+                                      {option || `Option ${optIdx + 1}`}
+                                      <button type="button" className="pill-remove" onClick={() => removeOption(optIdx)}>×</button>
+                                    </span>
                               ))}
                               <input
                                 className="pill-input"
@@ -1056,13 +1066,22 @@ const AdminRecruitment = () => {
 
                   {(questionForm.type === 'dropdown' || questionForm.type === 'radio' || questionForm.type === 'checkbox') && (
                     <div className="form-group">
-                      <label>Options</label>
+                      <label>Options <span style={{fontSize:'0.78rem',color:'#64748b',fontWeight:400}}>(double-click a pill to rename)</span></label>
                       <div className="options-pill-row">
                         {questionForm.options.map((option, index) => (
-                          <span key={index} className="option-pill">
-                            {option || `Option ${index + 1}`}
-                            <button type="button" className="pill-remove" onClick={() => removeOption(index)}>×</button>
-                          </span>
+                          editingOptionIndex === index
+                            ? <input
+                                key={index}
+                                className="option-pill option-pill-editing"
+                                autoFocus
+                                defaultValue={option}
+                                onBlur={(e) => { updateOption(index, e.target.value.trim() || option); setEditingOptionIndex(null); }}
+                                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); updateOption(index, e.target.value.trim() || option); setEditingOptionIndex(null); } if (e.key === 'Escape') setEditingOptionIndex(null); }}
+                              />
+                            : <span key={index} className="option-pill" onDoubleClick={() => setEditingOptionIndex(index)} title="Double-click to rename">
+                                {option || `Option ${index + 1}`}
+                                <button type="button" className="pill-remove" onClick={() => removeOption(index)}>×</button>
+                              </span>
                         ))}
                         <input
                           className="pill-input"

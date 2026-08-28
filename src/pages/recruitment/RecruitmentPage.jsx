@@ -46,6 +46,7 @@ const RecruitmentPage = () => {
         setRecruitment(data.data);
         // Initialize answers array with empty values
         const customQuestions = data.data.customQuestions || [];
+        console.log('[DEBUG] customQuestions from API:', JSON.stringify(customQuestions.map((q, i) => ({ i, question: q.question, type: q.type, allowMultiple: q.allowMultiple, showIf: q.showIf })), null, 2));
         const initialAnswers = customQuestions.map((q, index) => ({
           questionIndex: index,
           question: q.question,
@@ -364,8 +365,10 @@ const RecruitmentPage = () => {
     
     // Check if parent answer matches the condition
     if (question.showIf.operator === 'equals') {
-      if (Array.isArray(parentAnswer)) return parentAnswer.includes(question.showIf.value);
-      return parentAnswer === question.showIf.value;
+      const expected = question.showIf.value;
+      console.log(`[VISIBILITY] "${question.question}" | parentIdx=${parentIdx} | parentAnswer=`, parentAnswer, `| expected="${expected}" | isArray=${Array.isArray(parentAnswer)}`);
+      if (Array.isArray(parentAnswer)) return parentAnswer.includes(expected);
+      return parentAnswer === expected;
     }
     return true;
   };

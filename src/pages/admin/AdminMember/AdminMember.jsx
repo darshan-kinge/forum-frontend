@@ -56,12 +56,13 @@ const MembersPage = () => {
     };
 
     const exportToCSV = () => {
-        const headers = ['Name', 'PRN', 'Gender', 'Email', 'Course', 'Year', 'Member ID', 'Joined Date'];
+        const headers = ['Name', 'PRN', 'Gender', 'Email', 'Phone', 'Course', 'Year', 'Member ID', 'Joined Date'];
         const csvData = members.map(member => [
             `${member.first_name} ${member.last_name}`,
             member.prn,
             formatGender(member.gender),
             member.email,
+            member.phone || '—',
             member.course,
             member.year,
             member.member_id,
@@ -103,6 +104,11 @@ const MembersPage = () => {
             render: (_, member) => formatGender(member.gender) 
         },
         { key: 'email', label: 'Email' },
+        {
+            key: 'phone',
+            label: 'Phone',
+            render: (_, member) => member.phone || '—'
+        },
         { key: 'course', label: 'Course' },
         { key: 'year', label: 'Year' },
         { key: 'member_id', label: 'Member ID' },

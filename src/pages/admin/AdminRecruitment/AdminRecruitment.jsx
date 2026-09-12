@@ -610,6 +610,7 @@ const AdminRecruitment = () => {
                   <tr>
                     <th>Name</th>
                     <th>Email</th>
+                      <th>Phone</th>
                       <th>Course</th>
                       <th>Year</th>
                       <th>PRN</th>
@@ -628,6 +629,7 @@ const AdminRecruitment = () => {
                     >
                       <td>{application.applicantInfo?.name}</td>
                       <td>{application.applicantInfo?.email}</td>
+                      <td>{application.applicantInfo?.phone || '—'}</td>
                         <td>{application.applicantInfo?.course || 'N/A'}</td>
                         <td>{application.applicantInfo?.year || 'N/A'}</td>
                         <td>{application.applicantInfo?.prn || 'N/A'}</td>
@@ -1215,6 +1217,7 @@ const AdminRecruitment = () => {
                   <span>Course: {selectedApplication.applicantInfo?.course || 'Not specified'}</span>
                   <span>Year: {selectedApplication.applicantInfo?.year || 'Not specified'}</span>
                   <span>PRN: {selectedApplication.applicantInfo?.prn || 'Not specified'}</span>
+                  <span>Phone: {selectedApplication.applicantInfo?.phone || '—'}</span>
                   <span>Gender: {selectedApplication.applicantInfo?.gender || 'Not specified'}</span>
                   <span>Submitted: {new Date(selectedApplication.submittedAt).toLocaleDateString()}</span>
                 </div>

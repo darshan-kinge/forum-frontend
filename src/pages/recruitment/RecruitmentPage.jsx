@@ -41,7 +41,6 @@ const RecruitmentPage = () => {
       setLoading(true);
       const response = await api.get('/recruitment/active');
       const data = response.data;
-      // console.log(data);
       if (data.success && data.data) {
         setRecruitment(data.data);
         // Initialize answers array with empty values
@@ -56,16 +55,20 @@ const RecruitmentPage = () => {
           answers: initialAnswers
         }));
       } else {
-        setError(data.message || 'No active recruitment found.');        
+        setError(data.message || 'Recruitment is currently closed.');
       }
     } catch (error) {
-      console.error('Error fetching recruitment:', error);
-      if (error.response?.data?.message) {
-        setError(error.response.data.message);
-      } else if (error.request) {
-        setError('Network error: Unable to connect to the server. Please check your internet connection and try again.');
+      const status = error.response?.status;
+      const msg = error.response?.data?.message;
+      if (status === 404 || msg === 'No Recruitment Form Active') {
+        setError('Recruitment is currently closed. Check back soon!');
+      } else if (status === 400) {
+        // Deadline passed or max applications reached
+        setError(msg || 'Recruitment is currently closed.');
+      } else if (!error.response) {
+        setError('Unable to connect to the server. Please check your internet and try again.');
       } else {
-        setError('Failed to fetch recruitment information. Please try again.');
+        setError('Recruitment is currently closed. Please try again later.');
       }
     } finally {
       setLoading(false);
